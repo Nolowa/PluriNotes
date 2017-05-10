@@ -1,5 +1,6 @@
 QT += core
-QT -= gui
+QT += gui
+QT += multimediawidgets
 
 CONFIG += c++11
 
@@ -11,7 +12,12 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
     note.cpp \
-    notesmanager.cpp
+    notesmanager.cpp \
+    article.cpp \
+    task.cpp \
+    image.cpp \
+    video.cpp \
+    sound.cpp
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -27,4 +33,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 HEADERS += \
     note.h \
     notesmanager.h \
-    utils.h
+    utils.h \
+    article.h \
+    task.h \
+    image.h \
+    video.h \
+    sound.h

@@ -5,22 +5,25 @@
 #include <QString>
 #include <QDateTime>
 
-class Note
-{
+class Note{
     QUuid identifier;
     QString title;
-
+    enum state {active, non_editable,sursis};
     QDateTime created;
     QDateTime edited;
 
-    Note();
+    // méthode privée
+    void setEdited(); // a mettre dans la méthode dès que l'on change une valeur d'attribut
 
 public:
-    Note(QUuid identifier) : identifier(identifier){};
+    Note(QUuid identifier);
     const QUuid getIdentifier() const;
     const QString getTitle() const;
     const QDateTime getCreated() const;
     const QDateTime getEdited() const;
+    void setTitle(const QString& t);
+
+
 
 
     //~Note();

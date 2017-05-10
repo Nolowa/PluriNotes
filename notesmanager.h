@@ -2,15 +2,19 @@
 #define NOTESMANAGER_H
 
 #include <QVector>
+#include <iterator>
 #include "utils.h"
 #include "note.h"
-#include <iterator>
+#include "image.h"
+#include "article.h"
+#include "video.h"
+#include "task.h"
+#include "sound.h"
 
-class NotesManager
-{
+
+
+class NotesManager{
     std::vector<Note> notes;
-
-
 
 public:
 
@@ -31,9 +35,7 @@ public:
     Note& createNote();
     NotesManager::Iterator& getIterator();
 
-
-
-
+    //~NotesManager();
 };
 
 #endif // NOTESMANAGER_H

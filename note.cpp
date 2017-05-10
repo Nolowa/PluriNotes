@@ -1,11 +1,13 @@
 #include "note.h"
-#include <QString>
 
-Note::Note()
-{
-
-
+//private:
+void Note::setEdited(){
+    edited=QDateTime::currentDateTime();
 }
+
+
+//pubic:
+Note::Note(QUuid identifier) : identifier(identifier),created(QDateTime::currentDateTime()),edited(QDateTime::currentDateTime()){};
 
 const QUuid Note::getIdentifier() const{
     return identifier;
@@ -21,6 +23,11 @@ const QDateTime Note::getCreated() const{
 
 const QDateTime Note::getEdited() const{
     return edited;
+}
+
+void Note::setTitle(const QString& t){
+    title=t;
+    setEdited();
 }
 
 /*
