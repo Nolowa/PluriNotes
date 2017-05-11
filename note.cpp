@@ -49,3 +49,15 @@ Note::~Note(){
     delete &identifier;
 }
 */
+const State Note::getStates() const{
+    return state;
+}
+
+Note::Note(const Note &n){
+    identifier=n.getIdentifier();
+    title=n.getTitle();
+    created=n.getCreated();
+    edited=n.getEdited();
+    state=n.getStates();
+}
+

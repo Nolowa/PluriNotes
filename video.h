@@ -9,6 +9,8 @@ class Video: public NoTextualNote{
 
 public:
     Video(QUuid identifier);
+    const QVideoWidget& getVideofile()const;
+    //Video(const Video& v):NoTextualNote(v),videofile(v.getVideofile()){}  erreur
 
 };
 

@@ -11,6 +11,7 @@ public:
     const QString& getDescription() const;
     void setDescription(const QString& d);
     virtual ~NoTextualNote();
+    NoTextualNote(const NoTextualNote& n):Note(n),description(n.getDescription()){}
 };
 
 #endif // NOTEXTUALNOTE_H

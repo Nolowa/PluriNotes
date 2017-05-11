@@ -50,3 +50,7 @@ void Task::setExpired(const QDateTime exp){
     expired=exp;
     setEdited();
 }
+
+Status Task::getStatus_re() const{
+    return status;
+}

@@ -24,6 +24,7 @@ public:
     const QDateTime getCreated() const;
     const QDateTime getEdited() const;
     const QString getState() const;
+    const State getStates() const;
 
     void setTitle(const QString& t);
     void setState(State s);
@@ -31,6 +32,7 @@ public:
     // a voir si on peut la mettre en privée
     void setEdited(); // a mettre dans la méthode dès que l'on change une valeur d'attribut (sauf pour l'état de la note)
 
+    Note(const Note& n);
 
     virtual ~Note();
 };

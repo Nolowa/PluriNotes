@@ -17,6 +17,7 @@ public:
 
     const QString& getActionToBeDone() const;
     QString getStatus() const;
+    Status getStatus_re() const;
     unsigned int getPriority() const;
     const QDateTime& getExpired() const;
 
@@ -24,6 +25,7 @@ public:
     void setPriority(unsigned int p);
     void setStatus(Status s);
     void setExpired(const QDateTime exp);
+    Task(const Task& t):Note(t),actionToBeDone(),status(t.getStatus_re()),priority(t.getPriority()),expired(getExpired()){}
 };
 
 #endif // TASK_H

@@ -16,6 +16,7 @@ public:
     Article(QUuid identifier);
     void setText(const QString& texte);
     const QString& getText() const;
+    Article(const Article& a):Note(a),text(a.getText()){}
 };
 
 #endif // ARTICLE_H
