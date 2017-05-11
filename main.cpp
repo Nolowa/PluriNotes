@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
 
     qout << "Demarrage" << endl;
 
-    NotesManager m;
+    NotesManager& m=NotesManager::getInstance();
 
     qout << "Création de notes" << endl;
     Note& n1 = m.createNote();
