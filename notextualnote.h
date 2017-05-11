@@ -10,6 +10,7 @@ public:
     NoTextualNote(QUuid identifier);
     const QString& getDescription() const;
     void setDescription(const QString& d);
+    virtual ~NoTextualNote();
 };
 
 #endif // NOTEXTUALNOTE_H

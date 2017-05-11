@@ -10,3 +10,5 @@ void NoTextualNote::setDescription(const QString& d){
     description=d;
     setEdited();
 }
+
+NoTextualNote::~NoTextualNote(){}

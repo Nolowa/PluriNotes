@@ -1,11 +1,10 @@
 #include "note.h"
 
 
-
-
-//pubic:
 Note::Note(QUuid identifier) : identifier(identifier),created(QDateTime::currentDateTime()),edited(QDateTime::currentDateTime()),
 state(active){};
+
+Note::~Note(){}
 
 const QUuid Note::getIdentifier() const{
     return identifier;

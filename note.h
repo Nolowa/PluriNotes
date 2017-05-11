@@ -31,7 +31,7 @@ public:
     void setEdited(); // a mettre dans la méthode dès que l'on change une valeur d'attribut (sauf pour l'état de la note)
 
 
-    //~Note();
+    virtual ~Note();
 };
 
 #endif // NOTE_H
