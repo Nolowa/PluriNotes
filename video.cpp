@@ -1,3 +1,3 @@
 #include "video.h"
 
-Video::Video(QUuid identifier):Note(identifier){}
+Video::Video(QUuid identifier):NoTextualNote(identifier){}

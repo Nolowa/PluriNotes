@@ -1,15 +1,15 @@
 #ifndef SOUND_H
 #define SOUND_H
 
-#include "note.h"
+#include "notextualnote.h"
 #include <QSound>
 
 
-class Sound: public Note{
-    QString description;
+class Sound: public NoTextualNote{
     QSound soundfile;
 public:
     Sound(QUuid identifier,const QString& filename);
+
 };
 
 #endif // SOUND_H

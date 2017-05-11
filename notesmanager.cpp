@@ -1,10 +1,25 @@
 #include "notesmanager.h"
 #include <QException>
 
-NotesManager::NotesManager()
-{
+NotesManager::NotesManager(){}
 
+/* Tout membre static  doit être définie dans un fichier source et initialisé */
+NotesManager* NotesManager::instance=0;
+
+NotesManager& NotesManager::getInstance(){
+    if (!instance)// si pas encore d'instance de la classe
+        instance= new NotesManager();// constructeur sans arguments
+    return *instance;
 }
+
+void NotesManager::freeInstance(){
+    if (instance)
+        delete instance;
+    instance=nullptr; // obligatoire
+}
+
+/*Fin des membres statiques*/
+
 
 Note& NotesManager::Iterator::current() const{
     if(idx == -1){

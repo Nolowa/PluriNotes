@@ -15,8 +15,17 @@
 
 class NotesManager{
     std::vector<Note> notes;
+    Note** notess;
+    QString filename;
+
+    static NotesManager* instance;// singleton
+    NotesManager();
+    NotesManager(const NotesManager& n);
+    NotesManager& operator=(const NotesManager& n);
 
 public:
+    static NotesManager& getInstance();
+    static void freeInstance();
 
     class Iterator : public ::Iterator<Note>{
         NotesManager& manager;
@@ -31,11 +40,11 @@ public:
         void next();
     };
 
-    NotesManager();
+
     Note& createNote();
     NotesManager::Iterator& getIterator();
 
-    //~NotesManager();
+   // ~NotesManager();
 };
 
 #endif // NOTESMANAGER_H
