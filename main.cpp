@@ -2,8 +2,14 @@
 #include <QTextStream>
 #include <QTimer>
 #include "notesmanager.h"
+#include "version.h"
 int main(int argc, char *argv[])
 {
+    /*créer des tables BD*/
+    int version::rc=0;
+    version::connectBd();
+
+
     QCoreApplication app(argc, argv);
 
     QTextStream qout(stdout);

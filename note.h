@@ -11,6 +11,7 @@ class Note{
     enum state {active, non_editable,sursis};
     QDateTime created;
     QDateTime edited;
+    enum genre {article,image,sound,task,video};//favorable à memento
 
     // méthode privée
     void setEdited(); // a mettre dans la méthode dès que l'on change une valeur d'attribut
