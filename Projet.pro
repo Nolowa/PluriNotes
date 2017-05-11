@@ -17,7 +17,9 @@ SOURCES += main.cpp \
     task.cpp \
     image.cpp \
     video.cpp \
-    sound.cpp
+    sound.cpp \
+    memento.cpp \
+    version.cpp
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -38,4 +40,6 @@ HEADERS += \
     task.h \
     image.h \
     video.h \
-    sound.h
+    sound.h \
+    memento.h \
+    version.h
