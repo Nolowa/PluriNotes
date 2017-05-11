@@ -17,7 +17,7 @@ class Memento
     QString m_actionFaire;//Tache*/
     /*il manque encore fichier et tache*/
 public:
-    Memento(const Note& n){ m_note = new Note(p); }
+    //Memento(const Note& n){ m_note = new Note(p); } // le p ne fonctionne pas.
     Memento();
     Memento& operator=(const Memento &memento)
       {
@@ -27,7 +27,7 @@ public:
 };
 
 class MementoCaretaker {
-   vector<Memento> m_vecMemento;
+   std::vector<Memento> m_vecMemento;
 
 public:
     MementoCaretaker();
@@ -36,8 +36,8 @@ public:
     }
 
     void Save(Memento memento) {
-        m_vecMemento.push_back(menento);
+        m_vecMemento.push_back(memento);
     }
-}
+};
 
 #endif // MEMENTO_H

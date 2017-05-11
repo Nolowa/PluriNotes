@@ -1,5 +1,5 @@
 #include "version.h"
-
+/*
 version::version()
 {
 
@@ -28,6 +28,7 @@ void createTables(){
              "ADDRESS        CHAR(50)," \
              "SALARY         REAL );";
 
-       /* Execute SQL statement */
-       rc = sqlite3_exec(db, sql, callback, 0, &zErrMsg);
+       // Execute SQL statement
+     //  rc = sqlite3_exec(db, sql, callback, 0, &zErrMsg);
 }
+*/

@@ -4,20 +4,14 @@
 #include <QTimer>
 #include "plurinotes.h"
 #include "notesmanager.h"
-<<<<<<< HEAD
-int main(int argc, char *argv[]){
-    QApplication app(argc, argv);
-=======
+
 #include "version.h"
-int main(int argc, char *argv[])
-{
-    /*créer des tables BD*/
+int main(int argc, char *argv[]){
+   /* //créer des tables BD
     int version::rc=0;
     version::connectBd();
-
-
-    QCoreApplication app(argc, argv);
->>>>>>> 7744f4ea025981c698d5ebac340ee5e6c9d78ec4
+   */
+    QApplication app(argc, argv);
 
     QTextStream qout(stdout);
     qout << "Demarrage" << endl;
