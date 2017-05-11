@@ -1,6 +1,8 @@
 #include "article.h"
 
-Article::Article(QUuid identifier):Note(identifier),text(QString("")){}
+
+Article::Article(QUuid identifier):Note(identifier),text(QString("")){
+}
 
 void Article::setText(const QString& texte){
     text=texte;

@@ -4,11 +4,12 @@
 #include <QUuid>
 #include <QString>
 #include <QDateTime>
+#include <QWidget>
 #include "utils.h"
 
 typedef enum {active, non_editable,sursis} State;// active=0, non_editable=1, sursis=2
 
-class Note{
+class Note {
     QUuid identifier;
     QString title;
     QDateTime created;

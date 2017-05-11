@@ -30,9 +30,7 @@ public:
     class Iterator : public ::Iterator<Note>{
         NotesManager& manager;
         int idx;
-
         Iterator();
-
     public:
         Iterator(NotesManager& m) : manager(m), idx(-1){};
         Note& current() const;
@@ -40,9 +38,11 @@ public:
         void next();
     };
 
-
+    void load(); // load notes from file filename
+    void save() const; // save notes in file filename
     Note& createNote();
     NotesManager::Iterator& getIterator();
+
 
    // ~NotesManager();
 };
