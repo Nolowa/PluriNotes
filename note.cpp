@@ -1,19 +1,17 @@
 #include "note.h"
 
-//private:
-void Note::setEdited(){
-    edited=QDateTime::currentDateTime();
-}
+
 
 
 //pubic:
-Note::Note(QUuid identifier) : identifier(identifier),created(QDateTime::currentDateTime()),edited(QDateTime::currentDateTime()){};
+Note::Note(QUuid identifier) : identifier(identifier),created(QDateTime::currentDateTime()),edited(QDateTime::currentDateTime()),
+state(active){};
 
 const QUuid Note::getIdentifier() const{
     return identifier;
 }
 
-const QString Note::getTitle() const{
+const QString& Note::getTitle() const{
     return title;
 }
 
@@ -28,6 +26,23 @@ const QDateTime Note::getEdited() const{
 void Note::setTitle(const QString& t){
     title=t;
     setEdited();
+}
+
+void Note::setState(State s){
+    state=s;
+}
+
+const QString Note::getState() const{ //{active, non_editable,sursis}
+    if(state==0)
+        return QString("active");
+    else if(state==1)
+        return QString("non_editable");
+        else
+        return QString("sursis");
+}
+
+void Note::setEdited(){
+    edited=QDateTime::currentDateTime();
 }
 
 /*

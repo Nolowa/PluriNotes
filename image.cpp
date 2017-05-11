@@ -1,3 +1,4 @@
 #include "image.h"
 
-Image::Image(QUuid identifier): Note(identifier){}
+Image::Image(QUuid identifier): NoTextualNote(identifier){}
+

@@ -17,7 +17,8 @@ SOURCES += main.cpp \
     task.cpp \
     image.cpp \
     video.cpp \
-    sound.cpp
+    sound.cpp \
+    notextualnote.cpp
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -38,4 +39,5 @@ HEADERS += \
     task.h \
     image.h \
     video.h \
-    sound.h
+    sound.h \
+    notextualnote.h

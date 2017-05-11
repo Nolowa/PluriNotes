@@ -3,14 +3,14 @@
 #include <QImage>
 #define IMAGE_H
 
-#include "note.h"
+#include "notextualnote.h"
 
 
-class Image: public Note {
-    QString description;
+class Image: public NoTextualNote {
     QImage file;
 public:
     Image(QUuid identifier);
+
 };
 
 #endif // IMAGE_H
