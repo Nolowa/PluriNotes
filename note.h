@@ -14,7 +14,11 @@ class Note {
     QString title;
     QDateTime created;
     QDateTime edited;
+<<<<<<< HEAD
+    enum genre {article,image,sound,task,video};//favorable à memento
+=======
     State state;
+>>>>>>> 2f9f21b47e70ca72c232bc96d8d099876066e253
 
 
 public:
