@@ -17,6 +17,8 @@ public:
     void setText(const QString& texte);
     const QString& getText() const;
     Article(const Article& a):Note(a),text(a.getText()){}
+    void restore(Note* n);
+    Note* save();
 };
 
 #endif // ARTICLE_H

@@ -12,6 +12,8 @@ public:
     Image(QUuid identifier);
     const QImage& getFile() const;
     Image(const Image& i):NoTextualNote(i),file(i.getFile()){}
+    Note* save();
+    void restore(Note* n);
 };
 
 #endif // IMAGE_H
