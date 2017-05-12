@@ -67,7 +67,4 @@ void Note::setCreated(QDateTime c){
 void Note::setEdited(QDateTime e){
     edited=e;
 }
-void Note::setIdentifier(QUuid i){
-    identifier=i;
-}
 

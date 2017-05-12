@@ -63,10 +63,9 @@ Note* Task::save(){
 void Task::restore(Note* n){
     Task* nouveau;
     nouveau=static_cast<Task*>(n);
-    this->setIdentifier(nouveau->getIdentifier());
     this->setTitle(nouveau->getTitle());
     this->setCreated(nouveau->getCreated());
-    this->setEdited(nouveau->getEdited());
+    this->setEdited(QDateTime::currentDateTime());
     this->setState(nouveau->getStates());
     actionToBeDone=nouveau->getActionToBeDone();
     status=nouveau->getStatus_re();

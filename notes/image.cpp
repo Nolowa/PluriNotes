@@ -7,13 +7,12 @@ Note* Image::save(){
     return n;
 }
 
-void Image::restore(Note* n){
+void Image::load(Note* n){
     Image* nouveau;
     nouveau=static_cast<Image*>(n);
-    this->setIdentifier(nouveau->getIdentifier());
     this->setTitle(nouveau->getTitle());
     this->setCreated(nouveau->getCreated());
-    this->setEdited(nouveau->getEdited());
+    this->setEdited(QDateTime::currentDateTime());
     this->setState(nouveau->getStates());
     this->setDescription(nouveau->getDescription());
     file=nouveau->getFile();

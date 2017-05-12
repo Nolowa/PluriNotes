@@ -13,7 +13,7 @@ public:
     const QImage& getFile() const;
     Image(const Image& i):NoTextualNote(i),file(i.getFile()){}
     Note* save();
-    void restore(Note* n);
+    void load(Note* n);
 };
 
 #endif // IMAGE_H
