@@ -46,4 +46,8 @@ HEADERS += \
     notes/notextualnote.h \
     plurinotes.h \
     memento.h \
-    version.h
+    version.h \
+    relations/relationship.h \
+    relations/relationsmanager.h \
+    relations/association.h \
+    relations/bidirectionalrelationship.h

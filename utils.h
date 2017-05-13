@@ -1,7 +1,6 @@
 #ifndef UTILS_H
 #define UTILS_H
 
-#include <QException>
 
 template<typename T> class Iterator{
 public:
@@ -11,19 +10,12 @@ public:
 
 };
 
-class AppException : public QException{
+class AppException{
 public:
     const QString message;
 public:
 
     AppException(const QString msg) : message(msg) {};
-
-    AppException* clone() const {
-        return new AppException(*this);
-    }
-    void raise() const {
-        throw *this;
-    }
 };
 
 

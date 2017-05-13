@@ -32,6 +32,12 @@ public:
     // a voir si on peut la mettre en privée
     void setEdited(); // a mettre dans la méthode dès que l'on change une valeur d'attribut (sauf pour l'état de la note)
 
+    bool operator==(const Note &other) const
+    {
+        return identifier == other.identifier;
+    }
+
+
     Note(const Note& n);
 
     virtual ~Note();
