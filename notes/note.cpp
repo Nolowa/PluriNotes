@@ -61,3 +61,10 @@ Note::Note(const Note &n){
     state=n.getStates();
 }
 
+void Note::setCreated(QDateTime c){
+    created=c;
+}
+void Note::setEdited(QDateTime e){
+    edited=e;
+}
+

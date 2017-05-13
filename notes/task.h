@@ -26,6 +26,8 @@ public:
     void setStatus(Status s);
     void setExpired(const QDateTime exp);
     Task(const Task& t):Note(t),actionToBeDone(),status(t.getStatus_re()),priority(t.getPriority()),expired(getExpired()){}
+    Note* save();
+    void restore(Note* n);
 };
 
 #endif // TASK_H

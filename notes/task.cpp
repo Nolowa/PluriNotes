@@ -54,3 +54,21 @@ void Task::setExpired(const QDateTime exp){
 Status Task::getStatus_re() const{
     return status;
 }
+
+Note* Task::save(){
+    Note* n=new Task(*this);
+    return n;
+}
+
+void Task::restore(Note* n){
+    Task* nouveau;
+    nouveau=static_cast<Task*>(n);
+    this->setTitle(nouveau->getTitle());
+    this->setCreated(nouveau->getCreated());
+    this->setEdited(QDateTime::currentDateTime());
+    this->setState(nouveau->getStates());
+    actionToBeDone=nouveau->getActionToBeDone();
+    status=nouveau->getStatus_re();
+    priority=nouveau->getPriority();
+    expired=nouveau->getExpired();
+}
