@@ -1,51 +1,66 @@
 #include "version.h"
-int db=0;
-/*version::version()
-{
-
-}
-void version::connectBd(){
-    int rc;
-    rc = sqlite3_open("version.db", &db);//ouvrir une base de donné, si non existant créer une nouvelle
-
-    if( rc ){
-        fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
-        exit(0);
-    }else{
-        fprintf(stderr, "Opened database successfully\n");
+QSqlDatabase version::db = QSqlDatabase::addDatabase("QSQLITE");
+int version::table_exist=0;
+int version::open=0;
+bool version::connectBd(){
+    db.setDatabaseName("lo21");
+    if(db.open())
+    {
+        std::cout << "Vous êtes maintenant connecté à " << q2c(db.hostName()) << std::endl;
+        open=1;
+        return true;
+    }
+    else
+    {
+        std::cout << "La connexion a échouée, désolé" << std::endl;
+        return false;
     }
 }
 
+void version::closeBd(){
+    db.close();
+    open=0;
+}
 void version::createTables(){
-    char *zErrMsg = 0;
-    char sql[]="CREATE TABLE Note("  \
-               "Id INT(5)  AUTO_INCREMENT  NOT NULL," \
-               "Genre          TEXT    NOT NULL"
-               "PRIMARY KEY (`id`));";
-    char sql1[]="CREATE TABLE Article("  \
-                "ID INT PRIMARY KEY     NOT NULL," \
-                "Text         TEXT );" ;
-    char sql2[]="CREATE TABLE Image("  \
-                "ID INT PRIMARY KEY     NOT NULL," \
-                "Fichier         TEXT );";
-    char sql3[]="CREATE TABLE Video("  \
-                "ID INT PRIMARY KEY     NOT NULL," \
-                "Fichier         TEXT );";
-    char sql4[]= "CREATE TABLE Sound("  \
-                 "ID INT PRIMARY KEY     NOT NULL," \
-                 "Fichier         TEXT );";
-    char sql5[]="CREATE TABLE task("  \
-                "ID INT PRIMARY KEY     NOT NULL," \
-                "actionToBeDone         TEXT," \
-                "Priority       INT CHECK(Priority<6 AND Priority>=0)," \
-                "expired                TEXT);";
-    int rc;
-    /*Execute SQL statement
-    rc = sqlite3_exec(db, sql, callback, 0, &zErrMsg);
-    rc = sqlite3_exec(db, sql1, callback, 0, &zErrMsg);
-    rc = sqlite3_exec(db, sql2, callback, 0, &zErrMsg);
-    rc = sqlite3_exec(db, sql3, callback, 0, &zErrMsg);
-    rc = sqlite3_exec(db, sql4, callback, 0, &zErrMsg);
-    rc = sqlite3_exec(db, sql5, callback, 0, &zErrMsg);
+        QSqlQuery query;
+        bool result = query.exec("CREATE TABLE IF NOT EXISTS 'Note' ('Id' INT AUTO_INCREMENT NOT NULL,'Genre' VARCHAR(20) NOT NULL, 'Title' VARCHAR(20) ,'Created' TEXT, 'Edited' TEXT,'State' VARCHAR(20), PRIMARY KEY ('Id'));");
+        if(result)
+        {
+            std::cout << "table Note crée" << std::endl;
+        }
+        else
+        {
+            std::cout << "Une erreur s'est produite. table note" << std::endl << q2c(query.lastError().text()) << std::endl;
+        }
+        bool result1 = query.exec("CREATE TABLE IF NOT EXISTS 'Article' ('Id' int(10) NOT NULL,'Idreal' VARCHAR(20) NOT NULL,'Text' TEXT NOT NULL, PRIMARY KEY ('Id'));");
+        if(result1)
+        {
+            std::cout << "table Article crée" << std::endl;
+        }
+        else
+        {
+            std::cout << "Une erreur s'est produite. table Article" << std::endl << q2c(query.lastError().text()) << std::endl;
+        }
+        bool result2 = query.exec("CREATE TABLE IF NOT EXISTS 'Image' ('Id' int(10) NOT NULL,'Idreal' VARCHAR(20) NOT NULL,'Description' TEXT NOT NULL,'File' TEXT NOT NULL, PRIMARY KEY ('Id'));");
+        if(result2)
+        {
+            std::cout << "table Image crée" << std::endl;
+        }
+        else
+        {
+            std::cout << "Une erreur s'est produite. table Image" << std::endl << q2c(query.lastError().text()) << std::endl;
+        }
+        bool result3 = query.exec("CREATE TABLE IF NOT EXISTS 'Task' ('Id' int(10) NOT NULL,'Idreal' VARCHAR(20) NOT NULL,'ActionToBeDone' TEXT NOT NULL,'Status' VARCHAR(20) NOT NULL,'Priority' INT(1) NOT NULL,"
+                                  "TEXT'Expired' TEXT NOT NULL, PRIMARY KEY ('Id'));");
+        if(result3)
+        {
+            std::cout << "table Task crée" << std::endl;
+        }
+        else
+        {
+            std::cout << "Une erreur s'est produite. table Task" << std::endl << q2c(query.lastError().text()) << std::endl;
+        }
 
-}*/
+
+}
+

@@ -1,7 +1,7 @@
 QT += core
 QT += gui
 QT += multimediawidgets
-
+QT += sql
 CONFIG += c++11
 
 TARGET = Projet

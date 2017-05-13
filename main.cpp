@@ -7,10 +7,11 @@
 
 #include "version.h"
 int main(int argc, char *argv[]){
-   /* //créer des tables BD
-    int version::rc=0;
-    version::connectBd();
-   */
+    //créer des tables BD
+
+    //version::connectBd();
+    //version::createTables();
+
     QApplication app(argc, argv);
 
     QTextStream qout(stdout);
