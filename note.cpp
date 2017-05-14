@@ -44,8 +44,3 @@ void Note::setEdited(){
     edited=QDateTime::currentDateTime();
 }
 
-/*
-Note::~Note(){
-    delete &identifier;
-}
-*/

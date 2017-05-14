@@ -12,3 +12,9 @@ void Article::setText(const QString& texte){
 const QString& Article::getText() const{
     return text;
 }
+
+ArticleInterface* Article::getInterface(){
+    return  new ArticleInterface(this);
+
+}
+

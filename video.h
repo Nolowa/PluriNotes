@@ -3,12 +3,22 @@
 
 #include "notextualnote.h"
 #include <QVideoWidget>
+#include <QMovie>
+
+#include "videointerface.h"
+
+class VideoInterface;
 
 class Video: public NoTextualNote{
-    QVideoWidget videofile;
+    QMovie videoFile;
+    QString nameVideoFile;
 
 public:
-    Video(QUuid identifier);
+    Video(QUuid identifier,const QString& filename="");
+    VideoInterface* getInterface();
+    const QString& getVideoFileName() const;
+    const QMovie& getVideo() const;
+    void setVideoFile(const QString& name); // change nameVideoFile et videoFile
 
 };
 

@@ -3,6 +3,9 @@
 
 
 #include "note.h"
+#include "taskinterface.h"
+
+class TaskInterface;
 
 typedef enum {en_attente, en_cours,terminee} Status;// en_attente=0, en_cours=1, terminee=2
 
@@ -17,6 +20,7 @@ public:
 
     const QString& getActionToBeDone() const;
     QString getStatus() const;
+    unsigned int getStatusInt() const;
     unsigned int getPriority() const;
     const QDateTime& getExpired() const;
 
@@ -24,6 +28,9 @@ public:
     void setPriority(unsigned int p);
     void setStatus(Status s);
     void setExpired(const QDateTime exp);
+    TaskInterface* getInterface();
+
+
 };
 
 #endif // TASK_H

@@ -4,12 +4,19 @@
 #define IMAGE_H
 
 #include "notextualnote.h"
+#include "imageinterface.h"
 
+class ImageInterface;
 
 class Image: public NoTextualNote {
-    QImage file;
+    QImage image;
+    QString nameFile;
 public:
     Image(QUuid identifier);
+    void setImage(const QString& im);
+    const QString& getnameFile() const;
+    const QImage& getImage() const;
+    ImageInterface* getInterface();
 
 };
 

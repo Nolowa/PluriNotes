@@ -26,6 +26,10 @@ const QDateTime& Task::getExpired() const{
     return expired;
 }
 
+unsigned int Task::getStatusInt() const{
+    return status;
+}
+
 
 // setters
 
@@ -37,7 +41,7 @@ void Task::setActionToBeDone(const QString& a){
 void Task::setPriority(unsigned int p){
     if (p>5)
         throw AppException("Error with priority level (must be beetween 0 and 5)");
-    priority=5;
+    priority=p;
     setEdited();
 }
 
@@ -49,4 +53,10 @@ void Task::setStatus(Status s){
 void Task::setExpired(const QDateTime exp){
     expired=exp;
     setEdited();
+}
+
+//Interface
+
+TaskInterface* Task::getInterface(){
+    return new TaskInterface(this);
 }

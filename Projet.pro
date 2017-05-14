@@ -21,7 +21,12 @@ SOURCES += main.cpp \
     notextualnote.cpp \
     plurinotes.cpp \
     memento.cpp \
-    version.cpp
+    version.cpp \
+    articleinterface.cpp \
+    taskinterface.cpp \
+    imageinterface.cpp \
+    soundinterface.cpp \
+    videointerface.cpp
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -46,4 +51,9 @@ HEADERS += \
     notextualnote.h \
     plurinotes.h \
     memento.h \
-    version.h
+    version.h \
+    articleinterface.h \
+    taskinterface.h \
+    imageinterface.h \
+    soundinterface.h \
+    videointerface.h
