@@ -3,6 +3,9 @@
 #include "notesmanager.h"
 #include <QtSql>
 #include <iostream>
+#include <QDateTime>
+#include <QMessageBox>
+#include <QSqlQuery>
 #define q2c(string) string.toStdString()
 
 
@@ -14,9 +17,12 @@ class version
     static int open;
 public:
     version();
-    static bool connectBd();
+    static bool connectBd(const QString& dbname);
     static void closeBd();
     static void createTables();
+    static void insert(Note* n);
+    static void parcourir(Note* n);
+    static void select(QString s);// s représente l'id de sa version(id) choisit        à ajouter le lien avec objet
 };
 
 

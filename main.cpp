@@ -12,8 +12,9 @@
 int main(int argc, char *argv[]){
     //créer des tables BD
 
-    //version::connectBd();
-    //version::createTables();
+   /* QString name="test.db";
+        version::connectBd(name);
+        version::createTables();*/
 
     QApplication app(argc, argv);
 
@@ -38,7 +39,7 @@ int main(int argc, char *argv[]){
     relationsManager.unlink(r1, n1, n3);
     qout << n1.getIdentifier().toString() << endl << n2.getIdentifier().toString() << endl << n3.getIdentifier().toString() << endl;
 
-/*
+
     qout << "Création TASK pour les tests" << endl;
     Task ntask= Task(QUuid::createUuid());
     ntask.setActionToBeDone("Finir le projet de LO21");
@@ -49,8 +50,8 @@ int main(int argc, char *argv[]){
     ntask.setStatus(terminee);
     qout << "Nouvelle etat: " << ntask.getExpired().toString() << endl;
     qout << "Priority: " << ntask.getPriority() << endl;
-*/
 
+/*
     qout << "Test de l'itérateur" << endl;
     Iterator<Note>& it = m.getIterator();
     while(!it.isDone()){
@@ -111,5 +112,8 @@ int main(int argc, char *argv[]){
     //video.setNameVideoFile("/Users/Thibault/Desktop/test.mp4");
     video.getInterface()->show();
 */
+    /*Task* t=new Task(ntask);
+            version::insert(t);
+            version::parcourir(t);*/
     return app.exec();
 }

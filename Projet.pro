@@ -26,7 +26,8 @@ SOURCES += main.cpp \
     interfaces/taskinterface.cpp \
     interfaces/imageinterface.cpp \
     interfaces/soundinterface.cpp \
-    interfaces/videointerface.cpp
+    interfaces/videointerface.cpp \
+    corbeille.cpp
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -60,4 +61,5 @@ HEADERS +=\
     relations/relationship.h \
     relations/relationsmanager.h \
     relations/association.h \
-    relations/bidirectionalrelationship.h
+    relations/bidirectionalrelationship.h \
+    corbeille.h
