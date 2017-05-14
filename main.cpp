@@ -5,7 +5,8 @@
 #include "plurinotes.h"
 #include "notesmanager.h"
 #include "version.h"
-//test
+
+//include de test
 
 
 int main(int argc, char *argv[]){
@@ -25,8 +26,6 @@ int main(int argc, char *argv[]){
     Note& n1 = m.createNote();
     Note& n2 = m.createNote();
     Note& n3 = m.createNote();
-<<<<<<< HEAD
-=======
     Note n4 = Sound(QUuid::createUuid(),QString("IVDEO.mp4")) ;
 
     RelationsManager<Note> relationsManager;
@@ -37,7 +36,6 @@ int main(int argc, char *argv[]){
     relationsManager.link(r2, n1, n3);
 
     relationsManager.unlink(r1, n1, n3);
->>>>>>> 9cb9ff33adb691c711ec2803bd079498782ea2ac
     qout << n1.getIdentifier().toString() << endl << n2.getIdentifier().toString() << endl << n3.getIdentifier().toString() << endl;
 
 /*

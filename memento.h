@@ -2,8 +2,7 @@
 #define MEMENTO_H
 #include "notesmanager.h"
 #include<vector>
-class Memento
-{
+class Memento{
     Note* m_note;
 public:
     Memento(const Note& n){ m_note = new Note(n); }

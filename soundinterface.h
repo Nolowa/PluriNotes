@@ -14,7 +14,7 @@
 #include <QFileDialog>
 #include <QMediaPlayer>
 
-#include "sound.h"
+#include "notes/sound.h"
 class Sound;
 
 

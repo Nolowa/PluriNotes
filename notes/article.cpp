@@ -1,4 +1,4 @@
-#include "article.h"
+#include "notes/article.h"
 
 
 Article::Article(QUuid identifier):Note(identifier),text(QString("")){

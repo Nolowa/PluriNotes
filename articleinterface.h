@@ -9,7 +9,7 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QObject>
-#include "article.h" // inclusion récursif.?
+#include "notes/article.h" // inclusion récursif.?
 
 class Article;
 

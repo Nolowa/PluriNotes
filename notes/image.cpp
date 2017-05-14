@@ -1,12 +1,15 @@
-#include "image.h"
+#include "notes/image.h"
 
 Image::Image(QUuid identifier): NoTextualNote(identifier){}
-const QImage& Image::getFile() const {return file;}
+
+
 Note* Image::save(){
     Note* n=new Image(*this);
     return n;
 }
 
+
+/*
 void Image::load(Note* n){
     Image* nouveau;
     nouveau=static_cast<Image*>(n);
@@ -15,5 +18,8 @@ void Image::load(Note* n){
     this->setEdited(QDateTime::currentDateTime());
     this->setState(nouveau->getStates());
     this->setDescription(nouveau->getDescription());
-    file=nouveau->getFile();
+    //a rajouter, il me semble
+    //image=nouveau->getFile();
+    //nameFile=nouveau->getnameFile();
 }
+*/

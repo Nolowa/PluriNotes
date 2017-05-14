@@ -39,7 +39,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-HEADERS += \
+HEADERS +=\
     notes/note.h \
     notesmanager.h \
     utils.h \
@@ -51,16 +51,13 @@ HEADERS += \
     notes/notextualnote.h \
     plurinotes.h \
     memento.h \
-    version.h \
-<<<<<<< HEAD
+    #version.h \
     articleinterface.h \
     taskinterface.h \
     imageinterface.h \
     soundinterface.h \
-    videointerface.h
-=======
+    videointerface.h \
     relations/relationship.h \
     relations/relationsmanager.h \
     relations/association.h \
     relations/bidirectionalrelationship.h
->>>>>>> 9cb9ff33adb691c711ec2803bd079498782ea2ac

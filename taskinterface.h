@@ -9,7 +9,7 @@
 #include <QLabel>
 #include <QComboBox>
 #include <QMessageBox>
-#include "task.h" // inclusion récursif.?
+#include "notes/task.h" // inclusion récursif.?
 class Task;
 
 class TaskInterface: public QWidget{

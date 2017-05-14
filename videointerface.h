@@ -21,7 +21,7 @@
 #include <QToolButton>
 #include <QStyle>
 
-#include "video.h"
+#include "notes/video.h"
 class Video;
 
 class VideoInterface : public QWidget {

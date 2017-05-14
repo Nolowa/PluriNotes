@@ -15,7 +15,7 @@
 #include <QStyle>
 
 
-#include "image.h" // inclusion récursif.?
+#include "notes/image.h" // inclusion récursif.?
 
 class Image;
 

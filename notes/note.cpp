@@ -1,8 +1,7 @@
-#include "note.h"
+#include "notes/note.h"
 
 
-Note::Note(QUuid identifier) : identifier(identifier),created(QDateTime::currentDateTime()),edited(QDateTime::currentDateTime()),
-state(active){};
+Note::Note(QUuid identifier) : identifier(identifier),created(QDateTime::currentDateTime()),edited(QDateTime::currentDateTime()),state(active){};
 
 Note::~Note(){}
 
@@ -44,17 +43,12 @@ void Note::setEdited(){
     edited=QDateTime::currentDateTime();
 }
 
-<<<<<<< HEAD:note.cpp
-=======
-/*
-Note::~Note(){
-    delete &identifier;
-}
-*/
-const State Note::getStates() const{
+
+State Note::getStates() const{
     return state;
 }
 
+/*
 Note::Note(const Note &n){
     identifier=n.getIdentifier();
     title=n.getTitle();
@@ -63,11 +57,5 @@ Note::Note(const Note &n){
     state=n.getStates();
 }
 
-void Note::setCreated(QDateTime c){
-    created=c;
-}
-void Note::setEdited(QDateTime e){
-    edited=e;
-}
+*/
 
->>>>>>> 9cb9ff33adb691c711ec2803bd079498782ea2ac:notes/note.cpp

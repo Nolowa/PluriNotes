@@ -1,4 +1,4 @@
-#include "task.h"
+#include "notes/task.h"
 
 // constructeur
 Task::Task(QUuid identifier):Note(identifier),status(en_attente),priority(0){}
@@ -55,12 +55,11 @@ void Task::setExpired(const QDateTime exp){
     setEdited();
 }
 
-<<<<<<< HEAD:task.cpp
 //Interface
-
 TaskInterface* Task::getInterface(){
     return new TaskInterface(this);
-=======
+}
+
 Status Task::getStatus_re() const{
     return status;
 }
@@ -81,5 +80,4 @@ void Task::restore(Note* n){
     status=nouveau->getStatus_re();
     priority=nouveau->getPriority();
     expired=nouveau->getExpired();
->>>>>>> 9cb9ff33adb691c711ec2803bd079498782ea2ac:notes/task.cpp
 }
