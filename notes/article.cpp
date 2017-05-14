@@ -13,6 +13,11 @@ const QString& Article::getText() const{
     return text;
 }
 
+ArticleInterface* Article::getInterface(){
+    return  new ArticleInterface(this);
+
+}
+
 
 void Article::load(Note* n){
     Article* nouveau;
