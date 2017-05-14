@@ -23,7 +23,7 @@ void NotesManager::freeInstance(){
 
 Note& NotesManager::Iterator::current() const{
     if(idx == -1){
-        AppException("NotesIterator points nothing").raise();
+        throw new AppException("NotesIterator points nothing");
     }
 
     return manager.notes[idx];
@@ -37,7 +37,7 @@ void NotesManager::Iterator::next(){
     if(!isDone()){
         idx++;
     }else{
-        AppException("NotesIterator overflow attempt").raise();
+        throw new AppException("NotesIterator overflow attempt");
     }
 }
 

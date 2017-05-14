@@ -4,13 +4,13 @@
 #include <QVector>
 #include <iterator>
 #include "utils.h"
-#include "note.h"
-#include "image.h"
-#include "article.h"
-#include "video.h"
-#include "task.h"
-#include "sound.h"
-
+#include "notes/note.h"
+#include "notes/image.h"
+#include "notes/article.h"
+#include "notes/video.h"
+#include "notes/task.h"
+#include "notes/sound.h"
+#include "relations/relationsmanager.h"
 
 
 class NotesManager{

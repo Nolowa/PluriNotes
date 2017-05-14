@@ -20,7 +20,11 @@ public:
 
     const QString& getActionToBeDone() const;
     QString getStatus() const;
+<<<<<<< HEAD:task.h
     unsigned int getStatusInt() const;
+=======
+    Status getStatus_re() const;
+>>>>>>> 9cb9ff33adb691c711ec2803bd079498782ea2ac:notes/task.h
     unsigned int getPriority() const;
     const QDateTime& getExpired() const;
 
@@ -28,9 +32,15 @@ public:
     void setPriority(unsigned int p);
     void setStatus(Status s);
     void setExpired(const QDateTime exp);
+<<<<<<< HEAD:task.h
     TaskInterface* getInterface();
 
 
+=======
+    Task(const Task& t):Note(t),actionToBeDone(),status(t.getStatus_re()),priority(t.getPriority()),expired(getExpired()){}
+    Note* save();
+    void restore(Note* n);
+>>>>>>> 9cb9ff33adb691c711ec2803bd079498782ea2ac:notes/task.h
 };
 
 #endif // TASK_H

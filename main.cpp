@@ -9,20 +9,35 @@
 
 
 int main(int argc, char *argv[]){
-   /* //créer des tables BD
-    int version::rc=0;
-    version::connectBd();
-   */
+    //créer des tables BD
+
+    //version::connectBd();
+    //version::createTables();
+
     QApplication app(argc, argv);
 
     QTextStream qout(stdout);
     qout << "Demarrage" << endl;
     NotesManager& m=NotesManager::getInstance();
 
+
     qout << "Création de notes" << endl;
     Note& n1 = m.createNote();
     Note& n2 = m.createNote();
     Note& n3 = m.createNote();
+<<<<<<< HEAD
+=======
+    Note n4 = Sound(QUuid::createUuid(),QString("IVDEO.mp4")) ;
+
+    RelationsManager<Note> relationsManager;
+    Relationship<Note>& r1 = relationsManager.createRelation("UneRelationUnidirectionelle");
+    Relationship<Note>& r2 = relationsManager.createRelation("UneRelationBidirectionelle", true);
+
+    relationsManager.link(r1, n1, n3);
+    relationsManager.link(r2, n1, n3);
+
+    relationsManager.unlink(r1, n1, n3);
+>>>>>>> 9cb9ff33adb691c711ec2803bd079498782ea2ac
     qout << n1.getIdentifier().toString() << endl << n2.getIdentifier().toString() << endl << n3.getIdentifier().toString() << endl;
 
 /*

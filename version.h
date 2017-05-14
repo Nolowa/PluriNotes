@@ -1,18 +1,25 @@
 #ifndef VERSION_H
 #define VERSION_H
 #include "notesmanager.h"
-#include <sqlite3.h>
-/*
+#include <QtSql>
+#include <iostream>
+#define q2c(string) string.toStdString()
+
+
+
 class version
 {
-    static int rc;
+    static QSqlDatabase db;
+    static int table_exist;
+    static int open;
 public:
     version();
-    static void connectBd();
-    //static void closeBd(){sqlite3_close(db);}
+    static bool connectBd();
+    static void closeBd();
+    static void createTables();
 };
 
-void createTables();
-*/
+
+
 
 #endif // VERSION_H

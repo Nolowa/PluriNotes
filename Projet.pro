@@ -1,7 +1,7 @@
 QT += core
 QT += gui
 QT += multimediawidgets
-
+QT += sql
 CONFIG += c++11
 
 TARGET = Projet
@@ -11,14 +11,14 @@ CONFIG -= app_bundle
 TEMPLATE = app
 
 SOURCES += main.cpp \
-    note.cpp \
+    notes/note.cpp \
     notesmanager.cpp \
-    article.cpp \
-    task.cpp \
-    image.cpp \
-    video.cpp \
-    sound.cpp \
-    notextualnote.cpp \
+    notes/article.cpp \
+    notes/task.cpp \
+    notes/image.cpp \
+    notes/video.cpp \
+    notes/sound.cpp \
+    notes/notextualnote.cpp \
     plurinotes.cpp \
     memento.cpp \
     version.cpp \
@@ -40,20 +40,27 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 HEADERS += \
-    note.h \
+    notes/note.h \
     notesmanager.h \
     utils.h \
-    article.h \
-    task.h \
-    image.h \
-    video.h \
-    sound.h \
-    notextualnote.h \
+    notes/article.h \
+    notes/task.h \
+    notes/image.h \
+    notes/video.h \
+    notes/sound.h \
+    notes/notextualnote.h \
     plurinotes.h \
     memento.h \
     version.h \
+<<<<<<< HEAD
     articleinterface.h \
     taskinterface.h \
     imageinterface.h \
     soundinterface.h \
     videointerface.h
+=======
+    relations/relationship.h \
+    relations/relationsmanager.h \
+    relations/association.h \
+    relations/bidirectionalrelationship.h
+>>>>>>> 9cb9ff33adb691c711ec2803bd079498782ea2ac

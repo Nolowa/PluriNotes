@@ -55,8 +55,31 @@ void Task::setExpired(const QDateTime exp){
     setEdited();
 }
 
+<<<<<<< HEAD:task.cpp
 //Interface
 
 TaskInterface* Task::getInterface(){
     return new TaskInterface(this);
+=======
+Status Task::getStatus_re() const{
+    return status;
+}
+
+Note* Task::save(){
+    Note* n=new Task(*this);
+    return n;
+}
+
+void Task::restore(Note* n){
+    Task* nouveau;
+    nouveau=static_cast<Task*>(n);
+    this->setTitle(nouveau->getTitle());
+    this->setCreated(nouveau->getCreated());
+    this->setEdited(QDateTime::currentDateTime());
+    this->setState(nouveau->getStates());
+    actionToBeDone=nouveau->getActionToBeDone();
+    status=nouveau->getStatus_re();
+    priority=nouveau->getPriority();
+    expired=nouveau->getExpired();
+>>>>>>> 9cb9ff33adb691c711ec2803bd079498782ea2ac:notes/task.cpp
 }
