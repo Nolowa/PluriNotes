@@ -1,4 +1,4 @@
-#include "notes/task.h"
+#include "task.h"
 
 // constructeur
 Task::Task(QUuid identifier):Note(identifier),status(en_attente),priority(0){}
@@ -69,15 +69,16 @@ Note* Task::save(){
     return n;
 }
 
+
 void Task::restore(Note* n){
     Task* nouveau;
     nouveau=static_cast<Task*>(n);
     this->setTitle(nouveau->getTitle());
     this->setCreated(nouveau->getCreated());
-    this->setEdited(QDateTime::currentDateTime());
     this->setState(nouveau->getStates());
     actionToBeDone=nouveau->getActionToBeDone();
     status=nouveau->getStatus_re();
     priority=nouveau->getPriority();
     expired=nouveau->getExpired();
 }
+

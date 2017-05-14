@@ -1,4 +1,4 @@
-#include "notes/article.h"
+#include "article.h"
 
 
 Article::Article(QUuid identifier):Note(identifier),text(QString("")){
@@ -12,6 +12,7 @@ void Article::setText(const QString& texte){
 const QString& Article::getText() const{
     return text;
 }
+
 
 void Article::load(Note* n){
     Article* nouveau;

@@ -1,7 +1,7 @@
 #ifndef SOUND_H
 #define SOUND_H
 
-#include "notextualnote.h"
+#include "notes/notextualnote.h"
 #include <QSound>
 
 #include "soundinterface.h"

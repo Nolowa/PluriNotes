@@ -1,4 +1,4 @@
-#include "notes/note.h"
+#include "note.h"
 
 
 Note::Note(QUuid identifier) : identifier(identifier),created(QDateTime::currentDateTime()),edited(QDateTime::currentDateTime()),state(active){};
@@ -59,3 +59,10 @@ Note::Note(const Note &n){
 
 */
 
+void Note::setCreated(QDateTime c){
+    created=c;
+}
+
+void Note::setEdited(QDateTime e){
+    edited=e;
+}

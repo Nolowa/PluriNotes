@@ -2,7 +2,7 @@
 #define TASK_H
 
 
-#include "note.h"
+#include "notes/note.h"
 #include "taskinterface.h"
 
 class TaskInterface;

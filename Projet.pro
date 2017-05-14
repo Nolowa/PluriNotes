@@ -51,7 +51,7 @@ HEADERS +=\
     notes/notextualnote.h \
     plurinotes.h \
     memento.h \
-    #version.h \
+    version.h \
     articleinterface.h \
     taskinterface.h \
     imageinterface.h \

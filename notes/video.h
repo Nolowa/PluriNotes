@@ -1,7 +1,7 @@
 #ifndef VIDEO_H
 #define VIDEO_H
 
-#include "notextualnote.h"
+#include "notes/notextualnote.h"
 #include <QVideoWidget>
 #include <QMovie>
 

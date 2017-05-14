@@ -19,7 +19,7 @@ class Note {
 
 public:
     Note(QUuid identifier);
-    //Note(const Note& n);
+    //Note(const Note& n); // celui de base is suffisant
     const QUuid getIdentifier() const;
     const QString& getTitle() const;
     const QDateTime getCreated() const;
@@ -29,8 +29,8 @@ public:
 
     void setTitle(const QString& t);
     void setState(State s);
-    void setCreated(QDateTime c);//sert à restore
-    void setEdited(QDateTime e);//sert à restore
+    void setCreated(QDateTime c); //sert à restore
+    void setEdited(QDateTime e); //sert à restore
 
     bool operator==(const Note &other) const{ return identifier == other.identifier;}
 

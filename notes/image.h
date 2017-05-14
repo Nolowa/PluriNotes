@@ -1,8 +1,8 @@
 #ifndef IMAGE_H
-#include <QFile>
-#include <QImage>
 #define IMAGE_H
 
+#include <QFile>
+#include <QImage>
 #include "notextualnote.h"
 #include "imageinterface.h"
 
@@ -20,7 +20,7 @@ public:
 
     const QImage& getFile() const;
     Note* save();
-    //void load(Note* n);
+    void load(Note* n);
 };
 
 #endif // IMAGE_H

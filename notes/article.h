@@ -20,7 +20,9 @@ public:
     void setText(const QString& texte);
     const QString& getText() const;
     ArticleInterface* getInterface();
+
     Article(const Article& a):Note(a),text(a.getText()){}
+
     void load(Note* n);
     Note* save();
 };

@@ -1,4 +1,4 @@
-#include "notes/video.h"
+#include "video.h"
 
 Video::Video(QUuid identifier,const QString& filename):NoTextualNote(identifier),nameVideoFile(filename){}
 

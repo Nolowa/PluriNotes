@@ -93,22 +93,22 @@ int main(int argc, char *argv[]){
     image.getInterface()->show();
 */
 
-/*
+
     //Pour la création d'une note Type SOUND; Ne supporte que le format Wav
     Sound son(QUuid::createUuid());
     son.setDescription("Son modifié en Wav (prendre du Wav)");
-    //son.setSoundFile("/Users/Thibault/Desktop/test.wav");
+    son.setSoundFile("/Users/Thibault/Desktop/test.wav");
     son.setTitle("Son modifié");
     son.getInterface()->show();
-*/
 
 
+/*
    //Pour la création d'une note Type VIDEO
     Video video(QUuid::createUuid());
     video.setDescription("Video indéfini");
     video.setTitle("Vidéo Indéfini");
     //video.setNameVideoFile("/Users/Thibault/Desktop/test.mp4");
     video.getInterface()->show();
-
+*/
     return app.exec();
 }

@@ -1,4 +1,4 @@
-#include "notes/sound.h"
+#include "sound.h"
 
 Sound::Sound(QUuid identifier, const QString& filename):NoTextualNote(identifier),soundFile(new QSound(filename)),soundFileName(filename){}
 

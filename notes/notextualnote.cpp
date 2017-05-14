@@ -1,4 +1,4 @@
-#include "notes/notextualnote.h"
+#include "notextualnote.h"
 
 NoTextualNote::NoTextualNote(QUuid identifier):Note(identifier){}
 

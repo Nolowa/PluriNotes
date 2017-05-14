@@ -1,7 +1,7 @@
 #ifndef NOTEXTUALNOTE_H
 #define NOTEXTUALNOTE_H
 
-#include "note.h"
+#include "notes/note.h"
 
 class NoTextualNote: public Note{
     QString description;
