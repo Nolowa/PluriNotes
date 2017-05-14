@@ -22,11 +22,11 @@ SOURCES += main.cpp \
     plurinotes.cpp \
     memento.cpp \
     version.cpp \
-    articleinterface.cpp \
-    taskinterface.cpp \
-    imageinterface.cpp \
-    soundinterface.cpp \
-    videointerface.cpp
+    interfaces/articleinterface.cpp \
+    interfaces/taskinterface.cpp \
+    interfaces/imageinterface.cpp \
+    interfaces/soundinterface.cpp \
+    interfaces/videointerface.cpp
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -52,11 +52,11 @@ HEADERS +=\
     plurinotes.h \
     memento.h \
     version.h \
-    articleinterface.h \
-    taskinterface.h \
-    imageinterface.h \
-    soundinterface.h \
-    videointerface.h \
+    interfaces/articleinterface.h \
+    interfaces/taskinterface.h \
+    interfaces/imageinterface.h \
+    interfaces/soundinterface.h \
+    interfaces/videointerface.h \
     relations/relationship.h \
     relations/relationsmanager.h \
     relations/association.h \

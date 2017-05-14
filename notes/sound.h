@@ -4,7 +4,7 @@
 #include "notes/notextualnote.h"
 #include <QSound>
 
-#include "soundinterface.h"
+#include "interfaces/soundinterface.h"
 class SoundInterface;
 
 class Sound: public NoTextualNote{

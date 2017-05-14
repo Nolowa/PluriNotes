@@ -3,7 +3,7 @@
 
 
 #include "notes/note.h"
-#include "taskinterface.h"
+#include "interfaces/taskinterface.h"
 
 class TaskInterface;
 

@@ -5,7 +5,7 @@
 #include <QVideoWidget>
 #include <QMovie>
 
-#include "videointerface.h"
+#include "interfaces/videointerface.h"
 
 class VideoInterface;
 

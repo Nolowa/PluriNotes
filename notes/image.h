@@ -4,7 +4,7 @@
 #include <QFile>
 #include <QImage>
 #include "notextualnote.h"
-#include "imageinterface.h"
+#include "interfaces/imageinterface.h"
 
 class ImageInterface;
 

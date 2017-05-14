@@ -9,7 +9,7 @@
 #include <QFormLayout>
 #include <QWidget>
 #include <QLabel>
-#include "articleinterface.h" // inclusion récursif.?
+#include "interfaces/articleinterface.h"
 class ArticleInterface;
 
 class Article: public Note{
