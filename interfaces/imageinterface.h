@@ -27,6 +27,7 @@ class ImageInterface: public QWidget {
     QString* nameFileImage;
     QLabel* imageLabel;
     QLineEdit* titleEdit;
+    QLineEdit* idEdit;
     QTextEdit* descriptionEdit;
     QFormLayout* layout;
     QVBoxLayout *mainLayout;

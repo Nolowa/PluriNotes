@@ -41,6 +41,8 @@ VideoInterface::VideoInterface(Video* vid,QWidget *parent) : QWidget(parent), vi
     titleEdit= new QLineEdit(video->getTitle(),this);
     descriptionEdit= new QTextEdit(video->getDescription(),this);
     nameFileVideo= new QString(video->getVideoFileName());
+    idEdit= new QLineEdit(video->getIdentifier().toString(),this);
+    idEdit->setReadOnly(1);
     initVideo=0;
 
     //partie video
@@ -56,8 +58,11 @@ VideoInterface::VideoInterface(Video* vid,QWidget *parent) : QWidget(parent), vi
     //ajustement de la taille des Widgets
     descriptionEdit->setFixedHeight(120);
     titleEdit->setFixedWidth(180);
+    idEdit->setFixedWidth(300);
+
 
     // ajout des composants sur la layout
+    layout->addRow("Identifiant :",idEdit);
     layout->addRow("Titre :",titleEdit);
     layout->addRow("Description :",descriptionEdit);
     layoutVideo->addWidget(graphicsView);

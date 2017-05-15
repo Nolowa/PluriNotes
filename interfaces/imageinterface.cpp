@@ -8,6 +8,8 @@ ImageInterface::ImageInterface(Image* im, QWidget *parent): QWidget(parent), ima
     //bDeleteImage= new QPushButton(QString("Supprimer l'image"));
     //deletedImage=0;
     nameFileImage= new QString(image->getnameFile());
+    idEdit= new QLineEdit(image->getIdentifier().toString(),this);
+    idEdit->setReadOnly(1);
 
     titleEdit= new QLineEdit(image->getTitle(),this);
     descriptionEdit= new QTextEdit(image->getDescription(),this);
@@ -31,8 +33,10 @@ ImageInterface::ImageInterface(Image* im, QWidget *parent): QWidget(parent), ima
     //ajustement de la taille des Widgets
     descriptionEdit->setFixedHeight(120);
     titleEdit->setFixedWidth(180);
+    idEdit->setFixedWidth(300);
 
     // ajout des composants sur la layout
+    layout->addRow("Identifiant :",idEdit);
     layout->addRow("Titre :",titleEdit);
     layout->addRow("Description :",descriptionEdit);
     boutonLayout->addWidget(generate);

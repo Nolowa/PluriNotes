@@ -59,7 +59,7 @@ int main(int argc, char *argv[]){
         qout << "Note : " << it.current().getIdentifier().toString() << endl;
     }
     //QTimer::singleShot(5000, &app, SLOT(quit()));
-
+*/
  /*
      //Pour la création d'une note Type ARTICLE
     Article art(QUuid::createUuid());

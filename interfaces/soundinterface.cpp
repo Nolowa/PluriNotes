@@ -11,12 +11,17 @@ SoundInterface::SoundInterface(Sound* s,QWidget *parent) : QWidget(parent), soun
       titleEdit= new QLineEdit(sound->getTitle(),this);
       descriptionEdit= new QTextEdit(sound->getDescription(),this);
       nameFileSound = new QString(sound->getSoundFileName());
+      idEdit= new QLineEdit(sound->getIdentifier().toString(),this);
+      idEdit->setReadOnly(1);
       initSound=0;
+
       //ajustement de la taille des Widgets
       descriptionEdit->setFixedHeight(120);
       titleEdit->setFixedWidth(180);
+      idEdit->setFixedWidth(300);
 
       // ajout des composants sur la layout
+      layout->addRow("Identifiant :",idEdit);
       layout->addRow("Titre :",titleEdit);
       layout->addRow("Description :",descriptionEdit);
       boutonLayout->addWidget(generate);

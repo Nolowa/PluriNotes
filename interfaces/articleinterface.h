@@ -17,6 +17,7 @@ class ArticleInterface: public QWidget{
     Q_OBJECT
     Article* article;
     QLineEdit* titleEdit;
+    QLineEdit* idEdit;
     QTextEdit* textEdit;
     QFormLayout* layout;
     QHBoxLayout* buttonLayout;

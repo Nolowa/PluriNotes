@@ -8,11 +8,15 @@ ArticleInterface::ArticleInterface(Article *a, QWidget *parent): QWidget(parent)
     generate= new QPushButton(QString("sauvegarder"));
     titleEdit= new QLineEdit(article->getTitle(),this);
     textEdit= new QTextEdit(article->getText(),this);
+    idEdit= new QLineEdit(article->getIdentifier().toString(),this);
+    idEdit->setReadOnly(1);
 
     //ajustement de la taille des Widgets
     titleEdit->setFixedWidth(180);
+    idEdit->setFixedWidth(300);
 
     //ajout des widgets à la layout
+    layout->addRow("Identifiant :",idEdit);
     layout->addRow("Titre :",titleEdit);
     layout->addRow("Corps :",textEdit);
     buttonLayout->addStretch();

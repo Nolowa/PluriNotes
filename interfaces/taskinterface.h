@@ -17,6 +17,7 @@ class TaskInterface: public QWidget{
     Task* task;
     QLineEdit* titleEdit;
     QTextEdit* actionEdit;
+    QLineEdit* idEdit;
     QLineEdit* dateEdit;
     QComboBox* statusCombo;
     QComboBox* priorityCombo;

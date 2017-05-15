@@ -36,6 +36,8 @@ class VideoInterface : public QWidget {
 
     QLineEdit* titleEdit;
     QTextEdit* descriptionEdit;
+    QLineEdit* idEdit;
+
 
 
     QFormLayout* layout;
