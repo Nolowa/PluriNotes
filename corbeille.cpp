@@ -1,10 +1,10 @@
 #include "corbeille.h"
 #include "version.h"
 #include <QException>
-
+/*
 Corbeille::Corbeille(){}
 
-/* Tout membre static  doit être définie dans un fichier source et initialisé */
+//Tout membre static  doit être définie dans un fichier source et initialisé
 Corbeille* Corbeille::instance=0;
 
 Corbeille& Corbeille::getInstance(){
@@ -19,7 +19,7 @@ void Corbeille::freeInstance(){
     instance=nullptr; // obligatoire
 }
 
-/*Fin des membres statiques*/
+//Fin des membres statiques
 
 
 Note& Corbeille::Iterator::current() const{
@@ -53,7 +53,7 @@ void Corbeille::vidage(){
     if(!notes.empty()){
         Note* note;
         for(note=notes.end()-1;note>=notes.begin();note--){
-            /*supprimer ses versions*/
+            //supprimer ses versions
             size_t nombre=strlen(typeid(*note).name());
             int num=10;
             std::string nom=std::string(typeid(*note).name(),nombre);
@@ -72,7 +72,7 @@ void Corbeille::vidage(){
             q.exec();
             q.finish();
 
-            /*supprimer et liberer*/
+            //supprimer et liberer
             delete note;
             notes.pop_back();
         }
@@ -84,3 +84,4 @@ void Corbeille::vidage(){
 Corbeille::Iterator& Corbeille::getIterator(){
     return *(new Corbeille::Iterator(*this));
 }
+*/

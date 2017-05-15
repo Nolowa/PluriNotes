@@ -1,7 +1,7 @@
 #ifndef CORBEILLE_H
 #define CORBEILLE_H
 #include "notesmanager.h"
-
+/*
 class Corbeille
 {
     std::vector<Note*> notes;
@@ -13,7 +13,7 @@ class Corbeille
     Corbeille& operator=(const Corbeille& n);
 
 public:
-    corbeille();
+    //corbeille();
     static Corbeille& getInstance();
     static void freeInstance();
 
@@ -34,5 +34,5 @@ public:
 
 
 };
-
+*/
 #endif // CORBEILLE_H
