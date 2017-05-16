@@ -75,7 +75,7 @@ int main(int argc, char *argv[]){
     qout << "Priority: " << ntask.getPriority() << endl;
 */
 /*
-    qout << "Test de l'itérateur" << endl;*/
+    qout << "Test de l'itérateur" << endl;
     Iterator<Note>& it = m.getIterator();
     while(!it.isDone()){
         it.next();

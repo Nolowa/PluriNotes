@@ -7,19 +7,21 @@
 #include "interfaces/imageinterface.h"
 
 class ImageInterface;
+/*! Classe Image, classe fille de NoTextualNote */
 
 class Image: public NoTextualNote {
-    QImage image;
-    QString nameFile;
+    QImage image; /**< Fichier image */
+    QString nameFile; /**< URL du fichier image */
     static const QString type;
 public:
-    Image(QUuid identifier);
-    void setImage(const QString& im);
-    const QString& getnameFile() const;
-    const QImage& getImage() const;
-    ImageInterface* getInterface();
+    Image(QUuid identifier); /**< Constructeur */
+    void setImage(const QString& im);  /**< Méthode modifiant les deux attributs nameFile et image */
+    const QString& getnameFile() const; /**< Accesseur de l'attribut nameFile */
+    const QImage& getImage() const; /**< Accesseur de l'attribut image  */
+    const QImage& getFile() const; /**< Accesseur de l'attribut image */
+    ImageInterface* getInterface(); /**< Méthode virtuelle renvoyant l'interface de Image */
 
-    const QImage& getFile() const;
+
     Note* save();
     void load(Note* n);
 

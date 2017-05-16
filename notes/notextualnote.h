@@ -3,14 +3,15 @@
 
 #include "notes/note.h"
 
+/*! Classe NoTextualNote, classe fille de Note */
 class NoTextualNote: public Note{
-    QString description;
+    QString description; /**< Courte description de la Note */
 
 public:
-    NoTextualNote(QUuid identifier);
-    const QString& getDescription() const;
-    void setDescription(const QString& d);
-    virtual ~NoTextualNote();
+    NoTextualNote(QUuid identifier); /**< Constructeur */
+    const QString& getDescription() const; /**< Accesseur de l'attribut description */
+    void setDescription(const QString& d); /**< Méthode modifiant l'attribut description */
+    virtual ~NoTextualNote(); /**< Desctructeur virtuel, la classe est à spécialiser */
 };
 
 #endif // NOTEXTUALNOTE_H
