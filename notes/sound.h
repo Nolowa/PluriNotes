@@ -10,6 +10,7 @@ class SoundInterface;
 class Sound: public NoTextualNote{
     QSound* soundFile;
     QString soundFileName;
+    static const QString type;
 public:
     Sound(QUuid identifier,const QString& filename="");
 
@@ -18,6 +19,8 @@ public:
     const QSound& getSound() const;
     const QString& getSoundFileName() const;
     void setSoundFile(const QString& name);
+
+    const QString& getType() const;
 
 };
 

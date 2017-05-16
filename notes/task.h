@@ -14,6 +14,7 @@ class Task: public Note {
     Status status; // enumeration
     unsigned int priority; //{0,1,2,3,4,5}  0:pas de priorité; 5: très élevé :facultatif
     QDateTime expired; // facultatif, date échouante
+    static const QString type;
 
 public:
     Task(QUuid identifier);
@@ -36,6 +37,8 @@ public:
 
     Note* save();
     void restore(Note* n);
+
+    const QString& getType() const;
 };
 
 #endif // TASK_H

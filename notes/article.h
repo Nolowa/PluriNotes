@@ -14,7 +14,7 @@ class ArticleInterface;
 
 class Article: public Note{
     QString text;
-
+    static const QString type;
 public:
     Article(QUuid identifier);
     void setText(const QString& texte);
@@ -25,6 +25,8 @@ public:
 
     void load(Note* n);
     Note* save();
+
+    const QString& getType() const;
 };
 
 #endif // ARTICLE_H

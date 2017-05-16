@@ -1,5 +1,7 @@
 #include "video.h"
 
+const QString Video::type = QString("Vidéo");
+
 Video::Video(QUuid identifier,const QString& filename):NoTextualNote(identifier),nameVideoFile(filename){}
 
 const QString& Video::getVideoFileName() const{
@@ -19,3 +21,6 @@ void Video::setVideoFile(const QString& name){
     videoFile.setFileName(name);
 }
 
+const QString& Video::getType() const{
+    return type;
+}

@@ -1,7 +1,12 @@
 #include "notesmanager.h"
 #include <QException>
+#include <QApplication>
+#include <QStyleFactory>
+#include <iostream>
 
-NotesManager::NotesManager(){}
+NotesManager::NotesManager(){
+
+}
 
 /* Tout membre static  doit être définie dans un fichier source et initialisé */
 NotesManager* NotesManager::instance=0;
@@ -26,10 +31,12 @@ Note& NotesManager::Iterator::current() const{
         throw new AppException("NotesIterator points nothing");
     }
 
-    return manager.notes[idx];
+    //return dynamic_cast<Note&>(*(manager.notesModel->item(idx)));
+    return *(manager.notes[idx]);
 }
 
 bool NotesManager::Iterator::isDone() const{
+    //return idx >= 0 && idx >= manager.notesModel->rowCount() - 1;
     return idx >= 0 && idx >= manager.notes.size() - 1;
 }
 
@@ -44,11 +51,35 @@ void NotesManager::Iterator::next(){
 Note& NotesManager::createNote(){
     Note* note = new Note(QUuid::createUuid());
 
-    notes.push_back(*note);
+    notes.push_back(note);
+
+    emit noteCreated(*note);
 
     return *note;
 }
 
-NotesManager::Iterator& NotesManager::getIterator(){
-    return *(new NotesManager::Iterator(*this));
+Note& NotesManager::updateNote(Note& note){
+    // TODO : Ré-injecter la note dans la mémoire
+    // TODO : Trigger UPDATE base de données
+    // TODO : Trigger GUI updates
+    std::cout << endl << "note received update" << endl;
+    emit noteUpdated(note);
+}
+/*
+int NotesManager::getPosition(Note& note) const{
+    int i = 0;
+    Iterator it = this->getIterator();
+    while(!it.isDone()){
+        it.next();
+
+        if(it.current().getIdentifier() == note.getIdentifier()){
+            return i;
+        }
+        i++;
+    }
+}*/
+
+NotesManager::Iterator& NotesManager::getIterator() const{
+    Iterator* it = new NotesManager::Iterator(*this);
+    return *it;
 }

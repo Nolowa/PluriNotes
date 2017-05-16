@@ -5,6 +5,7 @@
 #include "plurinotes.h"
 #include "notesmanager.h"
 #include "version.h"
+#include "interfaces/noteslistview.h"
 
 //include de test
 
@@ -23,12 +24,34 @@ int main(int argc, char *argv[]){
     NotesManager& m=NotesManager::getInstance();
 
 
+
+    //NotesListView nlv;
     qout << "Création de notes" << endl;
-    Note& n1 = m.createNote();
-    Note& n2 = m.createNote();
+
+
     Note& n3 = m.createNote();
     Note n4 = Sound(QUuid::createUuid(),QString("IVDEO.mp4")) ;
 
+    NotesListView nlv(m);
+    nlv.show();
+
+    Note& n1 = m.createNote();
+    n1.setTitle("Titre de la note 1");
+    m.updateNote(n1);
+
+    Note& n2 = m.createNote();
+    n2.setTitle("Titre de la note 2");
+    m.updateNote(n2);
+
+    /*Article art(QUuid::createUuid());
+    art.setTitle("un titre");*/
+
+   /* NoteItem item(n1);
+    item.show();*/
+
+    /*NoteItem item2(art);
+    item2.show();*/
+/*
     RelationsManager<Note> relationsManager;
     Relationship<Note>& r1 = relationsManager.createRelation("UneRelationUnidirectionelle");
     Relationship<Note>& r2 = relationsManager.createRelation("UneRelationBidirectionelle", true);
@@ -50,13 +73,14 @@ int main(int argc, char *argv[]){
     ntask.setStatus(terminee);
     qout << "Nouvelle etat: " << ntask.getExpired().toString() << endl;
     qout << "Priority: " << ntask.getPriority() << endl;
-
+*/
 /*
-    qout << "Test de l'itérateur" << endl;
+    qout << "Test de l'itérateur" << endl;*/
     Iterator<Note>& it = m.getIterator();
     while(!it.isDone()){
         it.next();
         qout << "Note : " << it.current().getIdentifier().toString() << endl;
+        qout << "Titre : " << it.current().getTitle() << endl;
     }
     //QTimer::singleShot(5000, &app, SLOT(quit()));
 

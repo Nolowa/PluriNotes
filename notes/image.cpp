@@ -1,5 +1,7 @@
 #include "image.h"
 
+const QString Image::type = QString("Image");
+
 Image::Image(QUuid identifier): NoTextualNote(identifier){}
 
 const QImage& Image::getImage() const{
@@ -35,4 +37,9 @@ void Image::load(Note* n){
     this->setDescription(nouveau->getDescription());
     this->setImage(nouveau->getnameFile());
 }
+
+const QString& Image::getType() const{
+    return type;
+}
+
 

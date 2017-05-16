@@ -1,5 +1,7 @@
 #include "sound.h"
 
+const QString Sound::type = QString("Son");
+
 Sound::Sound(QUuid identifier, const QString& filename):NoTextualNote(identifier),soundFile(new QSound(filename)),soundFileName(filename){}
 
 SoundInterface* Sound::getInterface(){
@@ -18,4 +20,8 @@ void Sound::setSoundFile(const QString& name){
     soundFileName=name;
     delete soundFile;
     soundFile= new QSound (name);
+}
+
+const QString& Sound::getType() const{
+    return type;
 }

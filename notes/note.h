@@ -6,16 +6,18 @@
 #include <QDateTime>
 #include <QWidget>
 #include "utils.h"
+#include <QStandardItem>
 
 typedef enum {active, non_editable,sursis} State;// active=0, non_editable=1, sursis=2
 
-class Note {
+class Note : public QStandardItem{
     QUuid identifier;
     QString title;
     QDateTime created;
     QDateTime edited;
     State state;
 
+    static const QString type;
 
 public:
     Note(QUuid identifier);
@@ -41,6 +43,10 @@ public:
     //Note* save();
 
     virtual ~Note();
+
+    virtual const QString& getType() const;
+
+    //virtual QStandardItem *clone() const;
 };
 
 #endif // NOTE_H

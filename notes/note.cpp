@@ -1,5 +1,6 @@
 #include "note.h"
 
+const QString Note::type = QString("Note");
 
 Note::Note(QUuid identifier) : identifier(identifier),created(QDateTime::currentDateTime()),edited(QDateTime::currentDateTime()),state(active){};
 
@@ -66,3 +67,13 @@ void Note::setCreated(QDateTime c){
 void Note::setEdited(QDateTime e){
     edited=e;
 }
+
+const QString& Note::getType() const{
+    return type;
+}
+
+/*QStandardItem *Note::clone() const
+{
+    return new Note(QUuid::createUuid());
+}
+*/

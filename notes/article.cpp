@@ -1,5 +1,6 @@
 #include "article.h"
 
+const QString Article::type = QString("Article");
 
 Article::Article(QUuid identifier):Note(identifier),text(QString("")){
 }
@@ -32,4 +33,8 @@ void Article::load(Note* n){
 Note* Article::save(){
     Note* n=new Article(*this);
     return n;
+}
+
+const QString& Article::getType() const{
+    return type;
 }

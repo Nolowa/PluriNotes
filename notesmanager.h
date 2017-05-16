@@ -3,6 +3,7 @@
 
 #include <QVector>
 #include <iterator>
+#include <QStringListModel>
 #include "utils.h"
 #include "notes/note.h"
 #include "notes/image.h"
@@ -13,8 +14,8 @@
 #include "relations/relationsmanager.h"
 
 
-class NotesManager{
-    std::vector<Note> notes;
+class NotesManager : public QObject{
+    std::vector<Note*> notes;
     Note** notess;
     QString filename;
 
@@ -23,25 +24,40 @@ class NotesManager{
     NotesManager(const NotesManager& n);
     NotesManager& operator=(const NotesManager& n);
 
+    //int getPosition(Note& note) const;
+
+    Q_OBJECT
+
 public:
     static NotesManager& getInstance();
     static void freeInstance();
 
     class Iterator : public ::Iterator<Note>{
-        NotesManager& manager;
+        const NotesManager& manager;
         int idx;
         Iterator();
     public:
-        Iterator(NotesManager& m) : manager(m), idx(-1){};
+        Iterator(const NotesManager& m) : manager(m), idx(-1){};
         Note& current() const;
         bool isDone() const;
         void next();
+
     };
 
     void load(); // load notes from file filename
     void save() const; // save notes in file filename
     Note& createNote();
-    NotesManager::Iterator& getIterator();
+    NotesManager::Iterator& getIterator() const;
+
+    //QStandardItemModel& getTitleModel();
+
+    Note& updateNote(Note& note);
+
+signals:
+
+    void noteCreated(const Note&);
+
+    void noteUpdated(const Note&);
 
 
    // ~NotesManager();

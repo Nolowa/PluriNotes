@@ -1,5 +1,7 @@
 #include "task.h"
 
+const QString Task::type = QString("Tâche");
+
 // constructeur
 Task::Task(QUuid identifier):Note(identifier),status(en_attente),priority(0){}
 
@@ -80,5 +82,9 @@ void Task::restore(Note* n){
     status=nouveau->getStatus_re();
     priority=nouveau->getPriority();
     expired=nouveau->getExpired();
+}
+
+const QString& Task::getType() const{
+    return type;
 }
 
