@@ -8,6 +8,9 @@ TaskInterface::TaskInterface(Task* t,QWidget *parent): QWidget(parent),task(t){
     actionEdit= new QTextEdit(task->getActionToBeDone(),this);
     //QString date=QDateTime::currentDateTime().toString();
     dateEdit= new QLineEdit(task->getExpired().toString(),this);
+    idEdit= new QLineEdit(task->getIdentifier().toString(),this);
+    idEdit->setReadOnly(1);
+    idEdit->setFixedWidth(300);
     statusCombo= new QComboBox(this);
     priorityCombo= new QComboBox(this);
 
@@ -30,6 +33,7 @@ TaskInterface::TaskInterface(Task* t,QWidget *parent): QWidget(parent),task(t){
     dateEdit->setFixedWidth(180);
     titleEdit->setFixedWidth(180);
     //ajout des Widget sur le layout
+    layout->addRow("Identifiant :",idEdit);
     layout->addRow("Titre :",titleEdit);
     layout->addRow("Status :",statusCombo);
     layout->addRow("Priorité :",priorityCombo);

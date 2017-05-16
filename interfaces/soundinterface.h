@@ -27,6 +27,7 @@ class SoundInterface : public QWidget{
     QString* nameFileSound;
     QLabel* labelSound;
     QLineEdit* titleEdit;
+    QLineEdit* idEdit;
     QTextEdit* descriptionEdit;
     QFormLayout* layout;
     QVBoxLayout *mainLayout;
