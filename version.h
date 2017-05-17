@@ -22,7 +22,7 @@ public:
     static void createTables();
     static void insert(Note* n);
     static void parcourir(Note* n);
-    static void select(QString s);// s représente l'id de sa version(id) choisit        à ajouter le lien avec objet
+    static void select(Note* n, int i);// s représente l'id de sa version(id) choisit        à ajouter le lien avec objet
 };
 
 

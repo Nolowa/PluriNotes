@@ -1,87 +1,88 @@
 #include "corbeille.h"
 #include "version.h"
 #include <QException>
-/*
-Corbeille::Corbeille(){}
+#include <QTextStream>
+Corbeille* Corbeille::instance=nullptr;
+Corbeille::Corbeille():notes(nullptr),nbNotes(0),nbMaxNotes(0){}
 
-//Tout membre static  doit être définie dans un fichier source et initialisé
-Corbeille* Corbeille::instance=0;
-
-Corbeille& Corbeille::getInstance(){
-    if (!instance)// si pas encore d'instance de la classe
-        instance= new Corbeille();// constructeur sans arguments
+Corbeille& Corbeille::get_instance() {
+    if (!instance)
+        instance = new Corbeille();
     return *instance;
 }
 
-void Corbeille::freeInstance(){
+
+void Corbeille::liberer_instance() {
     if (instance)
         delete instance;
-    instance=nullptr; // obligatoire
+    instance = nullptr;// conseillé
 }
+
 
 //Fin des membres statiques
 
 
-Note& Corbeille::Iterator::current() const{
-    if(idx == -1){
-        throw new AppException("Corbeille points nothing");
+
+
+void Corbeille::ajouterNote(Note* n) {
+    for (int i = 0; i < nbNotes; i++) {
+        if (notes[i]->getIdentifier() == n->getIdentifier()) throw new AppException("note déjà dans corbeille");
     }
-
-    return manager.notes[idx];
-}
-
-bool Corbeille::Iterator::isDone() const{
-    return idx >= 0 && idx >= manager.notes.size() - 1;
-}
-
-void Corbeille::Iterator::next(){
-    if(!isDone()){
-        idx++;
-    }else{
-        throw new AppException("NotesIterator overflow attempt");
+    /*找对应的manager里的 删掉*/
+    /*Iterator<Note>& it = m.getIterator();
+    while(!it.isDone()){
+        it.next();
+        if(it.current()->getIdentifier()==n->getIdentifier()){
+            if(&(it.current())==(--NotesManager::notes.end()));
+        }
+    }*/
+    if (nbNotes == nbMaxNotes) {
+        Note** newNotes = new Note*[nbNotes + 5];
+        for (int i = 0; i < nbNotes; i++)
+            newNotes[i] = notes[i];
+        Note** oldNote = notes;
+        notes = newNotes;
+        nbMaxNotes += 5;
+        delete[] oldNote;
+        notes[nbNotes++] = n;
     }
-}
-
-void Corbeille::ajouterNote(Note* n){
-    Note* note = n;
-
-    notes.push_back(nonte);
-
+    else {
+        notes[nbNotes++] = n;
+    }
+    n->setState(sursis);
 }
 
 void Corbeille::vidage(){
-    if(!notes.empty()){
-        Note* note;
-        for(note=notes.end()-1;note>=notes.begin();note--){
-            //supprimer ses versions
-            size_t nombre=strlen(typeid(*note).name());
+    if(nbNotes){
+        for (int i = 0; i < nbNotes; i++){
+            /*supprimer ses versions*/
+            size_t nombre=strlen(typeid(*notes[i]).name());
             int num=10;
-            std::string nom=std::string(typeid(*note).name(),nombre);
+            std::string nom=std::string(typeid(*notes[i]).name(),nombre);
             std::string nom1="class Article",nom2="class Image",nom3="class Task",nom4="class Sound",nom5="class Video";
             QString genre;
-            if(!nom.compare(nom1)){num=0;genre="'Article'";}
-            if(!nom.compare(nom2)){num=1;genre="'Image'";}
+            if(!nom.compare(nom1)){num=0;genre="Article";}
+            if(!nom.compare(nom2)){num=1;genre="Image";}
             if(!nom.compare(nom3)){num=2;genre="Task";}
-            if(!nom.compare(nom4)){num=3;genre="'Sound'";}
-            if(!nom.compare(nom5)){num=4;genre="'Video'";}
+            if(!nom.compare(nom4)){num=3;genre="Sound";}
+            if(!nom.compare(nom5)){num=4;genre="Video";}
 
             QSqlQuery q;
-            q.prepare("DELETE FROM Note, :Genre WHERE Note.Id = :Genre.Id AND :Genre.Idreal = :Id");
-            q.bindValue(":Genre",genre);
-            q.bindValue(":Id",note->getIdentifier());
-            q.exec();
+            QString Id=notes[i]->getIdentifier().toString();
+            q.exec("DELETE FROM  Note WHERE Id IN (SELECT Id FROM "+genre+" WHERE Idreal='"+Id+"') ");
+            q.finish();
+            q.exec("DELETE FROM  "+genre+" WHERE Idreal='"+Id+"'");
             q.finish();
 
-            //supprimer et liberer
-            delete note;
-            notes.pop_back();
+            /*supprimer et liberer*/
+
+            nbNotes--;
+
         }
+        delete[] notes;
     }
 
 }
 
 
-Corbeille::Iterator& Corbeille::getIterator(){
-    return *(new Corbeille::Iterator(*this));
-}
-*/
+

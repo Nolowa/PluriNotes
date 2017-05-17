@@ -1,38 +1,47 @@
 #ifndef CORBEILLE_H
 #define CORBEILLE_H
 #include "notesmanager.h"
-/*
-class Corbeille
-{
-    std::vector<Note*> notes;
 
 
-    static Corbeille* instance;// singleton
+class Corbeille {
+    Note** notes;
+    int nbNotes;
+    int nbMaxNotes;
+    static Corbeille* instance;
+    ~Corbeille(){}//privé pour empêcher son appel autrement que par l'intermédiaire de liberer_instance();
+    Corbeille(const Corbeille& c);
+    Corbeille& operator=(const Corbeille& c);
     Corbeille();
-    Corbeille(const Corbeille& n);
-    Corbeille& operator=(const Corbeille& n);
-
 public:
-    //corbeille();
-    static Corbeille& getInstance();
-    static void freeInstance();
-
-    class Iterator : public ::Iterator<Note>{
-        Corbeille& manager;
-        int idx;
-        Iterator();
+    //-----------Question 3-----------//
+    class Iterator {
+        friend class Corbeille;
+        Note** courant;
+        int fin;
+        Iterator(Note** deb, int f) :courant(deb), fin(f) {}
     public:
-        Iterator(Corbeille& m) : manager(m), idx(-1){};
-        Note& current() const;
-        bool isDone() const;
-        void next();
+        bool isDone() const { return !fin; }
+        void next() {
+            if (isDone())
+                throw new AppException("Fin");
+            fin--;
+            courant++;
+        }
+
+        Note* current()  const {
+            if (isDone())
+                throw new AppException("Fin");
+            return *courant;
+        }
     };
+    Iterator getIterator() const { return Iterator(notes, nbNotes); }
 
-    Corbeille::Iterator& getIterator();
-    static void ajouterNote(Note* n);
-    static void vidage();
+    //-------------------------------//
+    static Corbeille& get_instance();
+    static void liberer_instance();
 
-
+    void ajouterNote(Note* n);
+    void vidage();
 };
-*/
+
 #endif // CORBEILLE_H
