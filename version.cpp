@@ -102,7 +102,7 @@ void version::insert(Note* n){
     q.bindValue(":Genre",genre);
     q.bindValue(":Title",n->getTitle());
     q.bindValue(":Created",n->getCreated());
-    q.bindValue(":Edited",n->getEdited());
+    q.bindValue(":Edited",QDateTime::currentDateTime());
     q.bindValue(":State",n->getState());
     q.exec();
     /*obetenir le id généré*/
@@ -129,11 +129,11 @@ void version::insert(Note* n){
     case 1://Image
         Image* nouveau_i;
         nouveau_i=static_cast<Image*>(n);
-        q1.prepare("INSERT INTO Image (Id,Idreal,Description,File) VALUES (:Id,:Idreal,:Description,'file')");
+        q1.prepare("INSERT INTO Image (Id,Idreal,Description,File) VALUES (:Id,:Idreal,:Description,:File)");
         q1.bindValue(":Id",id);
         q1.bindValue(":Idreal",nouveau_i->getIdentifier());
         q1.bindValue(":Description",nouveau_i->getDescription());
-        //q1.bindValue(":File",nouveau_i->getFile());
+        q1.bindValue(":File",nouveau_i->getFilename());
         if (!q1.exec()) {
               QMessageBox::critical(0, QObject::tr("Database Error"),
                                     q1.lastError().text());
@@ -161,11 +161,11 @@ void version::insert(Note* n){
     case 3:
         Sound* nouveau_s;
         nouveau_s=static_cast<Sound*>(n);
-        q1.prepare("INSERT INTO Sound (Id,Idreal,Description,File) VALUES (:Id,:Idreal,:Description,'file')");
+        q1.prepare("INSERT INTO Sound (Id,Idreal,Description,File) VALUES (:Id,:Idreal,:Description,:File)");
         q1.bindValue(":Id",id);
         q1.bindValue(":Idreal",nouveau_s->getIdentifier());
         q1.bindValue(":Description",nouveau_s->getDescription());
-        //q1.bindValue(":File",nouveau_s->getFile());
+        q1.bindValue(":File",nouveau_s->getFilename());
         if (!q1.exec()) {
               QMessageBox::critical(0, QObject::tr("Database Error"),
                                     q1.lastError().text());
@@ -176,11 +176,11 @@ void version::insert(Note* n){
     case 4:
         Video* nouveau_v;
         nouveau_v=static_cast<Video*>(n);
-        q1.prepare("INSERT INTO Video (Id,Idreal,Description,File) VALUES (:Id,:Idreal,:Description,'file')");
+        q1.prepare("INSERT INTO Video (Id,Idreal,Description,File) VALUES (:Id,:Idreal,:Description,:File)");
         q1.bindValue(":Id",id);
         q1.bindValue(":Idreal",nouveau_v->getIdentifier());
         q1.bindValue(":Description",nouveau_v->getDescription());
-        //q1.bindValue(":File",nouveau_v->getFile());
+        q1.bindValue(":File",nouveau_v->getFilename());
         if (!q1.exec()) {
               QMessageBox::critical(0, QObject::tr("Database Error"),
                                     q1.lastError().text());

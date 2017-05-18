@@ -17,12 +17,12 @@ class Note : public QStandardItem{
     QDateTime created; /**< date de création de la Note  */
     QDateTime edited; /**< date de dernière mise à jour de la Note  */
     State state; /**< Etat de la note {active, non_editable,sursis}  */
-
+    mutable QString filename;
     static const QString type;
 
 public:
     Note(QUuid identifier);  /**< Constructeur */
-    //Note(const Note& n); // celui de base is suffisant
+    Note(Note* n); // celui de base is suffisant
     const QUuid getIdentifier() const; /**< Accesseur de l'attribut identifier */
     const QString& getTitle() const; /**< Accesseur de l'attribut title */
     const QDateTime getCreated() const; /**< Accesseur de l'attribut created */
@@ -33,6 +33,7 @@ public:
     void setTitle(const QString& t); /**< Méthode modifiant l'attribut title */
     void setState(State s); /**< Méthode modifiant l'attribut state */
     //sert à restore
+    Note(QUuid identifier,QDateTime c);
     void setCreated(QDateTime c);  /**< Méthode modifiant l'attribut created */
     void setEdited(QDateTime e); /**< Méthode modifiant l'attribut edited */
 
@@ -46,6 +47,9 @@ public:
 
     void load(const Note& n);
     //Note* save();
+
+    QString getFilename() const;
+    void setFilename(const QString& f);
 
     virtual ~Note();
 

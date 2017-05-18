@@ -2,7 +2,13 @@
 
 const QString Video::type = QString("Vidéo");
 
+
 Video::Video(QUuid identifier,const QString& filename):NoTextualNote(identifier),nameVideoFile(filename){
+    videoFile = new QMovie;
+}
+
+
+Video::Video(QUuid identifier, QDateTime c,const QString& filename):NoTextualNote(identifier,c),nameVideoFile(filename){
     videoFile = new QMovie;
 }
 

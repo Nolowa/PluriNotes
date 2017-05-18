@@ -17,6 +17,7 @@ class Video: public NoTextualNote{
 
 public:
     Video(QUuid identifier,const QString& filename=""); /**< Constructeur*/
+    Video(QUuid identifier,QDateTime c,const QString& filename);
 
     QWidget* getUI() const;  /**< Méthode virtuelle renvoyant l'interface de la Video */
 

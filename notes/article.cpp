@@ -1,9 +1,13 @@
 #include "article.h"
-
+#include <QFile>
+#include <QTextCodec>
+#include <QMessageBox>
 const QString Article::type = QString("Article");
 
 Article::Article(QUuid identifier):Note(identifier),text(QString("")){
 }
+
+Article::Article(QUuid identifier, QDateTime c):Note(identifier,c),text(QString("")){}
 
 void Article::setText(const QString& texte){
     text=texte;

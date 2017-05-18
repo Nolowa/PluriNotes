@@ -5,6 +5,7 @@ const QString Task::type = QString("Tâche");
 // constructeur
 Task::Task(QUuid identifier):Note(identifier),status(en_attente),priority(0){}
 
+Task::Task(QUuid identifier, QDateTime c):Note(identifier,c),status(en_attente),priority(0){}
 
 // accesseurs
  QString Task::getStatus() const{ //{en_attente, en_cours,terminee}

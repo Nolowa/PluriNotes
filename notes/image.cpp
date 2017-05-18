@@ -3,7 +3,7 @@
 const QString Image::type = QString("Image");
 
 Image::Image(QUuid identifier): NoTextualNote(identifier){}
-
+Image::Image(QUuid identifier, QDateTime c):NoTextualNote(identifier,c){}
 const QImage& Image::getImage() const{
     return image;
 }

@@ -37,17 +37,22 @@ public:
         int idx;
         Iterator();
     public:
-        Iterator(const NotesManager& m) : manager(m), idx(-1){};
+        Iterator(const NotesManager& m) : manager(m), idx(-1){}
         Note& current() const;
         bool isDone() const;
         void next();
 
     };
 
+
     const Note* find(const QUuid& identifier) const;
 
     void load(); // load notes from file filename
-    void save() const; // save notes in file filename
+
+    void load_affiche(); // load les notes dernieres from BBD et puis afficher ses id title...
+    void save() const; // save notes in BBD
+    void load_vrai(int id);//à travers de l'interface on sait excatement l'id de note qu'on veut charger
+
     Note& createNote();
     NotesManager::Iterator& getIterator() const;
 
