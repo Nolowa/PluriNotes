@@ -9,6 +9,7 @@ class NoTextualNote: public Note{
 
 public:
     NoTextualNote(QUuid identifier); /**< Constructeur */
+    NoTextualNote(QUuid identifier,QDateTime c);
     const QString& getDescription() const; /**< Accesseur de l'attribut description */
     void setDescription(const QString& d); /**< Méthode modifiant l'attribut description */
     virtual ~NoTextualNote(); /**< Desctructeur virtuel, la classe est à spécialiser */

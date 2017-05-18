@@ -21,7 +21,7 @@ class Task: public Note {
 public:
     Task(QUuid identifier); /**< Constructeur */
     //Task(const Task& t):Note(t),actionToBeDone(),status(t.getStatus_re()),priority(t.getPriority()),expired(t.getExpired()){}
-
+    Task(QUuid identifier,QDateTime c);
     const QString& getActionToBeDone() const; /**< Accesseur de l'attribut l'action à réaliser  */
     QString getStatus() const; /**< Accesseur de l'attribut status  */
     unsigned int getStatusInt() const; /**< Accesseur 2 l'attribut status  */

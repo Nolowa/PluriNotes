@@ -13,7 +13,7 @@ class Sound: public NoTextualNote{
     static const QString type;
 public:
     Sound(QUuid identifier,const QString& filename=""); /**< Constructeur */
-
+    Sound(QUuid identifier,QDateTime c,const QString& filename);
     SoundInterface* getInterface(); /**< Méthode virtuelle renvoyant l'interface de Sound */
 
     const QSound& getSound() const; /**<  Accesseur de l'attribut soundFile */

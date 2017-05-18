@@ -19,6 +19,7 @@ class Article: public Note{
     static const QString type;
 public:
     Article(QUuid identifier); /**< Constructeur */
+    Article(QUuid identifier,QDateTime c);
     void setText(const QString& texte); /**< Méthode modifiant l'attribut text */
     const QString& getText() const; /**< Accesseur de l'attribut Text */
     ArticleInterface* getInterface(); /**< Méthode virtuelle renvoyant l'interface de Article */
@@ -27,6 +28,7 @@ public:
 
     void load(Note* n);
     Note* save();
+
 
     const QString& getType() const;
 };

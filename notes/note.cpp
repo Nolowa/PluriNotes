@@ -2,7 +2,7 @@
 
 const QString Note::type = QString("Note");
 
-Note::Note(QUuid identifier) : identifier(identifier),created(QDateTime::currentDateTime()),edited(QDateTime::currentDateTime()),state(active){};
+Note::Note(QUuid identifier) : identifier(identifier),created(QDateTime::currentDateTime()),edited(QDateTime::currentDateTime()),state(active){}
 
 Note::~Note(){}
 
@@ -50,7 +50,7 @@ State Note::getStates() const{
 }
 
 /*
-Note::Note(const Note &n){
+Note::Note(Note* n){
     identifier=n.getIdentifier();
     title=n.getTitle();
     created=n.getCreated();
@@ -77,3 +77,13 @@ const QString& Note::getType() const{
     return new Note(QUuid::createUuid());
 }
 */
+
+QString Note::getFilename() const {
+    return filename;
+}
+
+void Note::setFilename(const QString& f) {
+    filename=f;
+}
+
+Note::Note(QUuid identifier, QDateTime c):identifier(identifier),created(c),edited(QDateTime::currentDateTime()),state(active){}
