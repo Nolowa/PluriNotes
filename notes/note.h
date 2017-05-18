@@ -43,7 +43,7 @@ public:
 
     // a voir si on peut la mettre en privée
     // a mettre dans la méthode dès que l'on change une valeur d'attribut (sauf pour l'état de la note)
-    void setEdited(); /**< Opérator d'égalité (basé sur l'identifiant de la Note) */
+    void setEdited(); /**< Méthode modifiant l'attribut edited */
 
     void load(const Note& n);
     //Note* save();

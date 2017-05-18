@@ -1,6 +1,6 @@
 #include "videointerface.h"
 
-VideoInterface::VideoInterface(const Video& vid,QWidget *parent) : QWidget(parent), video(&vid){
+VideoInterface::VideoInterface(const Video& vid,QWidget *parent) : GeneralInterface(parent), video(&vid){
     QSize iconSize(36, 36);
     //layout
     layout=new QFormLayout;
@@ -150,6 +150,7 @@ void VideoInterface::save(){
     v->setVideoFile(*nameFileVideo);
 
     video = v;
+    emit newVersion(v); // signal d'émition pour la création d'une nouvelle version
 }
 
 void VideoInterface::updateButtons(){

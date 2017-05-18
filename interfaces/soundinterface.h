@@ -14,12 +14,13 @@
 #include <QFileDialog>
 #include <QMediaPlayer>
 
+#include "generalinterface.h"
 #include "notes/sound.h"
 class Sound;
 
 
 
-class SoundInterface : public QWidget{
+class SoundInterface : public GeneralInterface{
     Q_OBJECT
 
     const Sound* sound;
@@ -42,7 +43,7 @@ class SoundInterface : public QWidget{
 
 
 public :
-    SoundInterface(const Sound& s,QWidget *parent = 0);
+    SoundInterface(const Sound& s, QWidget *parent = 0);
     void setNameFileSound(QString nameSound);
 
 public slots :

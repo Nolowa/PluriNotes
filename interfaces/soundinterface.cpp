@@ -1,6 +1,6 @@
 #include "soundinterface.h"
 
-SoundInterface::SoundInterface(const Sound& s,QWidget *parent) : QWidget(parent), sound(&s){
+SoundInterface::SoundInterface(const Sound& s,QWidget *parent) : GeneralInterface(parent), sound(&s){
       layout=new QFormLayout;
       boutonLayout= new QHBoxLayout;
       boutonLayout2= new QHBoxLayout;
@@ -98,7 +98,7 @@ void SoundInterface::save(){
     s->setTitle(titleEdit->text());
     s->setDescription(descriptionEdit->toPlainText());
     s->setSoundFile(*nameFileSound);
-
     sound = s;
+    emit newVersion(s); // signal d'émition pour la création d'une nouvelle version
 
 }

@@ -1,6 +1,6 @@
 #include "imageinterface.h"
 
-ImageInterface::ImageInterface(const Image& im, QWidget *parent): QWidget(parent), image(&im){
+ImageInterface::ImageInterface(const Image& im, QWidget *parent): GeneralInterface(parent), image(&im){
     layout=new QFormLayout;
     boutonLayout = new QHBoxLayout;
     bAddImage= new QPushButton(QString("Ajouter une image"));
@@ -26,8 +26,6 @@ ImageInterface::ImageInterface(const Image& im, QWidget *parent): QWidget(parent
     layoutImage->addWidget(imageLabel);
     layoutImage->addStretch();
     imageLabel->setFixedSize(264,144);
-
-
 
 
     //ajustement de la taille des Widgets
@@ -103,6 +101,7 @@ void ImageInterface::save(){
     i->setImage(*nameFileImage);
 
     image = i;
+    emit newVersion(i); // signal d'émition pour la création d'une nouvelle version
     //QMessageBox::information(this, "Fichier", "Enregistrement :\n" +titleEdit->text()+"\n"+descriptionEdit->toPlainText() +"\n"+ *nameFileImage);
 }
 

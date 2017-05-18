@@ -1,7 +1,7 @@
 #include "articleinterface.h"
 #include <QMessageBox>
 
-ArticleInterface::ArticleInterface(const Article& a, QWidget *parent): QWidget(parent),article(&a){
+ArticleInterface::ArticleInterface(const Article& a, QWidget *parent): GeneralInterface(parent),article(&a){
     layout=new QFormLayout;
     buttonLayout=new QHBoxLayout;
     mainLayout= new QVBoxLayout;
@@ -43,6 +43,7 @@ void ArticleInterface::save(){
     a->setTitle(titleEdit->text());
 
     article = a;
+    emit newVersion(a); // signal d'émition pour la création d'une nouvelle version
     //QMessageBox::information(this, "Fichier", "Enregisterment de :\n" +titleEdit->text() +"\n"+ textEdit->toPlainText());
 
 }

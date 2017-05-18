@@ -1,6 +1,6 @@
 #include "taskinterface.h"
 
-TaskInterface::TaskInterface(const Task& t,QWidget *parent): QWidget(parent),task(&t){
+TaskInterface::TaskInterface(const Task& t,QWidget *parent): GeneralInterface(parent),task(&t){
     layout=new QFormLayout;
 
     generate= new QPushButton(QString("Enregistrer"));
@@ -60,6 +60,7 @@ void TaskInterface::save(){
     t->setExpired(QDateTime::fromString(dateEdit->text()));
 
     task = t;
+    emit newVersion(t); // signal d'émition pour la création d'une nouvelle version
     //QMessageBox::information(this, "Fichier", "Enregisterment de :\n" +titleEdit->text() +"\n"+statusCombo->currentText() + "\n" +priorityCombo->currentText() + "\n" +actionEdit->toPlainText() + "\n" +dateEdit->text()+ "\n"+ QDateTime::fromString(dateEdit->text()).toString());
 
 }
