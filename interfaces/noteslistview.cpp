@@ -2,6 +2,9 @@
 #include "utils.h"
 #include <QVBoxLayout>
 #include <QFrame>
+#include "notes/note.h"
+#include <QUuid>
+#include "iostream"
 
 NotesListView::NotesListView(NotesManager& nm, QWidget *parent) : QWidget(parent), nm(nm)
 {
@@ -10,6 +13,7 @@ NotesListView::NotesListView(NotesManager& nm, QWidget *parent) : QWidget(parent
 
     QObject::connect(&nm, SIGNAL(noteCreated(Note)), this, SLOT(noteAdded(Note)));
     QObject::connect(&nm, SIGNAL(noteUpdated(Note)), this, SLOT(noteUpdated(Note)));
+    connect(listview->selectionModel(), SIGNAL(currentRowChanged(const QModelIndex&, const QModelIndex&)), this, SLOT(selectionChanged(const QModelIndex&, const QModelIndex&)));
 }
 
 void NotesListView::generateModel(){
@@ -32,6 +36,7 @@ void NotesListView::initUI(){
     listview->setModel(&model);
     listview->setIconSize(QSize(32, 32));
     listview->setStyleSheet("background: #fcfcfc; border:0;");
+    listview->clearSelection();
     // Barre "nouveau"
     btnsLayout = new QHBoxLayout(this);
     buttons = new QPushButton*[5];
@@ -54,10 +59,15 @@ void NotesListView::initUI(){
 
     layout->addWidget(btnsFrame);
     layout->addWidget(listview);
+    layout->setMargin(0);
     this->setLayout(layout);
-    this->setStyleSheet("background: #2980b9;");
 
+    QPalette pal = palette();
+    pal.setColor(QPalette::Background, QColor(41, 128, 185));
+    setAutoFillBackground(true);
+    setPalette(pal);
 
+    setMaximumWidth(300);
 
 
 }
@@ -85,4 +95,12 @@ void NotesListView::noteUpdated(const Note& note){
     const QModelIndex& index = indexMap.value(QUuid(note.getIdentifier()));
     QStandardItem* item = model.itemFromIndex(index);
     updateItem(item, note);
+}
+
+void NotesListView::selectionChanged(const QModelIndex & cur, const QModelIndex & prev){
+    if(prev.isValid()){
+        const QUuid& uuid = indexMap.key(cur);
+        const Note* note = nm.find(uuid);
+        emit noteSelected(note);
+    }
 }

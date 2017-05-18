@@ -2,7 +2,7 @@
 #define MEMENTO_H
 #include "notesmanager.h"
 #include<vector>
-class Memento{
+/*class Memento{
     Note* m_note;
 public:
     Memento(const Note& n){ m_note = new Note(n); }
@@ -27,6 +27,6 @@ public:
     void Save(Memento memento) {
         m_vecMemento.push_back(memento);
     }
-};
+};*/
 
 #endif // MEMENTO_H

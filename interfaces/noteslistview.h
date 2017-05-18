@@ -42,10 +42,11 @@ public:
 
 
 signals:
-
+    void noteSelected(const Note *);
 public slots:
     void noteAdded(const Note&);
     void noteUpdated(const Note&);
+    void selectionChanged(const QModelIndex&, const QModelIndex&);
 };
 
 #endif // NOTESLISTVIEW_H

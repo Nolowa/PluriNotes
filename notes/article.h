@@ -21,7 +21,7 @@ public:
     Article(QUuid identifier); /**< Constructeur */
     void setText(const QString& texte); /**< Méthode modifiant l'attribut text */
     const QString& getText() const; /**< Accesseur de l'attribut Text */
-    ArticleInterface* getInterface(); /**< Méthode virtuelle renvoyant l'interface de Article */
+    QWidget* getUI() const; /**< Méthode virtuelle renvoyant l'interface de Article */
 
     Article(const Article& a):Note(a),text(a.getText()){} /**< Constructeur de recopie */
 

@@ -34,7 +34,7 @@ public:
     void setStatus(Status s); /**< Méthode modifiant l'attribut status  */
     void setExpired(const QDateTime exp); /**< Méthode modifiant l'attribut expired */
 
-    TaskInterface* getInterface();   /**< Méthode virtuelle renvoyant l'interface de la Tâche */
+    QWidget* getUI() const;   /**< Méthode virtuelle renvoyant l'interface de la Tâche */
 
 
     Note* save();

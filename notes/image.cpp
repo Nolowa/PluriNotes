@@ -8,8 +8,8 @@ const QImage& Image::getImage() const{
     return image;
 }
 
-ImageInterface* Image::getInterface(){
-    return new ImageInterface(this);
+QWidget* Image::getUI() const{
+    return new ImageInterface(*this);
 }
 
 void Image::setImage(const QString &im){

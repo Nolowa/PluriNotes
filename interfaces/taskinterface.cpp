@@ -1,6 +1,6 @@
 #include "taskinterface.h"
 
-TaskInterface::TaskInterface(Task* t,QWidget *parent): QWidget(parent),task(t){
+TaskInterface::TaskInterface(const Task& t,QWidget *parent): QWidget(parent),task(&t){
     layout=new QFormLayout;
 
     generate= new QPushButton(QString("Enregistrer"));
@@ -52,11 +52,14 @@ TaskInterface::TaskInterface(Task* t,QWidget *parent): QWidget(parent),task(t){
 
 //slots
 void TaskInterface::save(){
-    task->setTitle(titleEdit->text());
-    task->setStatus(Status(statusCombo->currentIndex()));
-    task->setPriority(priorityCombo->currentIndex());
-    task->setActionToBeDone(actionEdit->toPlainText());
-    task->setExpired(QDateTime::fromString(dateEdit->text()));
+    Task* t = new Task(*task);
+    t->setTitle(titleEdit->text());
+    t->setStatus(Status(statusCombo->currentIndex()));
+    t->setPriority(priorityCombo->currentIndex());
+    t->setActionToBeDone(actionEdit->toPlainText());
+    t->setExpired(QDateTime::fromString(dateEdit->text()));
+
+    task = t;
     //QMessageBox::information(this, "Fichier", "Enregisterment de :\n" +titleEdit->text() +"\n"+statusCombo->currentText() + "\n" +priorityCombo->currentText() + "\n" +actionEdit->toPlainText() + "\n" +dateEdit->text()+ "\n"+ QDateTime::fromString(dateEdit->text()).toString());
 
 }

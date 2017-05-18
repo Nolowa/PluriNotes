@@ -15,7 +15,7 @@ class Article;
 
 class ArticleInterface: public QWidget{
     Q_OBJECT
-    Article* article;
+    const Article* article;
     QLineEdit* titleEdit;
     QLineEdit* idEdit;
     QTextEdit* textEdit;
@@ -24,7 +24,7 @@ class ArticleInterface: public QWidget{
     QVBoxLayout* mainLayout;
     QPushButton* generate;
 public:
-    ArticleInterface(Article* a,QWidget *parent = 0);
+    ArticleInterface(const Article& a,QWidget *parent = 0);
 public slots:
     void save();
 };

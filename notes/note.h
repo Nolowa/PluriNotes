@@ -8,6 +8,7 @@
 #include "utils.h"
 #include <QStandardItem>
 
+
 typedef enum {active, non_editable,sursis} State;// active=0, non_editable=1, sursis=2
 /*! Classe Note, classe mère  */
 class Note : public QStandardItem{
@@ -34,6 +35,8 @@ public:
     //sert à restore
     void setCreated(QDateTime c);  /**< Méthode modifiant l'attribut created */
     void setEdited(QDateTime e); /**< Méthode modifiant l'attribut edited */
+
+    virtual QWidget* getUI() const = 0;
 
     bool operator==(const Note &other) const{ return identifier == other.identifier;} /**< Opérateur d'égalité (basé sur l'identifiant de la Note) */
 

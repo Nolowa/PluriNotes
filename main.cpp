@@ -5,7 +5,7 @@
 #include "plurinotes.h"
 #include "notesmanager.h"
 #include "version.h"
-#include "interfaces/noteslistview.h"
+#include "interfaces/mainframe.h"
 
 //include de test
 
@@ -30,10 +30,11 @@ int main(int argc, char *argv[]){
 
 
     Note& n3 = m.createNote();
-    Note n4 = Sound(QUuid::createUuid(),QString("IVDEO.mp4")) ;
+    //Note n4 = Sound(QUuid::createUuid(),QString("IVDEO.mp4")) ;
 
-    NotesListView nlv(m);
-    nlv.show();
+    Mainframe f(m);
+    f.show();
+
 
     Note& n1 = m.createNote();
     n1.setTitle("Titre de la note 1");

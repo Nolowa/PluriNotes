@@ -1,6 +1,6 @@
 #include "imageinterface.h"
 
-ImageInterface::ImageInterface(Image* im, QWidget *parent): QWidget(parent), image(im){
+ImageInterface::ImageInterface(const Image& im, QWidget *parent): QWidget(parent), image(&im){
     layout=new QFormLayout;
     boutonLayout = new QHBoxLayout;
     bAddImage= new QPushButton(QString("Ajouter une image"));
@@ -97,9 +97,12 @@ void ImageInterface::fitToWindow(){
 }
 
 void ImageInterface::save(){
-    image->setDescription(descriptionEdit->toPlainText());
-    image->setTitle(titleEdit->text());
-    image->setImage(*nameFileImage);
+    Image* i = new Image(*image);
+    i->setDescription(descriptionEdit->toPlainText());
+    i->setTitle(titleEdit->text());
+    i->setImage(*nameFileImage);
+
+    image = i;
     //QMessageBox::information(this, "Fichier", "Enregistrement :\n" +titleEdit->text()+"\n"+descriptionEdit->toPlainText() +"\n"+ *nameFileImage);
 }
 

@@ -14,8 +14,8 @@ const QString& Article::getText() const{
     return text;
 }
 
-ArticleInterface* Article::getInterface(){
-    return  new ArticleInterface(this);
+QWidget* Article::getUI() const{
+    return new ArticleInterface(*this);
 
 }
 

@@ -11,14 +11,14 @@ class VideoInterface;
 
 /*! Classe Video, classe fille de NoTextualNote*/
 class Video: public NoTextualNote{
-    QMovie videoFile; /**< File vidéo */
+    QMovie * videoFile; /**< File vidéo */
     QString nameVideoFile; /**< URL du fichier vidéo */
     static const QString type;
 
 public:
     Video(QUuid identifier,const QString& filename=""); /**< Constructeur*/
 
-    VideoInterface* getInterface();  /**< Méthode virtuelle renvoyant l'interface de la Video */
+    QWidget* getUI() const;  /**< Méthode virtuelle renvoyant l'interface de la Video */
 
     const QString& getVideoFileName() const;  /**< Accesseur de l'attribut nameVideoFile */
     const QMovie& getVideo() const; /**< Accesseur de l'attribut videoFile */

@@ -22,6 +22,8 @@ public:
 
     const QString& getType() const;
 
+    QWidget* getUI() const;
+
 };
 
 #endif // SOUND_H

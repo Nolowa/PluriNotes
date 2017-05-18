@@ -22,7 +22,7 @@ class Sound;
 class SoundInterface : public QWidget{
     Q_OBJECT
 
-    Sound* sound;
+    const Sound* sound;
     QSound* soundToRegister;
     QString* nameFileSound;
     QLabel* labelSound;
@@ -42,7 +42,7 @@ class SoundInterface : public QWidget{
 
 
 public :
-    SoundInterface(Sound* s,QWidget *parent = 0);
+    SoundInterface(const Sound& s,QWidget *parent = 0);
     void setNameFileSound(QString nameSound);
 
 public slots :

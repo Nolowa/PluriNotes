@@ -44,6 +44,8 @@ public:
 
     };
 
+    const Note* find(const QUuid& identifier) const;
+
     void load(); // load notes from file filename
     void save() const; // save notes in file filename
     Note& createNote();
