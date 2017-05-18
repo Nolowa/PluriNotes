@@ -15,7 +15,7 @@ public:
     const QString message;
 public:
 
-    AppException(const QString msg) : message(msg) {};
+    AppException(const QString msg) : message(msg) {}
 };
 
 
