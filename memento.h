@@ -1,11 +1,11 @@
 #ifndef MEMENTO_H
 #define MEMENTO_H
-#include "notesmanager.h"
+#include "notes/note.h"
 #include<vector>
 class Memento{
     Note* m_note;
 public:
-    Memento(const Note& n){ m_note = new Note(n); }
+    Memento(Note* n){ m_note = new Note(n); }
     Memento();
     Memento& operator=(const Memento &memento)
     {
@@ -19,7 +19,7 @@ class MementoCaretaker {
    std::vector<Memento> m_vecMemento;
 
 public:
-    MementoCaretaker();
+    MementoCaretaker(){}
     Memento Load(int state) {
         return m_vecMemento[state];;
     }

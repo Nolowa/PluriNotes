@@ -6,16 +6,11 @@
 #include "notesmanager.h"
 #include "version.h"
 #include "interfaces/noteslistview.h"
-
+#include "corbeille.h"
 //include de test
 
 
 int main(int argc, char *argv[]){
-    //créer des tables BD
-
-   /* QString name="test.db";
-        version::connectBd(name);
-        version::createTables();*/
 
     QApplication app(argc, argv);
 
@@ -35,16 +30,16 @@ int main(int argc, char *argv[]){
     NotesListView nlv(m);
     nlv.show();
 
-    Note& n1 = m.createNote();
-    n1.setTitle("Titre de la note 1");
-    m.updateNote(n1);
+   // Note& n1 = m.createNote();
+    //n1.setTitle("Titre de la note 1");
+    //m.updateNote(n1);
 
-    Note& n2 = m.createNote();
-    n2.setTitle("Titre de la note 2");
-    m.updateNote(n2);
+    //Note& n2 = m.createNote();
+    //n2.setTitle("Titre de la note 2");
+    //m.updateNote(n2);
 
-    /*Article art(QUuid::createUuid());
-    art.setTitle("un titre");*/
+    Article art(QUuid::createUuid());
+    art.setTitle("un titre");
 
    /* NoteItem item(n1);
     item.show();*/
@@ -106,9 +101,9 @@ int main(int argc, char *argv[]){
     task.setExpired(date);
     task.setActionToBeDone("FINIR LE PROJET DE LO21 A TEMPS ET MEME EN AVANCE SI POSSIBLE");
     task.getInterface()->show();
-
-    //qout<< "status task = "<<task.getStatusInt()<<endl;
 */
+    //qout<< "status task = "<<task.getStatusInt()<<endl;
+
 
 /*
     //Pour la création d'une note Type IMAGE
@@ -136,8 +131,42 @@ int main(int argc, char *argv[]){
     //video.setNameVideoFile("/Users/Thibault/Desktop/test.mp4");
     video.getInterface()->show();
 */
-    /*Task* t=new Task(ntask);
-            version::insert(t);
-            version::parcourir(t);*/
+    //BBD
+    QString name="test.db";
+    version::connectBd(name);
+    //version::createTables();
+    //version::insert(&art);
+    //version::insert(&art);
+    //qout<<"parcourir art oooo";
+    //version::parcourir(&art);
+    //qout<<"parcourir art xxxx";
+
+    //version::insert(&art);
+    //version::insert(&image);
+    /*//test corbeille et vidage
+    //Corbeille& c=Corbeille::get_instance();
+    //c.ajouterNote(&art);
+    //c.vidage();
+    //c.ajouterNote(&son);
+    //c.vidage();*/
+
+    //test load affiche
+    //m.load_affiche();
+
+
+    /*//test load_vrai
+    m.load_vrai(6);
+    m.load_vrai(7);
+    m.load_vrai(12);
+    Iterator<Note>& it = m.getIterator();
+    while(!it.isDone()){
+        it.next();
+        qout << "Note : " << it.current().getIdentifier().toString() << endl;
+        qout << "Titre : " << it.current().getTitle() << endl;
+        qout << "Created : " << it.current().getCreated().toString() << endl;
+        std::cout<<typeid(it.current()).name();
+    }
+    */
+
     return app.exec();
 }
