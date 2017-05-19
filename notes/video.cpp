@@ -1,6 +1,6 @@
 #include "video.h"
 
-const QString Video::type = QString("Vidéo");
+const QString Video::type = QString("Video");
 
 Video::Video(QUuid identifier) : NoTextualNote(identifier){}
 

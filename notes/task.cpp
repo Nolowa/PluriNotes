@@ -1,6 +1,6 @@
 #include "task.h"
 
-const QString Task::type = QString("Tâche");
+const QString Task::type = QString("Task");
 
 // constructeur
 Task::Task(QUuid identifier):Note(identifier),status(en_attente),priority(0){}

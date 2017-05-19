@@ -1,6 +1,6 @@
 #include "sound.h"
 
-const QString Sound::type = QString("Son");
+const QString Sound::type = QString("Sound");
 
 Sound::Sound(QUuid identifier):NoTextualNote(identifier){}
 Sound::Sound(QUuid identifier, const QString& filename):NoTextualNote(identifier),soundFile(new QSound(filename)),soundFileName(filename){}

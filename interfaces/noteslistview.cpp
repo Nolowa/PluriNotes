@@ -13,7 +13,7 @@ NotesListView::NotesListView(NotesManager& nm, QWidget *parent) : QWidget(parent
 
     QObject::connect(&nm, SIGNAL(noteCreated(Note)), this, SLOT(noteAdded(Note)));
     QObject::connect(&nm, SIGNAL(noteUpdated(Note)), this, SLOT(noteUpdated(Note)));
-    connect(listview->selectionModel(), SIGNAL(currentRowChanged(const QModelIndex&, const QModelIndex&)), this, SLOT(selectionChanged(const QModelIndex&, const QModelIndex&)));
+    connect(listview->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(selectionChanged(QItemSelection, QItemSelection)));
 }
 
 void NotesListView::generateModel(){
@@ -43,7 +43,7 @@ void NotesListView::initUI(){
 
     buttons[0] = new QPushButton(QIcon(":/icons/article"),"");
     buttons[1] = new QPushButton(QIcon(":/icons/task"),"");
-    buttons[2] = new QPushButton(QIcon(":/icons/picture"),"");
+    buttons[2] = new QPushButton(QIcon(":/icons/image"),"");
     buttons[3] = new QPushButton(QIcon(":/icons/sound"),"");
     buttons[4] = new QPushButton(QIcon(":/icons/video"),"");
 
@@ -81,7 +81,10 @@ void NotesListView::initUI(){
 
 QStandardItem* NotesListView::generateItem(const Note& note){
     // TODO: Modifier l'icone en fonction du type de note
-    QStandardItem* item = new QStandardItem(style()->standardIcon(QStyle::SP_FileIcon), note.getTitle().length() ? note.getTitle() : "Note sans nom");
+
+    QString qstr = QString(":/icons/") + note.getType().toLower();
+
+    QStandardItem* item = new QStandardItem(QIcon(qstr), note.getTitle().length() ? note.getTitle() : "Note sans nom");
     //indexMap.insert()
     model.appendRow(item);
     indexMap.insert(QUuid(note.getIdentifier()), item->index());
@@ -104,10 +107,12 @@ void NotesListView::noteUpdated(const Note& note){
     updateItem(item, note);
 }
 
-void NotesListView::selectionChanged(const QModelIndex & cur, const QModelIndex & prev){
-    if(prev.isValid()){
-        const QUuid& uuid = indexMap.key(cur);
+void NotesListView::selectionChanged(QItemSelection cur, QItemSelection prev){
+    if(cur.size()){
+        const QUuid& uuid = indexMap.key(cur.indexes().first());
         const Note* note = nm.find(uuid);
         emit noteSelected(note);
+    }else{
+        emit noteSelected(nullptr);
     }
 }

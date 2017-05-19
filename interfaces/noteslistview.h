@@ -46,7 +46,7 @@ signals:
 public slots:
     void noteAdded(const Note&);
     void noteUpdated(const Note&);
-    void selectionChanged(const QModelIndex&, const QModelIndex&);
+    void selectionChanged(QItemSelection, QItemSelection);
 };
 
 #endif // NOTESLISTVIEW_H
