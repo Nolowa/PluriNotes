@@ -2,7 +2,6 @@
 #include <QtWidgets>
 #include <QTextStream>
 #include <QTimer>
-#include "plurinotes.h"
 #include "notesmanager.h"
 #include "version.h"
 #include "interfaces/noteslistview.h"

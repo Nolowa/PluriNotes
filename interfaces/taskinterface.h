@@ -9,10 +9,13 @@
 #include <QLabel>
 #include <QComboBox>
 #include <QMessageBox>
+
+#include "generalinterface.h"
 #include "notes/task.h" // inclusion récursif.?
 class Task;
+class GeneralInterface;
 
-class TaskInterface: public QWidget{
+class TaskInterface: public GeneralInterface {
     Q_OBJECT
     const Task* task;
     QLineEdit* titleEdit;
@@ -24,7 +27,7 @@ class TaskInterface: public QWidget{
     QFormLayout* layout;
     QPushButton* generate;
 public:
-    TaskInterface(const Task& t,QWidget *parent = 0);
+    TaskInterface(const Task& t, QWidget *parent = 0);
 public slots:
     void save();
 };

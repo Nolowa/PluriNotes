@@ -19,7 +19,6 @@ SOURCES += main.cpp \
     notes/video.cpp \
     notes/sound.cpp \
     notes/notextualnote.cpp \
-    plurinotes.cpp \
     memento.cpp \
     version.cpp \
     interfaces/articleinterface.cpp \
@@ -30,7 +29,8 @@ SOURCES += main.cpp \
     corbeille.cpp \
     interfaces/mainframe.cpp \
     interfaces/noteslistview.cpp \
-    interfaces/noteframeview.cpp
+    interfaces/noteframeview.cpp \
+    interfaces/generalinterface.cpp
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -53,7 +53,6 @@ HEADERS +=\
     notes/video.h \
     notes/sound.h \
     notes/notextualnote.h \
-    plurinotes.h \
     memento.h \
     version.h \
     interfaces/articleinterface.h \
@@ -68,7 +67,8 @@ HEADERS +=\
     corbeille.h \
     interfaces/mainframe.h \
     interfaces/noteslistview.h \
-    interfaces/noteframeview.h
+    interfaces/noteframeview.h \
+    interfaces/generalinterface.h
 
 RESOURCES += \
     resources.qrc

@@ -9,11 +9,12 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QObject>
-#include "notes/article.h" // inclusion récursif.?
+#include "notes/article.h"
+#include "generalinterface.h"
 
 class Article;
 
-class ArticleInterface: public QWidget{
+class ArticleInterface: public GeneralInterface{
     Q_OBJECT
     const Article* article;
     QLineEdit* titleEdit;
@@ -24,7 +25,7 @@ class ArticleInterface: public QWidget{
     QVBoxLayout* mainLayout;
     QPushButton* generate;
 public:
-    ArticleInterface(const Article& a,QWidget *parent = 0);
+    ArticleInterface(const Article& a, QWidget *parent = 0);
 public slots:
     void save();
 };

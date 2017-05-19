@@ -14,12 +14,12 @@
 #include <QCheckBox>
 #include <QStyle>
 
-
+#include "generalinterface.h"
 #include "notes/image.h" // inclusion récursif.?
 
 class Image;
 
-class ImageInterface: public QWidget {
+class ImageInterface: public GeneralInterface {
     Q_OBJECT
 
     const Image* image;

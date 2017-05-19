@@ -22,9 +22,11 @@
 #include <QStyle>
 
 #include "notes/video.h"
+#include "generalinterface.h"
+
 class Video;
 
-class VideoInterface : public QWidget {
+class VideoInterface : public GeneralInterface {
     Q_OBJECT
     const Video* video;
     QMovie* videoToRegister;
@@ -57,7 +59,7 @@ class VideoInterface : public QWidget {
     bool initVideo;
 
 public:
-    VideoInterface(const Video& vid,QWidget *parent = 0);
+    VideoInterface(const Video& vid, QWidget *parent = 0);
     void updateButtons();
 
 public slots:
