@@ -4,8 +4,10 @@ const QString Sound::type = QString("Son");
 
 Sound::Sound(QUuid identifier, const QString& filename):NoTextualNote(identifier),soundFile(new QSound(filename)),soundFileName(filename){}
 Sound::Sound(QUuid identifier, QDateTime c,const QString& filename):NoTextualNote(identifier,c),soundFile(new QSound(filename)),soundFileName(filename){}
-SoundInterface* Sound::getInterface(){
-    return new SoundInterface(this);
+
+
+QWidget* Sound::getUI() const{
+    return new SoundInterface(*this);
 }
 
 const QSound& Sound::getSound() const{

@@ -1,6 +1,6 @@
 #include "soundinterface.h"
 
-SoundInterface::SoundInterface(Sound* s,QWidget *parent) : QWidget(parent), sound(s){
+SoundInterface::SoundInterface(const Sound& s,QWidget *parent) : QWidget(parent), sound(&s){
       layout=new QFormLayout;
       boutonLayout= new QHBoxLayout;
       boutonLayout2= new QHBoxLayout;
@@ -94,8 +94,11 @@ void SoundInterface::stopMusic(){
      soundToRegister->stop();
 }
 void SoundInterface::save(){
-    sound->setTitle(titleEdit->text());
-    sound->setDescription(descriptionEdit->toPlainText());
-    sound->setSoundFile(*nameFileSound);
+    Sound * s = new Sound(*sound);
+    s->setTitle(titleEdit->text());
+    s->setDescription(descriptionEdit->toPlainText());
+    s->setSoundFile(*nameFileSound);
+
+    sound = s;
 
 }

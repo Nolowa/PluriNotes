@@ -22,7 +22,7 @@ class Image;
 class ImageInterface: public QWidget {
     Q_OBJECT
 
-    Image* image;
+    const Image* image;
     QImage* imageToRegister;
     QString* nameFileImage;
     QLabel* imageLabel;
@@ -40,7 +40,7 @@ class ImageInterface: public QWidget {
     //bool deletedImage;
 
 public:
-    ImageInterface(Image* im, QWidget *parent = 0);
+    ImageInterface(const Image& im, QWidget *parent = 0);
     void setNameFileImage(QString nameImage);
 
 public slots :

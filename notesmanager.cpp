@@ -48,8 +48,21 @@ void NotesManager::Iterator::next(){
     }
 }
 
+const Note* NotesManager::find(const QUuid& identifier) const{
+    Iterator& it = getIterator();
+    while(!it.isDone()){
+        it.next();
+        const Note& current = it.current();
+        if(current.getIdentifier() == identifier){
+            return &current;
+        }
+    }
+
+    return nullptr;
+}
+
 Note& NotesManager::createNote(){
-    Note* note = new Note(QUuid::createUuid());
+    Article* note = new Article(QUuid::createUuid());
 
     notes.push_back(note);
 
@@ -62,7 +75,7 @@ Note& NotesManager::updateNote(Note& note){
     // TODO : Ré-injecter la note dans la mémoire
     // TODO : Trigger UPDATE base de données
     // TODO : Trigger GUI updates
-    std::cout << endl << "note received update" << endl;
+    std::cout << std::endl << "note received update" << std::endl;
     emit noteUpdated(note);
     return note;
 }

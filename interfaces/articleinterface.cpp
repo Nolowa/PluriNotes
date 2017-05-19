@@ -1,7 +1,7 @@
 #include "articleinterface.h"
 #include <QMessageBox>
 
-ArticleInterface::ArticleInterface(Article *a, QWidget *parent): QWidget(parent),article(a){
+ArticleInterface::ArticleInterface(const Article& a, QWidget *parent): QWidget(parent),article(&a){
     layout=new QFormLayout;
     buttonLayout=new QHBoxLayout;
     mainLayout= new QVBoxLayout;
@@ -38,8 +38,11 @@ ArticleInterface::ArticleInterface(Article *a, QWidget *parent): QWidget(parent)
 
 //slot
 void ArticleInterface::save(){
-    article->setText(textEdit->toPlainText());
-    article->setTitle(titleEdit->text());
+    Article * a = new Article(*article);
+    a->setText(textEdit->toPlainText());
+    a->setTitle(titleEdit->text());
+
+    article = a;
     //QMessageBox::information(this, "Fichier", "Enregisterment de :\n" +titleEdit->text() +"\n"+ textEdit->toPlainText());
 
 }

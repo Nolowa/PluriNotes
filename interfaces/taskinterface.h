@@ -14,7 +14,7 @@ class Task;
 
 class TaskInterface: public QWidget{
     Q_OBJECT
-    Task* task;
+    const Task* task;
     QLineEdit* titleEdit;
     QTextEdit* actionEdit;
     QLineEdit* idEdit;
@@ -24,7 +24,7 @@ class TaskInterface: public QWidget{
     QFormLayout* layout;
     QPushButton* generate;
 public:
-    TaskInterface(Task* t,QWidget *parent = 0);
+    TaskInterface(const Task& t,QWidget *parent = 0);
 public slots:
     void save();
 };

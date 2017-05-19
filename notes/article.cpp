@@ -1,7 +1,6 @@
 #include "article.h"
 #include <QFile>
 #include <QTextCodec>
-#include <QtXml>
 #include <QMessageBox>
 const QString Article::type = QString("Article");
 
@@ -19,8 +18,8 @@ const QString& Article::getText() const{
     return text;
 }
 
-ArticleInterface* Article::getInterface(){
-    return  new ArticleInterface(this);
+QWidget* Article::getUI() const{
+    return new ArticleInterface(*this);
 
 }
 

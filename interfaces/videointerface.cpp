@@ -1,6 +1,6 @@
 #include "videointerface.h"
 
-VideoInterface::VideoInterface(Video* vid,QWidget *parent) : QWidget(parent), video(vid){
+VideoInterface::VideoInterface(const Video& vid,QWidget *parent) : QWidget(parent), video(&vid){
     QSize iconSize(36, 36);
     //layout
     layout=new QFormLayout;
@@ -144,9 +144,12 @@ void VideoInterface::stopVideo(){
 }
 
 void VideoInterface::save(){
-    video->setTitle(titleEdit->text());
-    video->setDescription(descriptionEdit->toPlainText());
-    video->setVideoFile(*nameFileVideo);
+    Video * v = new Video(*video);
+    v->setTitle(titleEdit->text());
+    v->setDescription(descriptionEdit->toPlainText());
+    v->setVideoFile(*nameFileVideo);
+
+    video = v;
 }
 
 void VideoInterface::updateButtons(){
