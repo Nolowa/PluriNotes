@@ -37,7 +37,8 @@ Note& NotesManager::Iterator::current() const{
 
 bool NotesManager::Iterator::isDone() const{
     //return idx >= 0 && idx >= manager.notesModel->rowCount() - 1;
-    return idx >= 0 && idx >= manager.notes.size() - 1;
+    int size = manager.notes.size();
+    return /*idx >= 0 && */idx >= size - 1;
 }
 
 void NotesManager::Iterator::next(){
@@ -61,7 +62,7 @@ const Note* NotesManager::find(const QUuid& identifier) const{
     return nullptr;
 }
 
-Note& NotesManager::createNote(){
+/*Note& NotesManager::createNote(){
     Article* note = new Article(QUuid::createUuid());
 
     notes.push_back(note);
@@ -69,6 +70,41 @@ Note& NotesManager::createNote(){
     emit noteCreated(*note);
 
     return *note;
+}*/
+
+void NotesManager::registerNewNote(Note * note){
+    notes.push_back(note);
+    emit noteCreated(*note);
+}
+
+const Article& NotesManager::createArticle(){
+    Article * a = new Article();
+    registerNewNote(a);
+    return *a;
+}
+
+const Task& NotesManager::createTask(){
+    Task * a = new Task();
+    registerNewNote(a);
+    return *a;
+}
+
+const Image& NotesManager::createImage(){
+    Image * a = new Image();
+    registerNewNote(a);
+    return *a;
+}
+
+const Video& NotesManager::createVideo(){
+    Video * a = new Video();
+    registerNewNote(a);
+    return *a;
+}
+
+const Sound& NotesManager::createSound(){
+    Sound * a = new Sound();
+    registerNewNote(a);
+    return *a;
 }
 
 Note& NotesManager::updateNote(Note& note){
@@ -79,19 +115,6 @@ Note& NotesManager::updateNote(Note& note){
     emit noteUpdated(note);
     return note;
 }
-/*
-int NotesManager::getPosition(Note& note) const{
-    int i = 0;
-    Iterator it = this->getIterator();
-    while(!it.isDone()){
-        it.next();
-
-        if(it.current().getIdentifier() == note.getIdentifier()){
-            return i;
-        }
-        i++;
-    }
-}*/
 
 NotesManager::Iterator& NotesManager::getIterator() const{
     Iterator* it = new NotesManager::Iterator(*this);
@@ -106,6 +129,10 @@ void NotesManager::save() const{
         version::insert(&it.current());
     }
 }
+
+/***************************************************************/
+/* TODO : Cette fonction ne devrait pas être dans NotesManager */
+/***************************************************************/
 
 void NotesManager::load_affiche(){
     /*extraire les dernieres versions*/
@@ -157,6 +184,10 @@ void NotesManager::load_affiche(){
     q.finish();
 }
 
+
+/***************************************************************/
+/* TODO : Cette fonction ne devrait pas être dans NotesManager */
+/***************************************************************/
 void NotesManager::load_vrai(int id){
     QSqlQuery q;
     q.exec("SELECT * FROM Note WHERE Id='"+ QString::number(id) +"';");

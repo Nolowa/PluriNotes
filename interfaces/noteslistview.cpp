@@ -40,11 +40,18 @@ void NotesListView::initUI(){
     // Barre "nouveau"
     btnsLayout = new QHBoxLayout(this);
     buttons = new QPushButton*[5];
+
     buttons[0] = new QPushButton(QIcon(":/icons/article"),"");
     buttons[1] = new QPushButton(QIcon(":/icons/task"),"");
     buttons[2] = new QPushButton(QIcon(":/icons/picture"),"");
     buttons[3] = new QPushButton(QIcon(":/icons/sound"),"");
     buttons[4] = new QPushButton(QIcon(":/icons/video"),"");
+
+    QObject::connect(buttons[0], SIGNAL(pressed()), &nm, SLOT(createArticle()));
+    QObject::connect(buttons[1], SIGNAL(pressed()), &nm, SLOT(createTask()));
+    QObject::connect(buttons[2], SIGNAL(pressed()), &nm, SLOT(createImage()));
+    QObject::connect(buttons[3], SIGNAL(pressed()), &nm, SLOT(createSound()));
+    QObject::connect(buttons[4], SIGNAL(pressed()), &nm, SLOT(createVideo()));
 
     for(int i = 0; i < 5; i++){
         buttons[i]->setMaximumSize(50, 50);

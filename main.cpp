@@ -28,20 +28,9 @@ int main(int argc, char *argv[]){
     qout << "Création de notes" << endl;
 
 
-    Note& n3 = m.createNote();
-    //Note n4 = Sound(QUuid::createUuid(),QString("IVDEO.mp4")) ;
 
     Mainframe f(m);
     f.show();
-
-
-    Note& n1 = m.createNote();
-    n1.setTitle("Titre de la note 1");
-    m.updateNote(n1);
-
-    Note& n2 = m.createNote();
-    n2.setTitle("Titre de la note 2");
-    m.updateNote(n2);
 
     /*Article art(QUuid::createUuid());
     art.setTitle("un titre");*/

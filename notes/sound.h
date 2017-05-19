@@ -12,6 +12,7 @@ class Sound: public NoTextualNote{
     QString soundFileName; /**< URL du fichier audio */
     static const QString type;
 public:
+    Sound(QUuid identifier = QUuid::createUuid());
     Sound(QUuid identifier,const QString& filename=""); /**< Constructeur */
     Sound(QUuid identifier,QDateTime c,const QString& filename);
     SoundInterface* getInterface(); /**< Méthode virtuelle renvoyant l'interface de Sound */
