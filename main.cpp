@@ -132,7 +132,7 @@ int main(int argc, char *argv[]){
     video.setDescription("Video indéfini");
     video.setTitle("Vidéo Indéfini");
     //video.setNameVideoFile("/Users/Thibault/Desktop/test.mp4");
-    video.getInterface()->show();
+    //video.getInterface()->show();
 */
     //BBD
     QString name="test.db";
@@ -146,7 +146,7 @@ int main(int argc, char *argv[]){
 
     //version::insert(&art);
     //version::insert(&image);
-    /*//test corbeille et vidage
+    //test corbeille et vidage
     //Corbeille& c=Corbeille::get_instance();
     //c.ajouterNote(&art);
     //c.vidage();
@@ -157,19 +157,26 @@ int main(int argc, char *argv[]){
     //m.load_affiche();
 
 
-    /*//test load_vrai
+    //test load_vrai
     m.load_vrai(6);
     m.load_vrai(7);
     m.load_vrai(12);
+    m.load_vrai(17);
+    //m.load_version();
     Iterator<Note>& it = m.getIterator();
     while(!it.isDone()){
         it.next();
+        std::cout<<std::endl;
+        std::cout<<typeid(it.current()).name()<<std::endl;
         qout << "Note : " << it.current().getIdentifier().toString() << endl;
         qout << "Titre : " << it.current().getTitle() << endl;
         qout << "Created : " << it.current().getCreated().toString() << endl;
-        std::cout<<typeid(it.current()).name();
+        std::cout<<std::endl;
     }
-    */
+    //m.save();
+    //video.setFilename("/c/user/video.mv");
+    //version::insert(&video);
+    version::closeBd();
 
     return app.exec();
 }
