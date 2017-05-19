@@ -72,3 +72,4 @@ HEADERS +=\
 
 RESOURCES += \
     resources.qrc
+
