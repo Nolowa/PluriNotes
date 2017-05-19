@@ -19,7 +19,7 @@ class Task: public Note {
     static const QString type; /**< Attribut statique donnant le type de Note (dérivée) */
 
 public:
-    Task(QUuid identifier); /**< Constructeur */
+    Task(QUuid identifier = QUuid::createUuid()); /**< Constructeur */
     //Task(const Task& t):Note(t),actionToBeDone(),status(t.getStatus_re()),priority(t.getPriority()),expired(t.getExpired()){}
     Task(QUuid identifier,QDateTime c);
     const QString& getActionToBeDone() const; /**< Accesseur de l'attribut l'action à réaliser  */

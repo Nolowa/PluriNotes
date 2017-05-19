@@ -14,7 +14,7 @@ class Image: public NoTextualNote {
     QString nameFile; /**< URL du fichier image */
     static const QString type;
 public:
-    Image(QUuid identifier); /**< Constructeur */
+    Image(QUuid identifier = QUuid::createUuid()); /**< Constructeur */
     Image(QUuid identifier,QDateTime c);
     void setImage(const QString& im);  /**< Méthode modifiant les deux attributs nameFile et image */
     const QString& getnameFile() const; /**< Accesseur de l'attribut nameFile */

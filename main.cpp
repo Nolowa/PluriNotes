@@ -26,11 +26,10 @@ int main(int argc, char *argv[]){
     qout << "Création de notes" << endl;
 
 
-    Note& n3 = m.createNote();
-    //Note n4 = Sound(QUuid::createUuid(),QString("IVDEO.mp4")) ;
 
     Mainframe f(m);
     f.show();
+
 
 
    // Note& n1 = m.createNote();
@@ -41,8 +40,10 @@ int main(int argc, char *argv[]){
     //n2.setTitle("Titre de la note 2");
     //m.updateNote(n2);
 
-    Article art(QUuid::createUuid());
-    art.setTitle("un titre");
+
+    /*Article art(QUuid::createUuid());
+    art.setTitle("un titre");*/
+
 
    /* NoteItem item(n1);
     item.show();*/
@@ -158,7 +159,7 @@ int main(int argc, char *argv[]){
 
 
     //test load_vrai
-    m.load_vrai(6);
+    /*m.load_vrai(6);
     m.load_vrai(7);
     m.load_vrai(12);
     m.load_vrai(17);
@@ -176,7 +177,7 @@ int main(int argc, char *argv[]){
     //m.save();
     //video.setFilename("/c/user/video.mv");
     //version::insert(&video);
-    version::closeBd();
+    version::closeBd();*/
 
     return app.exec();
 }

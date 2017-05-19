@@ -24,6 +24,8 @@ class NotesManager : public QObject{
     NotesManager(const NotesManager& n);
     NotesManager& operator=(const NotesManager& n);
 
+    void registerNewNote(Note* note);
+
     //int getPosition(Note& note) const;
 
     Q_OBJECT
@@ -31,6 +33,22 @@ class NotesManager : public QObject{
 public:
     static NotesManager& getInstance();
     static void freeInstance();
+
+
+
+
+    const Note* find(const QUuid& identifier) const;
+
+    void load(); // load notes from file filename
+
+    void load_affiche(); // load les notes dernieres from BBD et puis afficher ses id title...
+    void save() const; // save notes in BBD
+    void load_vrai(int id);//à travers de l'interface on sait excatement l'id de note qu'on veut charger
+    void load_version();
+
+
+    Note& updateNote(Note& note);
+
 
     class Iterator : public ::Iterator<Note>{
         const NotesManager& manager;
@@ -44,28 +62,20 @@ public:
 
     };
 
-
-    const Note* find(const QUuid& identifier) const;
-
-    void load(); // load notes from file filename
-
-    void load_affiche(); // load les notes dernieres from BBD et puis afficher ses id title...
-    void save() const; // save notes in BBD
-    void load_vrai(int id);//à travers de l'interface on sait excatement l'id de note qu'on veut charger
-    void load_version();
-
-    Note& createNote();
     NotesManager::Iterator& getIterator() const;
-
-    //QStandardItemModel& getTitleModel();
-
-    Note& updateNote(Note& note);
 
 signals:
 
     void noteCreated(const Note&);
 
     void noteUpdated(const Note&);
+
+public slots:
+    const Article& createArticle();
+    const Task& createTask();
+    const Image& createImage();
+    const Sound& createSound();
+    const Video& createVideo();
 
 
    // ~NotesManager();

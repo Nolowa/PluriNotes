@@ -16,6 +16,7 @@ class Video: public NoTextualNote{
     static const QString type;
 
 public:
+    Video(QUuid identifier = QUuid::createUuid());
     Video(QUuid identifier,const QString& filename=""); /**< Constructeur*/
     Video(QUuid identifier,QDateTime c,const QString& filename);
 

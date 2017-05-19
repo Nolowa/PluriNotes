@@ -2,6 +2,7 @@
 
 const QString Sound::type = QString("Son");
 
+Sound::Sound(QUuid identifier):NoTextualNote(identifier){}
 Sound::Sound(QUuid identifier, const QString& filename):NoTextualNote(identifier),soundFile(new QSound(filename)),soundFileName(filename){}
 Sound::Sound(QUuid identifier, QDateTime c,const QString& filename):NoTextualNote(identifier,c),soundFile(new QSound(filename)),soundFileName(filename){}
 

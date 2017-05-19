@@ -28,14 +28,6 @@ void Corbeille::ajouterNote(Note* n) {
     for (int i = 0; i < nbNotes; i++) {
         if (notes[i]->getIdentifier() == n->getIdentifier()) throw new AppException("note déjà dans corbeille");
     }
-    /*找对应的manager里的 删掉*/
-    /*Iterator<Note>& it = m.getIterator();
-    while(!it.isDone()){
-        it.next();
-        if(it.current()->getIdentifier()==n->getIdentifier()){
-            if(&(it.current())==(--NotesManager::notes.end()));
-        }
-    }*/
     if (nbNotes == nbMaxNotes) {
         Note** newNotes = new Note*[nbNotes + 5];
         for (int i = 0; i < nbNotes; i++)

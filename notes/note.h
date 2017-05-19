@@ -21,7 +21,7 @@ class Note : public QStandardItem{
     static const QString type;
 
 public:
-    Note(QUuid identifier);  /**< Constructeur */
+    Note(QUuid identifier = QUuid::createUuid());  /**< Constructeur */
     Note(Note* n); // celui de base is suffisant
     const QUuid getIdentifier() const; /**< Accesseur de l'attribut identifier */
     const QString& getTitle() const; /**< Accesseur de l'attribut title */
