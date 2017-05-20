@@ -10,11 +10,11 @@
 #include <QVBoxLayout>
 #include <QObject>
 #include "notes/article.h"
-#include "generalinterface.h"
+#include "noteinterface.h"
 
 class Article;
 
-class ArticleInterface: public GeneralInterface{
+class ArticleInterface: public NoteInterface{
     Q_OBJECT
     const Article* article;
     QLineEdit* titleEdit;

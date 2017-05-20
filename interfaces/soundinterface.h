@@ -14,13 +14,13 @@
 #include <QFileDialog>
 #include <QMediaPlayer>
 
-#include "generalinterface.h"
+#include "noteinterface.h"
 #include "notes/sound.h"
 class Sound;
 
 
 
-class SoundInterface : public GeneralInterface{
+class SoundInterface : public NoteInterface{
     Q_OBJECT
 
     const Sound* sound;

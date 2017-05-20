@@ -5,7 +5,6 @@
 #include <QVideoWidget>
 #include <QMovie>
 
-#include "interfaces/videointerface.h"
 
 class VideoInterface;
 
@@ -20,7 +19,7 @@ public:
     Video(QUuid identifier,const QString& filename=""); /**< Constructeur*/
     Video(QUuid identifier,QDateTime c,const QString& filename);
 
-    QWidget* getUI() const;  /**< Méthode virtuelle renvoyant l'interface de la Video */
+    NoteInterface* getUI() const;  /**< Méthode virtuelle renvoyant l'interface de la Video */
 
     const QString& getVideoFileName() const;  /**< Accesseur de l'attribut nameVideoFile */
     const QMovie& getVideo() const; /**< Accesseur de l'attribut videoFile */

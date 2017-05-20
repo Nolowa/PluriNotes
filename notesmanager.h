@@ -15,7 +15,7 @@
 
 
 class NotesManager : public QObject{
-    std::vector<Note*> notes;
+    std::vector<const Note*> notes;
     Note** notess;
     QString filename;
 
@@ -47,22 +47,21 @@ public:
     void load_version();
 
 
-    Note& updateNote(Note& note);
-
-
-    class Iterator : public ::Iterator<Note>{
+    class Iterator : public ::Iterator<const Note>{
         const NotesManager& manager;
         int idx;
         Iterator();
     public:
         Iterator(const NotesManager& m) : manager(m), idx(-1){}
-        Note& current() const;
+        const Note& current() const;
         bool isDone() const;
         void next();
 
     };
 
     NotesManager::Iterator& getIterator() const;
+
+    bool replaceReference(const Note *);
 
 signals:
 
@@ -76,6 +75,7 @@ public slots:
     const Image& createImage();
     const Sound& createSound();
     const Video& createVideo();
+    void updateNote(const Note * note);
 
 
    // ~NotesManager();

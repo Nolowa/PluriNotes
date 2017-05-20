@@ -17,10 +17,10 @@ NotesListView::NotesListView(NotesManager& nm, QWidget *parent) : QWidget(parent
 }
 
 void NotesListView::generateModel(){
-    Iterator<Note>& notes = nm.getIterator();
+    Iterator<const Note>& notes = nm.getIterator();
     while(!notes.isDone()){
         notes.next();
-        Note& n = notes.current();
+        const Note& n = notes.current();
 
         // Ajout de la note au modèle
         generateItem(n);
@@ -80,12 +80,10 @@ void NotesListView::initUI(){
 }
 
 QStandardItem* NotesListView::generateItem(const Note& note){
-    // TODO: Modifier l'icone en fonction du type de note
 
     QString qstr = QString(":/icons/") + note.getType().toLower();
-
     QStandardItem* item = new QStandardItem(QIcon(qstr), note.getTitle().length() ? note.getTitle() : "Note sans nom");
-    //indexMap.insert()
+
     model.appendRow(item);
     indexMap.insert(QUuid(note.getIdentifier()), item->index());
     return item;

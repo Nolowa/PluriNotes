@@ -1,6 +1,6 @@
 #include "soundinterface.h"
 
-SoundInterface::SoundInterface(const Sound& s,QWidget *parent) : GeneralInterface(parent), sound(&s){
+SoundInterface::SoundInterface(const Sound& s,QWidget *parent) : NoteInterface(parent), sound(&s){
       layout=new QFormLayout;
       boutonLayout= new QHBoxLayout;
       boutonLayout2= new QHBoxLayout;

@@ -20,7 +20,7 @@ public:
     const QString& getnameFile() const; /**< Accesseur de l'attribut nameFile */
     const QImage& getImage() const; /**< Accesseur de l'attribut image  */
     const QImage& getFile() const; /**< Accesseur de l'attribut image */
-    QWidget* getUI() const; /**< Méthode virtuelle renvoyant l'interface de Image */
+    NoteInterface* getUI() const; /**< Méthode virtuelle renvoyant l'interface de Image */
 
 
     Note* save();

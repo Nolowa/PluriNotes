@@ -26,7 +26,7 @@ void NotesManager::freeInstance(){
 /*Fin des membres statiques*/
 
 
-Note& NotesManager::Iterator::current() const{
+const Note& NotesManager::Iterator::current() const{
     if(idx == -1){
         throw new AppException("NotesIterator points nothing");
     }
@@ -107,13 +107,24 @@ const Sound& NotesManager::createSound(){
     return *a;
 }
 
-Note& NotesManager::updateNote(Note& note){
+bool NotesManager::replaceReference(const Note * n){
+    for(int i = 0; i < notes.size(); i++){
+        if(notes[i]->getIdentifier() == n->getIdentifier()){
+            notes[i] = n;
+            return true;
+        }
+    }
+
+    return false;
+}
+
+void NotesManager::updateNote(const Note * note){
     // TODO : Ré-injecter la note dans la mémoire
     // TODO : Trigger UPDATE base de données
     // TODO : Trigger GUI updates
+    replaceReference(note);
     std::cout << std::endl << "note received update" << std::endl;
-    emit noteUpdated(note);
-    return note;
+    emit noteUpdated(*note);
 }
 
 NotesManager::Iterator& NotesManager::getIterator() const{

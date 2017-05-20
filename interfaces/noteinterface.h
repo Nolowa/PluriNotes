@@ -5,11 +5,14 @@
 #include "notes/note.h"
 
 class NoteManager;
+class Note;
 
-class GeneralInterface : public QWidget{
+class NoteInterface : public QWidget{
     Q_OBJECT
+
+    //virtual const Note * save() = 0;
 public:
-    explicit GeneralInterface(QWidget *parent = 0);
+    explicit NoteInterface(QWidget *parent = 0);
 
 signals:
     void newVersion(const Note*);

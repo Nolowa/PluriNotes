@@ -82,7 +82,7 @@ void version::createTables(){
 
 }
 
-void version::insert(Note* n){
+void version::insert(const Note* n){
     /*verifier le type de n*/
     size_t nombre=strlen(typeid(*n).name());
     int num=10;
@@ -114,8 +114,8 @@ void version::insert(Note* n){
     QSqlQuery q1;
     switch (num) {
     case 0://Article
-        Article* nouveau_a;
-        nouveau_a=static_cast<Article*>(n);
+        const Article* nouveau_a;
+        nouveau_a=static_cast<const Article*>(n);
         q1.prepare("INSERT INTO Article (Id,Idreal,Text) VALUES (:Id,:Idreal,:Text)");
         q1.bindValue(":Id",id);
         q1.bindValue(":Idreal",nouveau_a->getIdentifier());
@@ -127,8 +127,8 @@ void version::insert(Note* n){
         q1.finish();
         break;
     case 1://Image
-        Image* nouveau_i;
-        nouveau_i=static_cast<Image*>(n);
+        const Image* nouveau_i;
+        nouveau_i=static_cast<const Image*>(n);
         q1.prepare("INSERT INTO Image (Id,Idreal,Description,File) VALUES (:Id,:Idreal,:Description,:File)");
         q1.bindValue(":Id",id);
         q1.bindValue(":Idreal",nouveau_i->getIdentifier());
@@ -141,8 +141,8 @@ void version::insert(Note* n){
         q1.finish();
         break;
     case 2://Task
-        Task* nouveau_t;
-        nouveau_t=static_cast<Task*>(n);
+        const Task* nouveau_t;
+        nouveau_t=static_cast<const Task*>(n);
         q1.prepare("INSERT INTO Task (Id,Idreal,ActionToBeDone,Status,Priority,Expired) VALUES (:Id,:Idreal,:ActionToBeDone,:Status,:Priority,:Expired)");
         q1.bindValue(":Id",id);
         q1.bindValue(":Idreal",nouveau_t->getIdentifier());
@@ -159,8 +159,8 @@ void version::insert(Note* n){
 
         break;
     case 3:
-        Sound* nouveau_s;
-        nouveau_s=static_cast<Sound*>(n);
+        const Sound* nouveau_s;
+        nouveau_s=static_cast<const Sound*>(n);
         q1.prepare("INSERT INTO Sound (Id,Idreal,Description,File) VALUES (:Id,:Idreal,:Description,:File)");
         q1.bindValue(":Id",id);
         q1.bindValue(":Idreal",nouveau_s->getIdentifier());
@@ -174,8 +174,8 @@ void version::insert(Note* n){
 
         break;
     case 4:
-        Video* nouveau_v;
-        nouveau_v=static_cast<Video*>(n);
+        const Video* nouveau_v;
+        nouveau_v=static_cast<const Video*>(n);
         q1.prepare("INSERT INTO Video (Id,Idreal,Description,File) VALUES (:Id,:Idreal,:Description,:File)");
         q1.bindValue(":Id",id);
         q1.bindValue(":Idreal",nouveau_v->getIdentifier());

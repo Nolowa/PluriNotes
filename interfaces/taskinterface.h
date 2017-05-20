@@ -10,12 +10,12 @@
 #include <QComboBox>
 #include <QMessageBox>
 
-#include "generalinterface.h"
+#include "noteinterface.h"
 #include "notes/task.h" // inclusion récursif.?
 class Task;
 class GeneralInterface;
 
-class TaskInterface: public GeneralInterface {
+class TaskInterface: public NoteInterface {
     Q_OBJECT
     const Task* task;
     QLineEdit* titleEdit;

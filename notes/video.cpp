@@ -1,4 +1,5 @@
 #include "video.h"
+#include "interfaces/videointerface.h"
 
 const QString Video::type = QString("Video");
 
@@ -18,7 +19,7 @@ const QString& Video::getVideoFileName() const{
     return nameVideoFile;
 }
 
-QWidget* Video::getUI() const{
+NoteInterface* Video::getUI() const{
     return new VideoInterface(*this);
 }
 

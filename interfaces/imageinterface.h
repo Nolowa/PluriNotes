@@ -14,12 +14,12 @@
 #include <QCheckBox>
 #include <QStyle>
 
-#include "generalinterface.h"
+#include "noteinterface.h"
 #include "notes/image.h" // inclusion récursif.?
 
 class Image;
 
-class ImageInterface: public GeneralInterface {
+class ImageInterface: public NoteInterface {
     Q_OBJECT
 
     const Image* image;
