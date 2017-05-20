@@ -1,6 +1,7 @@
 #include "noteframeview.h"
 #include "notes/note.h"
 #include <QHBoxLayout>
+#include <QObject>
 
 NoteFrameView::NoteFrameView(QWidget *parent) : QWidget(parent), widget(nullptr)
 {
@@ -22,4 +23,6 @@ void NoteFrameView::setNote(const Note * note){
 
     widget = note->getUI();
     layout->addWidget(widget);
+
+    QObject::connect(widget, SIGNAL(newVersion(const Note*)), this, SIGNAL(noteUpdated(const Note*)));
 }

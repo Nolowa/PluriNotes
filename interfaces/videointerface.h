@@ -22,11 +22,11 @@
 #include <QStyle>
 
 #include "notes/video.h"
-#include "generalinterface.h"
+#include "noteinterface.h"
 
 class Video;
 
-class VideoInterface : public GeneralInterface {
+class VideoInterface : public NoteInterface {
     Q_OBJECT
     const Video* video;
     QMovie* videoToRegister;

@@ -1,6 +1,6 @@
 #include "taskinterface.h"
 
-TaskInterface::TaskInterface(const Task& t,QWidget *parent): GeneralInterface(parent),task(&t){
+TaskInterface::TaskInterface(const Task& t,QWidget *parent): NoteInterface(parent),task(&t){
     layout=new QFormLayout;
 
     generate= new QPushButton(QString("Enregistrer"));

@@ -1,6 +1,6 @@
 #include "imageinterface.h"
 
-ImageInterface::ImageInterface(const Image& im, QWidget *parent): GeneralInterface(parent), image(&im){
+ImageInterface::ImageInterface(const Image& im, QWidget *parent): NoteInterface(parent), image(&im){
     layout=new QFormLayout;
     boutonLayout = new QHBoxLayout;
     bAddImage= new QPushButton(QString("Ajouter une image"));

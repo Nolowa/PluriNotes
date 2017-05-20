@@ -22,7 +22,7 @@ public:
     Article(QUuid identifier,QDateTime c);
     void setText(const QString& texte); /**< Méthode modifiant l'attribut text */
     const QString& getText() const; /**< Accesseur de l'attribut Text */
-    QWidget* getUI() const; /**< Méthode virtuelle renvoyant l'interface de Article */
+    NoteInterface* getUI() const; /**< Méthode virtuelle renvoyant l'interface de Article */
 
     Article(const Article& a):Note(a),text(a.getText()){} /**< Constructeur de recopie */
 

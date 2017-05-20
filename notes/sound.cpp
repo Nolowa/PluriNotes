@@ -7,7 +7,7 @@ Sound::Sound(QUuid identifier, const QString& filename):NoTextualNote(identifier
 Sound::Sound(QUuid identifier, QDateTime c,const QString& filename):NoTextualNote(identifier,c),soundFile(new QSound(filename)),soundFileName(filename){}
 
 
-QWidget* Sound::getUI() const{
+NoteInterface* Sound::getUI() const{
     return new SoundInterface(*this);
 }
 

@@ -4,13 +4,13 @@
 #include <QWidget>
 #include <QHBoxLayout>
 #include "notes/note.h"
-
+#include "noteinterface.h"
 
 class NoteFrameView : public QWidget
 {
     Q_OBJECT
 
-    QWidget* widget;
+    NoteInterface* widget;
     QHBoxLayout* layout;
 
     void initUI();
@@ -21,7 +21,7 @@ public:
 
 
 signals:
-
+    void noteUpdated(const Note * note);
 public slots:
     void setNote(const Note * note);
 };

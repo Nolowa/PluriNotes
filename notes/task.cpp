@@ -59,7 +59,7 @@ void Task::setExpired(const QDateTime exp){
 }
 
 //Interface
-QWidget* Task::getUI() const{
+NoteInterface* Task::getUI() const{
     return new TaskInterface(*this);
 }
 

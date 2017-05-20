@@ -24,6 +24,7 @@ void Mainframe::initUI(){
     setLayout(layout);
 
     connect(listView, SIGNAL(noteSelected(const Note *)), noteView, SLOT(setNote(const Note*)));
+    connect(noteView, SIGNAL(noteUpdated(const Note *)), &data, SLOT(updateNote(const Note *)));
 
 
 

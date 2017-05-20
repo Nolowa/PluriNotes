@@ -23,7 +23,7 @@ public:
 
     const QString& getType() const;
 
-    QWidget* getUI() const;
+    NoteInterface* getUI() const;
 
 };
 

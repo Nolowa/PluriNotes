@@ -1,7 +1,7 @@
 #include "articleinterface.h"
 #include <QMessageBox>
 
-ArticleInterface::ArticleInterface(const Article& a, QWidget *parent): GeneralInterface(parent),article(&a){
+ArticleInterface::ArticleInterface(const Article& a, QWidget *parent): NoteInterface(parent),article(&a){
     layout=new QFormLayout;
     buttonLayout=new QHBoxLayout;
     mainLayout= new QVBoxLayout;

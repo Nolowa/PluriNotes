@@ -20,7 +20,7 @@ public:
     static bool connectBd(const QString& dbname);
     static void closeBd();
     static void createTables();
-    static void insert(Note* n);
+    static void insert(const Note* n);
     static void parcourir(Note* n);
 };
 

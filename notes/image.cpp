@@ -8,7 +8,7 @@ const QImage& Image::getImage() const{
     return image;
 }
 
-QWidget* Image::getUI() const{
+NoteInterface* Image::getUI() const{
     return new ImageInterface(*this);
 }
 
