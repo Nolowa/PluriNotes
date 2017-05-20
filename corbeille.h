@@ -42,6 +42,8 @@ public:
 
     void ajouterNote(Note* n);
     void vidage();
+    void load_une(int id);
+    void load_tout();/**< charger les notes sursis  */
 };
 
 #endif // CORBEILLE_H
