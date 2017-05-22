@@ -6,7 +6,7 @@
 #include "version.h"
 #include "interfaces/noteslistview.h"
 #include "corbeille.h"
-#include "interfaces/mainframe.h"
+#include "interfaces/mainwindow.h"
 
 
 //include de test
@@ -26,9 +26,8 @@ int main(int argc, char *argv[]){
     qout << "Création de notes" << endl;
 
 
-
-    Mainframe f(m);
-    f.show();
+    MainWindow window(m);
+    window.show();
 
 
 
