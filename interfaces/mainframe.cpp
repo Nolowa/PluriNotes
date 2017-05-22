@@ -2,16 +2,19 @@
 #include "notesmanager.h"
 #include <QHBoxLayout>
 
-Mainframe::Mainframe(NotesManager& nm, QWidget *parent) : QWidget(parent), data(nm)
-{
+Mainframe::Mainframe(NotesManager& nm, QWidget *parent) : QWidget(parent), data(nm){
     initUI();
     show();
 
 }
 
 void Mainframe::initUI(){
+
+
+
     listView = new NotesListView(data, this);
     noteView = new NoteFrameView(this);
+
 
     QHBoxLayout* layout = new QHBoxLayout;
 
