@@ -21,7 +21,7 @@ public:
     static void closeBd();
     static void createTables();
     static void insert(const Note* n);
-    static void parcourir(Note* n);
+    static void parcourir(const Note* n);
 };
 
 

@@ -191,7 +191,7 @@ void version::insert(const Note* n){
     }
 }
 
-void version::parcourir(Note* n){
+void version::parcourir(const Note* n){
     /*verifier le type de n*/
     size_t nombre=strlen(typeid(*n).name());
     int num=10;
@@ -209,7 +209,7 @@ void version::parcourir(Note* n){
     switch (num) {
     case 0://Article
         Article* nouveau_a;
-        nouveau_a=static_cast<Article*>(n);
+        nouveau_a=dynamic_cast<Article*>(const_cast<Note*>(n));
         q1.prepare("SELECT * FROM Article WHERE Idreal=:Id");
         q1.bindValue(":Id",n->getIdentifier());
         if (!q1.exec()) {
@@ -227,7 +227,7 @@ void version::parcourir(Note* n){
         break;
     case 1://Image
         Image* nouveau_i;
-        nouveau_i=static_cast<Image*>(n);
+        nouveau_i=dynamic_cast<Image*>(const_cast<Note*>(n));
         q1.prepare("SELECT * FROM Image WHERE Idreal=:Id");
         q1.bindValue(":Id",n->getIdentifier());
         if (!q1.exec()) {
@@ -244,7 +244,7 @@ void version::parcourir(Note* n){
         break;
     case 2://Task
         Task* nouveau_t;
-        nouveau_t=static_cast<Task*>(n);
+        nouveau_t=dynamic_cast<Task*>(const_cast<Note*>(n));
         q1.prepare("SELECT * FROM Task WHERE Idreal=:Id");
         q1.bindValue(":Id",n->getIdentifier());
         if (!q1.exec()) {
@@ -263,7 +263,7 @@ void version::parcourir(Note* n){
         break;
     case 3://Sound
         Sound* nouveau_s;
-        nouveau_s=static_cast<Sound*>(n);
+        nouveau_s=dynamic_cast<Sound*>(const_cast<Note*>(n));
         q1.prepare("SELECT * FROM Sound WHERE Idreal=:Id");
         q1.bindValue(":Id",n->getIdentifier());
         if (!q1.exec()) {
@@ -282,7 +282,7 @@ void version::parcourir(Note* n){
         break;
     case 4://Video
         Video* nouveau_v;
-        nouveau_v=static_cast<Video*>(n);
+        nouveau_v=dynamic_cast<Video*>(const_cast<Note*>(n));
         q1.prepare("SELECT * FROM Video WHERE Idreal=:Id");
         q1.bindValue(":Id",n->getIdentifier());
         if (!q1.exec()) {
