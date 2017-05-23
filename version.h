@@ -7,6 +7,8 @@
 #include <QMessageBox>
 #include <QSqlQuery>
 #include <QObject>
+#include <QComboBox>
+#include <QStringList>
 #define q2c(string) string.toStdString()
 
 

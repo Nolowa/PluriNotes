@@ -9,6 +9,7 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QObject>
+#include <QComboBox>
 #include "notes/article.h"
 #include "noteinterface.h"
 
@@ -22,12 +23,18 @@ class ArticleInterface: public NoteInterface{
     QTextEdit* textEdit;
     QFormLayout* layout;
     QHBoxLayout* buttonLayout;
+    QHBoxLayout* boxLayout;
+    QHBoxLayout* buttonLayoutc;
     QVBoxLayout* mainLayout;
     QPushButton* generate;
+    QComboBox * versions;
+    QPushButton* choisir;
 public:
     ArticleInterface(const Article& a, QWidget *parent = 0);
+    void parcourir();
 public slots:
     void save();
+    void charger();
 };
 
 #endif // ARTICLEINTERFACE_H

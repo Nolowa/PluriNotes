@@ -308,6 +308,7 @@ void version::parcourir(const Note* n){
 
 }
 
+
 /*
 bbd::bbd(NotesManager& n,const Note* notes):nm(n),no(notes)
 {
