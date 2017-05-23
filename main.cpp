@@ -26,9 +26,7 @@ int main(int argc, char *argv[]){
     qout << "Création de notes" << endl;
 
 
-    QString name="test.db";
-    version::connectBd(name);
-    version::createTables();
+    version* v=new version(m);
     m.load_version();
 
 
@@ -182,7 +180,7 @@ int main(int argc, char *argv[]){
     //m.save();
     //video.setFilename("/c/user/video.mv");
     //version::insert(&video);
-    version::closeBd();
+
 
     return app.exec();
 }
