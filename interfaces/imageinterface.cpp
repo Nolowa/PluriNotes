@@ -1,5 +1,10 @@
 #include "imageinterface.h"
-
+#include <iostream>
+#include <QDateTime>
+#include <QSql>
+#include <QDebug>
+#include <QSqlQuery>
+#include <QStringList>
 ImageInterface::ImageInterface(const Image& im, QWidget *parent): NoteInterface(parent), image(&im){
     layout=new QFormLayout;
     boutonLayout = new QHBoxLayout;
@@ -10,6 +15,13 @@ ImageInterface::ImageInterface(const Image& im, QWidget *parent): NoteInterface(
     nameFileImage= new QString(image->getnameFile());
     idEdit= new QLineEdit(image->getIdentifier().toString(),this);
     idEdit->setReadOnly(1);
+
+    choisir=new QPushButton(QString("choisir"));
+    boxLayout=new QFormLayout;
+    versions=new QComboBox;
+    parcourir();
+    boxLayout->addRow(versions);
+    boxLayout->addRow(choisir);
 
     titleEdit= new QLineEdit(image->getTitle(),this);
     descriptionEdit= new QTextEdit(image->getDescription(),this);
@@ -48,6 +60,7 @@ ImageInterface::ImageInterface(const Image& im, QWidget *parent): NoteInterface(
     mainLayout->addLayout(layoutImage);
     mainLayout->addWidget(fitCheckBox);
     mainLayout->addLayout(boutonLayout);
+    mainLayout->addLayout(boxLayout);
 
     setLayout(mainLayout);
     setWindowTitle("Image");
@@ -67,6 +80,8 @@ ImageInterface::ImageInterface(const Image& im, QWidget *parent): NoteInterface(
     QObject::connect(bAddImage, SIGNAL(clicked()), this, SLOT(openImage()));
     QObject::connect(fitCheckBox, SIGNAL(clicked()), this, SLOT(fitToWindow()));
     QObject::connect(generate, SIGNAL(clicked()), this, SLOT(save()));
+    QObject::connect(versions, SIGNAL(activated(int)), this, SLOT(enregistrerid(int)));
+    QObject::connect(choisir, SIGNAL(clicked()), this, SLOT(charger()));
 
     //QObject::connect(bDeleteImage, SIGNAL(clicked()), this, SLOT(deleteImage()));
 
@@ -115,3 +130,33 @@ void ImageInterface::deleteImage(){
     bAddImage->setEnabled(true);
 }
 */
+
+void ImageInterface::parcourir(){
+    QSqlQuery q;
+    q.exec("SELECT n.Id,n.Title,n.Edited FROM (Note n INNER JOIN Image a ON n.Id=a.Id) WHERE a.Idreal='"+ image->getIdentifier().toString()+"';");
+    while (q.next()) {
+        a.push_back(q.value(0).toInt());
+        QString final;
+        final=q.value(0).toString()+"| "+q.value(1).toString()+q.value(2).toString();
+        QStringList s;
+        s<<final;
+        versions->addItems(s);
+    }
+    q.finish();
+}
+
+void ImageInterface::charger(){
+    QSqlQuery q;
+    q.exec("SELECT n.Title,a.Description FROM Image a,Note n WHERE n.Id=a.Id AND a.Id='"+ QString::number(Id) +"';");
+    q.next();
+    Image* change=const_cast<Image*>(image);
+    change->setTitle(q.value(0).toString());
+    change->setDescription(q.value(1).toString());
+    change->setFilename(q.value(2).toString());
+}
+
+void ImageInterface::enregistrerid(int i){
+    std::cout<<i;
+    Id=a[i];
+    std::cout<<Id;
+}

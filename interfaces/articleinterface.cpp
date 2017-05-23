@@ -48,28 +48,22 @@ ArticleInterface::ArticleInterface(const Article& a, QWidget *parent): NoteInter
 
     //slot
     QObject::connect(generate, SIGNAL(clicked()), this, SLOT(save()));
+    QObject::connect(versions, SIGNAL(activated(int)), this, SLOT(enregistrerid(int)));
     QObject::connect(choisir, SIGNAL(clicked()), this, SLOT(charger()));
 }
 
 void ArticleInterface::parcourir(){
-    QSqlQuery q1;
-    q1.prepare("SELECT n.Id,n.Title,n.Edited FROM (Note n INNER JOIN Article a ON n.Id=a.Id);");
-    q1.bindValue(":Id",article->getIdentifier());
-    if (!q1.exec()) {
-          std::cout<<"erreur"<<std::endl;
-    }else{
-        while (q1.next()) {
-                QString Id = q1.value(0).toString();
-                QString Title = q1.value(1).toString();
-                QString Edited = q1.value(2).toString();
-                QString final;
-                final+=Id;final+=" ";final+=Title;final+=Edited;
-                QStringList s;
-                s<<final;
-                versions->addItems(s);
-            }
+    QSqlQuery q;
+    q.exec("SELECT n.Id,n.Title,n.Edited FROM (Note n INNER JOIN Article a ON n.Id=a.Id) WHERE a.Idreal='"+ article->getIdentifier().toString()+"';");
+    while (q.next()) {
+        a.push_back(q.value(0).toInt());
+        QString final;
+        final=q.value(0).toString()+"| "+q.value(1).toString()+q.value(2).toString();
+        QStringList s;
+        s<<final;
+        versions->addItems(s);
     }
-    q1.finish();
+    q.finish();
 }
 
 //slot
@@ -85,5 +79,19 @@ void ArticleInterface::save(){
 }
 
 void ArticleInterface::charger(){
+    QSqlQuery q;
+    q.exec("SELECT n.Title,a.Text FROM Article a,Note n WHERE n.Id=a.Id AND a.Id='"+ QString::number(Id) +"';");
+    q.next();
+    QString Title1=q.value(0).toString();
+    QString Text=q.value(1).toString();
+    Article* change=const_cast<Article*>(article);
+    change->setTitle(Title1);
+    change->setText(Text);
 
+}
+
+void ArticleInterface::enregistrerid(int i){
+    std::cout<<i;
+    Id=a[i];
+    std::cout<<Id;
 }

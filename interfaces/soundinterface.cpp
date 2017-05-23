@@ -1,5 +1,10 @@
 #include "soundinterface.h"
-
+#include <iostream>
+#include <QDateTime>
+#include <QSql>
+#include <QDebug>
+#include <QSqlQuery>
+#include <QStringList>
 SoundInterface::SoundInterface(const Sound& s,QWidget *parent) : NoteInterface(parent), sound(&s){
       layout=new QFormLayout;
       boutonLayout= new QHBoxLayout;
@@ -29,13 +34,20 @@ SoundInterface::SoundInterface(const Sound& s,QWidget *parent) : NoteInterface(p
       boutonLayout2->addWidget(bStopMusic);
       boutonLayout2->addWidget(bPlayMusic);
 
+      choisir=new QPushButton(QString("choisir"));
+      boxLayout=new QFormLayout;
+      versions=new QComboBox;
+      parcourir();
+      boxLayout->addRow(versions);
+      boxLayout->addRow(choisir);
+
 
       //gestion des Layouts
       mainLayout = new QVBoxLayout;
       mainLayout->addLayout(layout);
       mainLayout->addLayout(boutonLayout);
       mainLayout->addLayout(boutonLayout2);
-
+      mainLayout->addLayout(boxLayout);
       setLayout(mainLayout);
       setWindowTitle("Bande Son");
 
@@ -61,6 +73,8 @@ SoundInterface::SoundInterface(const Sound& s,QWidget *parent) : NoteInterface(p
       QObject::connect(bPlayMusic, SIGNAL(clicked()), this, SLOT(playMusic()));
       QObject::connect(bStopMusic, SIGNAL(clicked()), this, SLOT(stopMusic()));
       QObject::connect(generate, SIGNAL(clicked()), this, SLOT(save()));
+      QObject::connect(versions, SIGNAL(activated(int)), this, SLOT(enregistrerid(int)));
+      QObject::connect(choisir, SIGNAL(clicked()), this, SLOT(charger()));
 
       //QObject::connect(bDeleteImage, SIGNAL(clicked()), this, SLOT(deleteImage()));
 
@@ -101,4 +115,34 @@ void SoundInterface::save(){
     sound = s;
     emit newVersion(s); // signal d'émition pour la création d'une nouvelle version
 
+}
+
+void SoundInterface::parcourir(){
+    QSqlQuery q;
+    q.exec("SELECT n.Id,n.Title,n.Edited FROM (Note n INNER JOIN Sound a ON n.Id=a.Id) WHERE a.Idreal='"+ sound->getIdentifier().toString()+"';");
+    while (q.next()) {
+        a.push_back(q.value(0).toInt());
+        QString final;
+        final=q.value(0).toString()+"| "+q.value(1).toString()+q.value(2).toString();
+        QStringList s;
+        s<<final;
+        versions->addItems(s);
+    }
+    q.finish();
+}
+
+void SoundInterface::charger(){
+    QSqlQuery q;
+    q.exec("SELECT n.Title,a.Description FROM Sound a,Note n WHERE n.Id=a.Id AND a.Id='"+ QString::number(Id) +"';");
+    q.next();
+    Sound* change=const_cast<Sound*>(sound);
+    change->setTitle(q.value(0).toString());
+    change->setDescription(q.value(1).toString());
+    change->setFilename(q.value(2).toString());
+}
+
+void SoundInterface::enregistrerid(int i){
+    std::cout<<i;
+    Id=a[i];
+    std::cout<<Id;
 }

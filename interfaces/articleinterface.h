@@ -10,6 +10,7 @@
 #include <QVBoxLayout>
 #include <QObject>
 #include <QComboBox>
+#include <QVector>
 #include "notes/article.h"
 #include "noteinterface.h"
 
@@ -29,12 +30,15 @@ class ArticleInterface: public NoteInterface{
     QPushButton* generate;
     QComboBox * versions;
     QPushButton* choisir;
+    int Id;
+    std::vector <int> a;
 public:
     ArticleInterface(const Article& a, QWidget *parent = 0);
     void parcourir();
 public slots:
     void save();
     void charger();
+    void enregistrerid(int i);
 };
 
 #endif // ARTICLEINTERFACE_H

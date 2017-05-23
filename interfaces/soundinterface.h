@@ -13,6 +13,8 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QMediaPlayer>
+#include <QComboBox>
+#include <QVector>
 
 #include "noteinterface.h"
 #include "notes/sound.h"
@@ -40,17 +42,25 @@ class SoundInterface : public NoteInterface{
     QPushButton* bPlayMusic;
     bool initSound;
     //QMediaPlayer* player;
+    QFormLayout* boxLayout;
+    QComboBox * versions;
+    QPushButton* choisir;
+    int Id;
+    std::vector <int> a;
 
 
 public :
     SoundInterface(const Sound& s, QWidget *parent = 0);
     void setNameFileSound(QString nameSound);
+    void parcourir();
 
 public slots :
     void openSound();
     void playMusic();
     void stopMusic();
     void save();
+    void charger();
+    void enregistrerid(int i);
 };
 
 #endif // SOUNDINTERFACE_H
