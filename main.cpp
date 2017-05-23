@@ -26,6 +26,12 @@ int main(int argc, char *argv[]){
     qout << "Création de notes" << endl;
 
 
+    QString name="test.db";
+    version::connectBd(name);
+    version::createTables();
+    m.load_version();
+
+
     MainWindow window(m);
     window.show();
 
@@ -135,8 +141,8 @@ int main(int argc, char *argv[]){
     //video.getInterface()->show();
 */
     //BBD
-    QString name="test.db";
-    version::connectBd(name);
+    //QString name="test.db";
+    //version::connectBd(name);
     //version::createTables();
     //version::insert(&art);
     //version::insert(&art);
@@ -158,12 +164,12 @@ int main(int argc, char *argv[]){
 
 
     //test load_vrai
-    /*m.load_vrai(6);
-    m.load_vrai(7);
-    m.load_vrai(12);
-    m.load_vrai(17);
+    //m.load_vrai(6);
+    //m.load_vrai(7);
+    //m.load_vrai(12);
+    //m.load_vrai(17);
     //m.load_version();
-    Iterator<Note>& it = m.getIterator();
+    /*NotesManager::Iterator& it = m.getIterator();
     while(!it.isDone()){
         it.next();
         std::cout<<std::endl;
@@ -172,11 +178,11 @@ int main(int argc, char *argv[]){
         qout << "Titre : " << it.current().getTitle() << endl;
         qout << "Created : " << it.current().getCreated().toString() << endl;
         std::cout<<std::endl;
-    }
+    }*/
     //m.save();
     //video.setFilename("/c/user/video.mv");
     //version::insert(&video);
-    version::closeBd();*/
+    version::closeBd();
 
     return app.exec();
 }
