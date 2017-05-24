@@ -1,5 +1,11 @@
 #include "taskinterface.h"
-
+#include <iostream>
+#include <QDateTime>
+#include <QSql>
+#include <QDebug>
+#include <QSqlQuery>
+#include <QStringList>
+#include <QDateTime>
 TaskInterface::TaskInterface(const Task& t,QWidget *parent): NoteInterface(parent),task(&t){
     layout=new QFormLayout;
 
@@ -41,13 +47,37 @@ TaskInterface::TaskInterface(const Task& t,QWidget *parent): NoteInterface(paren
     layout->addRow("Objectif :",actionEdit);
     layout->addWidget(generate);
 
+    //layout de versions
+    choisir=new QPushButton(QString("choisir"));
+    versions=new QComboBox;
+    parcourir();
+    layout->addWidget(versions);
+    layout->addWidget(choisir);
+
+
     setLayout(layout);
     setWindowTitle("Tâche à réaliser");
 
     //slot
     QObject::connect(generate, SIGNAL(clicked()), this, SLOT(save()));
+    QObject::connect(versions, SIGNAL(activated(int)), this, SLOT(enregistrerid(int)));
+    QObject::connect(choisir, SIGNAL(clicked()), this, SLOT(charger()));
 
 
+}
+
+void TaskInterface::parcourir(){
+    QSqlQuery q;
+    q.exec("SELECT n.Id,n.Title,n.Edited FROM (Note n INNER JOIN Task a ON n.Id=a.Id) WHERE a.Idreal='"+ task->getIdentifier().toString()+"';");
+    while (q.next()) {
+        a.push_back(q.value(0).toInt());
+        QString final;
+        final=q.value(0).toString()+"| "+q.value(1).toString()+q.value(2).toString();
+        QStringList s;
+        s<<final;
+        versions->addItems(s);
+    }
+    q.finish();
 }
 
 //slots
@@ -63,4 +93,28 @@ void TaskInterface::save(){
     emit newVersion(t); // signal d'émition pour la création d'une nouvelle version
     //QMessageBox::information(this, "Fichier", "Enregisterment de :\n" +titleEdit->text() +"\n"+statusCombo->currentText() + "\n" +priorityCombo->currentText() + "\n" +actionEdit->toPlainText() + "\n" +dateEdit->text()+ "\n"+ QDateTime::fromString(dateEdit->text()).toString());
 
+}
+
+
+
+void TaskInterface::charger(){
+    QSqlQuery q;
+    q.exec("SELECT n.Title,a.ActionToBeDone,a.Status,a.Priority,a.Expired FROM Task a,Note n WHERE n.Id=a.Id AND a.Id='"+ QString::number(Id) +"';");
+    q.next();
+    Task* change=const_cast<Task*>(task);
+    change->setTitle(q.value(0).toString());
+    change->setActionToBeDone(q.value(1).toString());
+    change->setPriority(q.value(3).toInt());
+    change->setExpired(q.value(4).toDateTime());
+    switch(q.value(2).toInt()){
+    case 0:change->setStatus(en_attente);break;
+    case 1:change->setStatus(en_cours);break;
+    case 2:change->setStatus(terminee);break;
+    }
+}
+
+void TaskInterface::enregistrerid(int i){
+    std::cout<<i;
+    Id=a[i];
+    std::cout<<Id;
 }

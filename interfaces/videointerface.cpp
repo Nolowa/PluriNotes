@@ -1,4 +1,10 @@
 #include "videointerface.h"
+#include <iostream>
+#include <QDateTime>
+#include <QSql>
+#include <QDebug>
+#include <QSqlQuery>
+#include <QStringList>
 
 VideoInterface::VideoInterface(const Video& vid,QWidget *parent) : NoteInterface(parent), video(&vid){
     QSize iconSize(36, 36);
@@ -74,6 +80,14 @@ VideoInterface::VideoInterface(const Video& vid,QWidget *parent) : NoteInterface
     boutonLayout->addStretch();
     boutonLayout2->addWidget(generate);
 
+    //layout de versions
+    choisir=new QPushButton(QString("choisir"));
+    boxLayout=new QFormLayout;
+    versions=new QComboBox;
+    parcourir();
+    boxLayout->addRow(versions);
+    boxLayout->addRow(choisir);
+
 
     //gestion des Layouts
     mainLayout = new QVBoxLayout;
@@ -81,6 +95,7 @@ VideoInterface::VideoInterface(const Video& vid,QWidget *parent) : NoteInterface
     mainLayout->addLayout(layoutVideo);
     mainLayout->addLayout(boutonLayout);
     mainLayout->addLayout(boutonLayout2);
+    mainLayout->addLayout(boxLayout);
 
     setLayout(mainLayout);
     setWindowTitle("Video");
@@ -104,6 +119,8 @@ VideoInterface::VideoInterface(const Video& vid,QWidget *parent) : NoteInterface
     QObject::connect(stopButton, SIGNAL(clicked()), this, SLOT(stopVideo()));
     QObject::connect(pauseButton, SIGNAL(clicked()), this, SLOT(pauseVideo()));
     QObject::connect(generate, SIGNAL(clicked()), this, SLOT(save()));
+    QObject::connect(versions, SIGNAL(activated(int)), this, SLOT(enregistrerid(int)));
+    QObject::connect(choisir, SIGNAL(clicked()), this, SLOT(charger()));
 
 
 }
@@ -160,4 +177,34 @@ void VideoInterface::updateButtons(){
     pauseButton->setChecked(movie->state() == QMovie::Paused);
     stopButton->setEnabled(movie->state() != QMovie::NotRunning);
     */
+}
+
+void VideoInterface::parcourir(){
+    QSqlQuery q;
+    q.exec("SELECT n.Id,n.Title,n.Edited FROM (Note n INNER JOIN Video a ON n.Id=a.Id) WHERE a.Idreal='"+ video->getIdentifier().toString()+"';");
+    while (q.next()) {
+        a.push_back(q.value(0).toInt());
+        QString final;
+        final=q.value(0).toString()+"| "+q.value(1).toString()+q.value(2).toString();
+        QStringList s;
+        s<<final;
+        versions->addItems(s);
+    }
+    q.finish();
+}
+
+void VideoInterface::charger(){
+    QSqlQuery q;
+    q.exec("SELECT n.Title,a.Description FROM Video a,Note n WHERE n.Id=a.Id AND a.Id='"+ QString::number(Id) +"';");
+    q.next();
+    Video* change=const_cast<Video*>(video);
+    change->setTitle(q.value(0).toString());
+    change->setDescription(q.value(1).toString());
+    change->setFilename(q.value(2).toString());
+}
+
+void VideoInterface::enregistrerid(int i){
+    std::cout<<i;
+    Id=a[i];
+    std::cout<<Id;
 }
