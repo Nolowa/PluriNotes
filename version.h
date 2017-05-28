@@ -7,6 +7,8 @@
 #include <QMessageBox>
 #include <QSqlQuery>
 #include <QObject>
+#include <QComboBox>
+#include <QStringList>
 #define q2c(string) string.toStdString()
 
 
@@ -35,6 +37,22 @@ public:
 public slots:
     void insert(const Note& n);
 };
+
+/*
+class bbd : public QObject
+{
+    Q_OBJECT
+private:
+    NotesManager& nm;
+    const Note* no;
+
+public:
+    bbd(NotesManager& n,const Note* notes);
+
+public slots:
+    void insert();
+};*/
+
 
 
 #endif // VERSION_H

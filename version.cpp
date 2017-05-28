@@ -6,6 +6,7 @@ int version::open=0;
 version::version(NotesManager& n) : nm(n){
     QString name="test.db";
     connectBd(name);
+    createTables();
 }
 
 bool version::connectBd(const QString& dbname){
@@ -318,5 +319,17 @@ void bbd::insert(const Note& n){
     //const Note* nou=&n;
     version::insert(&n);
 }
+
+/*
+bbd::bbd(NotesManager& n,const Note* notes):nm(n),no(notes)
+{
+    QObject::connect(&n, SIGNAL(noteUpdated(const Note&)), this, SLOT(insert()));
+}
+
+
+void bbd::insert(){
+        version::insert(no);
+        std::cout<<"succ";
+}*/
 
 

@@ -26,24 +26,14 @@ int main(int argc, char *argv[]){
     RelationsManager<Note>* rm = new RelationsManager<Note>;
 
 
-
-    //NotesListView nlv;
-    qout << "Création de notes" << endl;
-
-    Article a1 = Article(m.createArticle());
-    Article a2 = Article(m.createArticle());
-    Article a3 = Article(m.createArticle());
-
-    a1.setTitle("Article 1");
-    a2.setTitle("Article 2");
-    a3.setTitle("Article 3");
-
-    m.updateNote(&a1);
-    m.updateNote(&a2);
-    m.updateNote(&a3);
-
     Relationship<Note>& r1 = rm->createRelation("UneRelationUnidirectionelle");
     Relationship<Note>& r2 = rm->createRelation("UneDeuxiemeRelation");
+
+
+
+    version* v=new version(m);
+    m.load_version();
+
 
     MainWindow window(m, *rm);
     window.show();
@@ -154,8 +144,8 @@ int main(int argc, char *argv[]){
     //video.getInterface()->show();
 */
     //BBD
-    QString name="test.db";
-    version::connectBd(name);
+    //QString name="test.db";
+    //version::connectBd(name);
     //version::createTables();
     //version::insert(&art);
     //version::insert(&art);
@@ -177,12 +167,12 @@ int main(int argc, char *argv[]){
 
 
     //test load_vrai
-    /*m.load_vrai(6);
-    m.load_vrai(7);
-    m.load_vrai(12);
-    m.load_vrai(17);
+    //m.load_vrai(6);
+    //m.load_vrai(7);
+    //m.load_vrai(12);
+    //m.load_vrai(17);
     //m.load_version();
-    Iterator<Note>& it = m.getIterator();
+    /*NotesManager::Iterator& it = m.getIterator();
     while(!it.isDone()){
         it.next();
         std::cout<<std::endl;
@@ -191,11 +181,11 @@ int main(int argc, char *argv[]){
         qout << "Titre : " << it.current().getTitle() << endl;
         qout << "Created : " << it.current().getCreated().toString() << endl;
         std::cout<<std::endl;
-    }
+    }*/
     //m.save();
     //video.setFilename("/c/user/video.mv");
     //version::insert(&video);
-    version::closeBd();*/
+
 
     return app.exec();
 }

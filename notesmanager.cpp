@@ -116,6 +116,7 @@ void NotesManager::updateNote(const Note * note){
     std::cout << std::endl << "note received update" << std::endl;
     modelHolder->updateItem(*note);
     emit noteUpdated(*note);
+    version::insert(note);
 }
 
 NotesManager::Iterator& NotesManager::getIterator() const{

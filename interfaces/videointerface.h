@@ -20,6 +20,8 @@
 #include <QMovie>
 #include <QToolButton>
 #include <QStyle>
+#include <QComboBox>
+#include <QVector>
 
 #include "notes/video.h"
 #include "noteinterface.h"
@@ -58,9 +60,16 @@ class VideoInterface : public NoteInterface {
     QMediaPlayer* player;
     bool initVideo;
 
+    QFormLayout* boxLayout;
+    QComboBox * versions;
+    QPushButton* choisir;
+    int Id;
+    std::vector <int> a;
+
 public:
     VideoInterface(const Video& vid, QWidget *parent = 0);
     void updateButtons();
+    void parcourir();
 
 public slots:
     void openVideo();
@@ -68,6 +77,8 @@ public slots:
     void stopVideo();
     void pauseVideo();
     void save();
+    void charger();
+    void enregistrerid(int i);
 };
 
 #endif // VIDEOINTERFACE_H

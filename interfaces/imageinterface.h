@@ -13,6 +13,8 @@
 #include <QFileDialog>
 #include <QCheckBox>
 #include <QStyle>
+#include <QComboBox>
+#include <QVector>
 
 #include "noteinterface.h"
 #include "notes/image.h" // inclusion récursif.?
@@ -36,18 +38,27 @@ class ImageInterface: public NoteInterface {
     QPushButton* bAddImage;
     QCheckBox* fitCheckBox;
 
+    QFormLayout* boxLayout;
+    QComboBox * versions;
+    QPushButton* choisir;
+    int Id;
+    std::vector <int> a;
+
     //QPushButton* bDeleteImage;
     //bool deletedImage;
 
 public:
     ImageInterface(const Image& im, QWidget *parent = 0);
     void setNameFileImage(QString nameImage);
+    void parcourir();
 
 public slots :
     void openImage();
     void fitToWindow();
     void save();
     //void deleteImage();
+    void charger();
+    void enregistrerid(int i);
 };
 
 #endif // IMAGEINTERFACE_H
