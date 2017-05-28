@@ -57,6 +57,7 @@ void MainWindow::initMenu(){
 
      //Menu AFFICHAGE
      menuAffichage = menuBar()->addMenu("&Affichage");
+     relationsDock->toggleViewAction()->setShortcut(QKeySequence("Ctrl+R"));
      menuAffichage->addAction(relationsDock->toggleViewAction());
 
 
