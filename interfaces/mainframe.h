@@ -20,8 +20,11 @@ class Mainframe : public QWidget
 
     void initUI();
 public:
+
     //explicit Mainframe(NotesManager& nm, QWidget *parent = 0);
     explicit Mainframe(NotesManager& nm,Corbeille& cb ,QWidget *parent = 0);//pour corbeille
+    NotesListView const * getListView() const{ return listView; }
+
 
 signals:
 

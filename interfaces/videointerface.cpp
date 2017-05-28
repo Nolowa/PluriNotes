@@ -1,6 +1,5 @@
 #include "videointerface.h"
 
-
 VideoInterface::VideoInterface(const Video& vid,QWidget *parent) : NoteInterface(parent), video(&vid){
     QSize iconSize(36, 36);
     //layout

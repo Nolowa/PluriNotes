@@ -9,6 +9,7 @@ template <typename> class RelationsManager;
 
 template<typename T>
 class Association{
+    Relationship<T>& relation;
     const T& obj1;
     const T& obj2;
     QString label;
@@ -18,14 +19,16 @@ class Association{
     friend class RelationsManager<T>;
 
     Association();
-    Association(const T& obj1, const T& obj2, const QString& label = "") : obj1(obj1), obj2(obj2), label(label){}
+    Association(Relationship<T>& rel, const T& obj1, const T& obj2, const QString& label = "") : relation(rel), obj1(obj1), obj2(obj2), label(label){}
 public:
     bool operator ==(const Association& o){
         return (&obj1 == &(o.obj1) && &obj2 == &(o.obj2) && label == o.label);
     }
 
+    Relationship<T>& getRelation() const { return relation; }
     const T& getRelatedFrom() const { return obj1; }
     const T& getRelatedTo() const { return obj2; }
+    QString getLabel() const { return label; }
 
 };
 

@@ -20,7 +20,6 @@ class NotesListView : public QWidget
 
     NotesManager& nm;
 
-
     QStandardItemModel model;
     QMap<QUuid, QModelIndex> indexMap;
 

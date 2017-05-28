@@ -28,12 +28,15 @@ void NotesListView::generateModel(){
     }
 }
 
+
+
 void NotesListView::initUI(){
 
     layout = new QVBoxLayout(this);
 
     listview = new QListView(this);
     listview->setModel(&model);
+    //listview->setModel(&nm.getModelHolder().getModel());
     listview->setIconSize(QSize(32, 32));
     listview->setStyleSheet("background: #fcfcfc; border:0;");
     listview->clearSelection();

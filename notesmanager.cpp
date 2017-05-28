@@ -5,7 +5,7 @@
 #include <iostream>
 #include "version.h"
 NotesManager::NotesManager(){
-
+    modelHolder = new NotesModelHolder(*this);
 }
 
 /* Tout membre static  doit être définie dans un fichier source et initialisé */
@@ -49,6 +49,8 @@ void NotesManager::Iterator::next(){
     }
 }
 
+
+
 const Note* NotesManager::find(const QUuid& identifier) const{
     Iterator& it = getIterator();
     while(!it.isDone()){
@@ -62,18 +64,9 @@ const Note* NotesManager::find(const QUuid& identifier) const{
     return nullptr;
 }
 
-/*Note& NotesManager::createNote(){
-    Article* note = new Article(QUuid::createUuid());
-
-    notes.push_back(note);
-
-    emit noteCreated(*note);
-
-    return *note;
-}*/
-
 void NotesManager::registerNewNote(Note * note){
     notes.push_back(note);
+    modelHolder->generateItem(*note);
     emit noteCreated(*note);
 }
 
@@ -119,11 +112,9 @@ bool NotesManager::replaceReference(const Note * n){
 }
 
 void NotesManager::updateNote(const Note * note){
-    // TODO : Ré-injecter la note dans la mémoire
-    // TODO : Trigger UPDATE base de données
-    // TODO : Trigger GUI updates
     replaceReference(note);
     std::cout << std::endl << "note received update" << std::endl;
+    modelHolder->updateItem(*note);
     emit noteUpdated(*note);
     version::insert(note);
 }
@@ -140,6 +131,42 @@ void NotesManager::save() const{
         it.next();
         version::insert(&it.current());
     }
+}
+
+/*void NotesManager::NotesModelHolder::generateModel(NotesManager &nm){
+    Iterator<const Note>& notes = nm.getIterator();
+    while(!notes.isDone()){
+        notes.next();
+        const Note& n = notes.current();
+
+        // Ajout de la note au modèle
+        generateItem(n);
+
+    }
+}*/
+
+QStandardItem* NotesManager::NotesModelHolder::generateItem(const Note& note){
+
+    QString qstr = QString(":/icons/") + note.getType().toLower();
+    QStandardItem* item = new QStandardItem(QIcon(qstr), note.getTitle().length() ? note.getTitle() : "Note sans nom");
+
+    model.appendRow(item);
+    indexMap.insert(QUuid(note.getIdentifier()), item->index());
+    return item;
+}
+
+void NotesManager::NotesModelHolder::updateItem(QStandardItem* item, const Note& note){
+    item->setText(note.getTitle().length() ? note.getTitle() : "Note sans nom");
+}
+
+void NotesManager::NotesModelHolder::updateItem(const Note& note){
+    const QModelIndex& index = indexMap.value(QUuid(note.getIdentifier()));
+    QStandardItem* item = model.itemFromIndex(index);
+    updateItem(item, note);
+}
+
+const Note* NotesManager::NotesModelHolder::findByIndex(QModelIndex& index) const{
+    return notesManager.find(indexMap.key(index));
 }
 
 /***************************************************************/

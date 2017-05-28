@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QVector>
+#include <QList>
 #include "relationsmanager.h"
 #include "association.h"
 
@@ -31,6 +32,8 @@ private:
     virtual void associate(const T& ref1, const T& ref2, const QString& label);
     virtual void dissociate(const T& ref1, const T& ref2);
     bool areAssociated(const T& ref1, const T& ref2) const;
+    virtual QVector<const Association<T>*>* getChildren(const T& ref) const;
+    virtual QVector<const Association<T>*>* getParents(const T& ref) const;
 
 
 
@@ -77,7 +80,7 @@ void Relationship<T>::associate(const T& ref1, const T& ref2, const QString& lab
         a->label = label;
     }else{
         // Sinon on crée une nouvelle association
-        associations.push_back(new Association<T>(ref1, ref2, label));
+        associations.push_back(new Association<T>(*this, ref1, ref2, label));
     }
 }
 
@@ -88,5 +91,35 @@ void Relationship<T>::dissociate(const T &ref1, const T &ref2){
 
     delete a;
 }
+
+
+
+template <typename T>
+QVector<const Association<T>*>* Relationship<T>::getChildren(const T& ref) const{
+    QVector<const Association<T>*>* children = new QVector<const Association<T>*>;
+
+
+    for(typename QVector<Association<T>*>::const_iterator t = associations.constBegin(); t != associations.constEnd(); t++){
+        if((*t)->getRelatedFrom() == ref){
+            children->push_back(*t);
+        }
+    }
+
+    return children;
+}
+
+template <typename T>
+QVector<const Association<T>*>* Relationship<T>::getParents(const T& ref) const{
+    QVector<const Association<T>*>* parents = new QVector<const Association<T>*>;
+
+    for(typename QVector<Association<T>*>::const_iterator t = associations.constBegin(); t != associations.constEnd(); t++){
+        if((*t)->getRelatedTo() == ref){
+            parents->push_back(*t);
+        }
+    }
+
+    return parents;
+}
+
 
 #endif // RELATION_H

@@ -32,7 +32,10 @@ SOURCES += main.cpp \
     interfaces/noteframeview.cpp \
     interfaces/noteinterface.cpp \
     interfaces/mainwindow.cpp \
-    interfaces/corbeillelistview.cpp
+    interfaces/corbeillelistview.cpp  \
+    interfaces/relateddockview.cpp \
+    interfaces/createlinkdialog.cpp
+
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -72,7 +75,10 @@ HEADERS +=\
     interfaces/noteframeview.h \
     interfaces/noteinterface.h \
     interfaces/mainwindow.h \
-    interfaces/corbeillelistview.h
+    interfaces/corbeillelistview.h \
+    interfaces/relateddockview.h \
+    interfaces/createlinkdialog.h
+
 
 RESOURCES += \
     resources.qrc

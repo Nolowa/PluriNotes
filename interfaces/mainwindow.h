@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QDockWidget>
 #include <QObject>
 #include <QWidget>
 #include <QMenu>
@@ -9,10 +10,17 @@
 #include <QtWidgets>
 #include "mainframe.h"
 #include "notesmanager.h"
+#include "relateddockview.h"
+#include "relations/relationsmanager.h"
 
-class MainWindow : public QMainWindow{
-    Q_OBJECT
+
+class MainWindow : public QMainWindow
+{
     Mainframe* mf;
+    RelatedDockView* relationsView;
+    QDockWidget* relationsDock;
+
+
 
     //menu
     QMenu* menuFichier;
@@ -22,9 +30,14 @@ class MainWindow : public QMainWindow{
 
     void initMenu();
 
+    Q_OBJECT
+
 public:
-    //explicit MainWindow(NotesManager& nm, QWidget *parent = 0);
-    explicit MainWindow(NotesManager& nm,Corbeille& cb ,QWidget *parent = 0);//pour corbeille
+
+
+    explicit MainWindow(NotesManager& nm, RelationsManager<Note>& rm,Corbeille& cb, QWidget *parent = 0);
+
+
 signals:
 
 public slots:

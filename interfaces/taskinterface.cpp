@@ -1,5 +1,4 @@
 #include "taskinterface.h"
-
 TaskInterface::TaskInterface(const Task& t,QWidget *parent): NoteInterface(parent),task(&t){
     layout=new QFormLayout;
 

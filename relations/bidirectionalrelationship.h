@@ -18,6 +18,8 @@ class BidirectionalRelationship : public Relationship<T>
     BidirectionalRelationship(const QString& title) : Relationship<T>(title){}
     virtual Association<T>* getAssociation(const T& ref1, const T& ref2);
     virtual const Association<T>* getConstAssociation(const T& ref1, const T& ref2) const;
+    virtual QVector<const Association<T>*>* getChildren(const T& ref) const;
+    virtual QVector<const Association<T>*>* getParents(const T& ref) const;
 
 public:
 };
@@ -45,6 +47,26 @@ const Association<T>* BidirectionalRelationship<T>::getConstAssociation(const T&
     }
 
     return nullptr;
+}
+
+template <typename T>
+QVector<const Association<T>*>* BidirectionalRelationship<T>::getChildren(const T& ref) const{
+    QVector<const Association<T>*>* children = new QVector<const Association<T>*>;
+
+    for(typename QVector<Association<T>*>::const_iterator t = this->associations.constBegin(); t != this->associations.constEnd(); t++){
+        if((*t)->getRelatedFrom() == ref){
+            children->push_back(*t);
+        }else if((*t)->getRelatedTo() == ref){
+            children->push_back(*t);
+        }
+    }
+
+    return children;
+}
+
+template <typename T>
+QVector<const Association<T>*>* BidirectionalRelationship<T>::getParents(const T& ref) const{
+    return getChildren(ref);
 }
 
 #endif // BIDIRECTIONALRELATION_H

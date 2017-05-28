@@ -1,17 +1,30 @@
 #include "mainwindow.h"
 
-/*MainWindow::MainWindow(NotesManager& nm, QWidget *parent) : QMainWindow(parent)
-{
 
-    mf = new Mainframe(nm);
+
+
+MainWindow::MainWindow(NotesManager& nm, RelationsManager<Note>& rm,Corbeille& cb, QWidget *parent) : QMainWindow(parent)
+
+{
+    mf = new Mainframe(nm,cb);
     setCentralWidget(mf);
+
+    relationsView = new RelatedDockView(rm);
+    relationsDock = new QDockWidget("Relations", this);
+    relationsDock->setAllowedAreas(Qt::RightDockWidgetArea);
+    relationsDock->setWidget(relationsView);
+    relationsDock->setFeatures(QDockWidget::DockWidgetClosable);
+
+    connect(mf->getListView(), SIGNAL(noteSelected(const Note*)), relationsView, SLOT(setSelectedNote(const Note*)));
+
+    addDockWidget(Qt::RightDockWidgetArea, relationsDock);
     setWindowTitle("PluriNotes");
     setWindowIcon(QIcon(":/icons/article"));
 
     initMenu();
 
 
-}*/
+}
 
 
 void MainWindow::initMenu(){
@@ -47,29 +60,10 @@ void MainWindow::initMenu(){
 
      //Menu AFFICHAGE
      menuAffichage = menuBar()->addMenu("&Affichage");
-
-     //Affichage pour la partie Relation rétractable.
-     actionRelation = new QAction("Afficher les relations");
-     actionRelation->setCheckable(true);
-     actionRelation->setChecked(true);
-     actionRelation->setShortcut(QKeySequence("Ctrl+R"));
-     //connect(actionAfficherDockDroit, SIGNAL(toggled(bool)), this, SLOT(showRelation(bool)));
-
-     menuAffichage->addAction(actionRelation);
+     relationsDock->toggleViewAction()->setShortcut(QKeySequence("Ctrl+R"));
+     menuAffichage->addAction(relationsDock->toggleViewAction());
 
 
 
 }
 
-MainWindow::MainWindow(NotesManager& nm,Corbeille& cb ,QWidget *parent) : QMainWindow(parent)//pour corbeille
-{
-
-    mf = new Mainframe(nm,cb);
-    setCentralWidget(mf);
-    setWindowTitle("PluriNotes");
-    setWindowIcon(QIcon(":/icons/article"));
-
-    initMenu();
-
-
-}

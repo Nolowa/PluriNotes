@@ -294,6 +294,7 @@ void version::parcourir(const Note* n){
 
 }
 
+
 void version::typeGenre(Note* n,int* num, QString& genre){
     if(typeid(*n)==typeid(Article)){(*num)=0;genre="Article";}
     if(typeid(*n)==typeid(Image)){(*num)=1;genre="Image";}
