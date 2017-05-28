@@ -1,7 +1,7 @@
 #include "videointerface.h"
 #include <iostream>
 #include <QDateTime>
-#include <QSql>
+//#include <QSql>
 #include <QDebug>
 #include <QSqlQuery>
 #include <QStringList>
