@@ -264,6 +264,8 @@ void NotesManager::load_vrai(int id){
         q1.next();
         QString Idreal2=q1.value(1).toString();
         QString Description2=q1.value(2).toString();
+        QString File=q1.value(3).toString();
+
         QString Title2=q.value(2).toString();
         QDateTime Created2=q.value(3).toDateTime();
         Image* nouveau_i=new Image(QUuid(Idreal2),Created2);
@@ -274,6 +276,7 @@ void NotesManager::load_vrai(int id){
         case 3:nouveau_i->setState(non_editable);break;
         }
         nouveau_i->setDescription(Description2);
+        nouveau_i->setImage(File);
         Note* note2=static_cast<Note*>(nouveau_i);
         notes.push_back(note2);
     }
