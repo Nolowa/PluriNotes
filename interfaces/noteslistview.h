@@ -20,17 +20,12 @@ class NotesListView : public QWidget
 
     NotesManager& nm;
 
-
-    QStandardItemModel model;
-    QMap<QUuid, QModelIndex> indexMap;
-
     QVBoxLayout* layout;
     QListView* listview;
 
     QHBoxLayout* btnsLayout;
     QPushButton** buttons;
 
-    void generateModel();
     void initUI();
 
     QModelIndex* findIndex(const Note&) const;
@@ -44,8 +39,6 @@ public:
 signals:
     void noteSelected(const Note *);
 public slots:
-    void noteAdded(const Note&);
-    void noteUpdated(const Note&);
     void selectionChanged(QItemSelection, QItemSelection);
 };
 

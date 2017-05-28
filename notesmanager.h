@@ -3,7 +3,8 @@
 
 #include <QVector>
 #include <iterator>
-#include <QStringListModel>
+#include <QStandardItemModel>
+#include <QModelIndex>
 #include "utils.h"
 #include "notes/note.h"
 #include "notes/image.h"
@@ -12,12 +13,37 @@
 #include "notes/task.h"
 #include "notes/sound.h"
 #include "relations/relationsmanager.h"
+#include "notesmodelholder.h"
 
 
 class NotesManager : public QObject{
+public:
+
+    class NotesModelHolder
+    {
+        NotesManager& notesManager;
+        QStandardItemModel model;
+        QMap<QUuid, QModelIndex> indexMap;
+
+        //void generateModel(NotesManager&);
+        QStandardItem* generateItem(const Note&);
+        void updateItem(QStandardItem*, const Note&);
+        void updateItem(const Note& note);
+
+        friend class NotesManager;
+
+    public:
+        NotesModelHolder(NotesManager& nm) : notesManager(nm){}
+        QStandardItemModel& getModel(){ return model; }
+        const Note* findByIndex(QModelIndex&) const;
+
+    };
+
+private:
     std::vector<const Note*> notes;
     Note** notess;
     QString filename;
+    NotesModelHolder* modelHolder;
 
     static NotesManager* instance;// singleton
     NotesManager();
@@ -26,18 +52,14 @@ class NotesManager : public QObject{
 
     void registerNewNote(Note* note);
 
-    //int getPosition(Note& note) const;
-
     Q_OBJECT
 
 public:
     static NotesManager& getInstance();
     static void freeInstance();
 
-
-
-
     const Note* find(const QUuid& identifier) const;
+    NotesModelHolder & getModelHolder() const { return *modelHolder; }
 
     void load(); // load notes from file filename
 
@@ -59,6 +81,7 @@ public:
 
     };
 
+
     NotesManager::Iterator& getIterator() const;
 
     bool replaceReference(const Note *);
@@ -66,7 +89,6 @@ public:
 signals:
 
     void noteCreated(const Note&);
-
     void noteUpdated(const Note&);
 
 public slots:

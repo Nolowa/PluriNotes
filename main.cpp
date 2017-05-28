@@ -2,11 +2,15 @@
 #include <QtWidgets>
 #include <QTextStream>
 #include <QTimer>
+#include <QTreeView>
 #include "notesmanager.h"
 #include "version.h"
 #include "interfaces/noteslistview.h"
 #include "corbeille.h"
 #include "interfaces/mainwindow.h"
+#include <QStandardItemModel>
+#include <QMap>
+#include <QModelIndex>
 
 
 //include de test
@@ -18,15 +22,30 @@ int main(int argc, char *argv[]){
 
     QTextStream qout(stdout);
     qout << "Demarrage" << endl;
-    NotesManager& m=NotesManager::getInstance();
+    NotesManager& m = NotesManager::getInstance();
+    RelationsManager<Note>* rm = new RelationsManager<Note>;
 
 
 
     //NotesListView nlv;
     qout << "Création de notes" << endl;
 
+    Article a1 = Article(m.createArticle());
+    Article a2 = Article(m.createArticle());
+    Article a3 = Article(m.createArticle());
 
-    MainWindow window(m);
+    a1.setTitle("Article 1");
+    a2.setTitle("Article 2");
+    a3.setTitle("Article 3");
+
+    m.updateNote(&a1);
+    m.updateNote(&a2);
+    m.updateNote(&a3);
+
+    Relationship<Note>& r1 = rm->createRelation("UneRelationUnidirectionelle");
+    Relationship<Note>& r2 = rm->createRelation("UneDeuxiemeRelation");
+
+    MainWindow window(m, *rm);
     window.show();
 
 

@@ -18,6 +18,7 @@ class Mainframe : public QWidget
     void initUI();
 public:
     explicit Mainframe(NotesManager& nm, QWidget *parent = 0);
+    NotesListView const * getListView() const{ return listView; }
 
 signals:
 

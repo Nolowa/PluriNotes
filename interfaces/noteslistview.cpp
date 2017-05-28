@@ -8,32 +8,19 @@
 
 NotesListView::NotesListView(NotesManager& nm, QWidget *parent) : QWidget(parent), nm(nm)
 {
-    generateModel();
     initUI();
 
-    QObject::connect(&nm, SIGNAL(noteCreated(Note)), this, SLOT(noteAdded(Note)));
-    QObject::connect(&nm, SIGNAL(noteUpdated(Note)), this, SLOT(noteUpdated(Note)));
     connect(listview->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(selectionChanged(QItemSelection, QItemSelection)));
 }
 
-void NotesListView::generateModel(){
-    Iterator<const Note>& notes = nm.getIterator();
-    while(!notes.isDone()){
-        notes.next();
-        const Note& n = notes.current();
 
-        // Ajout de la note au modèle
-        generateItem(n);
-
-    }
-}
 
 void NotesListView::initUI(){
 
     layout = new QVBoxLayout(this);
 
     listview = new QListView(this);
-    listview->setModel(&model);
+    listview->setModel(&nm.getModelHolder().getModel());
     listview->setIconSize(QSize(32, 32));
     listview->setStyleSheet("background: #fcfcfc; border:0;");
     listview->clearSelection();
@@ -79,37 +66,11 @@ void NotesListView::initUI(){
 
 }
 
-QStandardItem* NotesListView::generateItem(const Note& note){
 
-    QString qstr = QString(":/icons/") + note.getType().toLower();
-    QStandardItem* item = new QStandardItem(QIcon(qstr), note.getTitle().length() ? note.getTitle() : "Note sans nom");
-
-    model.appendRow(item);
-    indexMap.insert(QUuid(note.getIdentifier()), item->index());
-    return item;
-}
-
-QStandardItem* NotesListView::updateItem(QStandardItem* item, const Note& note){
-    item->setText(note.getTitle().length() ? note.getTitle() : "Note sans nom");
-    return item;
-}
-
-
-void NotesListView::noteAdded(const Note& note){
-    generateItem(note);
-}
-
-void NotesListView::noteUpdated(const Note& note){
-    const QModelIndex& index = indexMap.value(QUuid(note.getIdentifier()));
-    QStandardItem* item = model.itemFromIndex(index);
-    updateItem(item, note);
-}
 
 void NotesListView::selectionChanged(QItemSelection cur, QItemSelection prev){
     if(cur.size()){
-        const QUuid& uuid = indexMap.key(cur.indexes().first());
-        const Note* note = nm.find(uuid);
-        emit noteSelected(note);
+        emit noteSelected(nm.getModelHolder().findByIndex(cur.indexes().first()));
     }else{
         emit noteSelected(nullptr);
     }

@@ -2,6 +2,12 @@
 QSqlDatabase version::db = QSqlDatabase::addDatabase("QSQLITE");
 int version::table_exist=0;
 int version::open=0;
+
+version::version(NotesManager& n) : nm(n){
+    QString name="test.db";
+    connectBd(name);
+}
+
 bool version::connectBd(const QString& dbname){
     db.setDatabaseName(dbname);
     if(db.open())
@@ -87,13 +93,12 @@ void version::insert(const Note* n){
     size_t nombre=strlen(typeid(*n).name());
     int num=10;
     std::string nom=std::string(typeid(*n).name(),nombre);
-    std::string nom1="class Article",nom2="class Image",nom3="class Task",nom4="class Sound",nom5="class Video";
     QString genre;
-    if(!nom.compare(nom1)){num=0;genre="Article";}
-    if(!nom.compare(nom2)){num=1;genre="Image";}
-    if(!nom.compare(nom3)){num=2;genre="Task";}
-    if(!nom.compare(nom4)){num=3;genre="Sound";}
-    if(!nom.compare(nom5)){num=4;genre="Video";}
+    if(!nom.compare("class Article")){num=0;genre="Article";}
+    if(!nom.compare("class Image")){num=1;genre="Image";}
+    if(!nom.compare("class Task")){num=2;genre="Task";}
+    if(!nom.compare("class Sound")){num=3;genre="Sound";}
+    if(!nom.compare("class Video")){num=4;genre="Video";}
     //std::cout<<nom <<"  "<<nom.compare(nom3)<<std::endl;
 
     /*insert into note*/
@@ -191,25 +196,24 @@ void version::insert(const Note* n){
     }
 }
 
-void version::parcourir(Note* n){
+void version::parcourir(const Note* n){
     /*verifier le type de n*/
     size_t nombre=strlen(typeid(*n).name());
     int num=10;
     std::string nom=std::string(typeid(*n).name(),nombre);
-    std::string nom1="class Article",nom2="class Image",nom3="class Task",nom4="class Sound",nom5="class Video";
     QString genre;
-    if(!nom.compare(nom1)){num=0;genre="Article";}
-    if(!nom.compare(nom2)){num=1;genre="Image";}
-    if(!nom.compare(nom3)){num=2;genre="Task";}
-    if(!nom.compare(nom4)){num=3;genre="Sound";}
-    if(!nom.compare(nom5)){num=4;genre="Video";}
+    if(!nom.compare("class Article")){num=0;genre="Article";}
+    if(!nom.compare("class Image")){num=1;genre="Image";}
+    if(!nom.compare("class Task")){num=2;genre="Task";}
+    if(!nom.compare("class Sound")){num=3;genre="Sound";}
+    if(!nom.compare("class Video")){num=4;genre="Video";}
 
 
     QSqlQuery q1;
     switch (num) {
     case 0://Article
         Article* nouveau_a;
-        nouveau_a=static_cast<Article*>(n);
+        nouveau_a=dynamic_cast<Article*>(const_cast<Note*>(n));
         q1.prepare("SELECT * FROM Article WHERE Idreal=:Id");
         q1.bindValue(":Id",n->getIdentifier());
         if (!q1.exec()) {
@@ -227,7 +231,7 @@ void version::parcourir(Note* n){
         break;
     case 1://Image
         Image* nouveau_i;
-        nouveau_i=static_cast<Image*>(n);
+        nouveau_i=dynamic_cast<Image*>(const_cast<Note*>(n));
         q1.prepare("SELECT * FROM Image WHERE Idreal=:Id");
         q1.bindValue(":Id",n->getIdentifier());
         if (!q1.exec()) {
@@ -244,7 +248,7 @@ void version::parcourir(Note* n){
         break;
     case 2://Task
         Task* nouveau_t;
-        nouveau_t=static_cast<Task*>(n);
+        nouveau_t=dynamic_cast<Task*>(const_cast<Note*>(n));
         q1.prepare("SELECT * FROM Task WHERE Idreal=:Id");
         q1.bindValue(":Id",n->getIdentifier());
         if (!q1.exec()) {
@@ -263,7 +267,7 @@ void version::parcourir(Note* n){
         break;
     case 3://Sound
         Sound* nouveau_s;
-        nouveau_s=static_cast<Sound*>(n);
+        nouveau_s=dynamic_cast<Sound*>(const_cast<Note*>(n));
         q1.prepare("SELECT * FROM Sound WHERE Idreal=:Id");
         q1.bindValue(":Id",n->getIdentifier());
         if (!q1.exec()) {
@@ -282,7 +286,7 @@ void version::parcourir(Note* n){
         break;
     case 4://Video
         Video* nouveau_v;
-        nouveau_v=static_cast<Video*>(n);
+        nouveau_v=dynamic_cast<Video*>(const_cast<Note*>(n));
         q1.prepare("SELECT * FROM Video WHERE Idreal=:Id");
         q1.bindValue(":Id",n->getIdentifier());
         if (!q1.exec()) {
@@ -303,5 +307,16 @@ void version::parcourir(Note* n){
 
 }
 
+bbd::bbd(NotesManager& n):QObject(), nm(n)
+{
+    QObject::connect(&n, SIGNAL(noteUpdated(const Note&)), this, SLOT(insert(const Note&)));
+    //QObject::connect(generate, SIGNAL(clicked()), this, SLOT(save()));
+}
+
+void bbd::insert(const Note& n){
+    //const Note* nou=static_cast<const Note*>(&n);
+    //const Note* nou=&n;
+    version::insert(&n);
+}
 
 

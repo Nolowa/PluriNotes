@@ -12,7 +12,7 @@ class NoteInterface;
 
 typedef enum {active, non_editable,sursis} State;// active=0, non_editable=1, sursis=2
 /*! Classe Note, classe mère  */
-class Note : public QStandardItem{
+class Note /*: public QStandardItem*/{
     QUuid identifier; /**< identifiant unique qui caractérise chaque objet Note, unique pour chaque objet Note  */
     QString title; /**< titre de la Note  */
     QDateTime created; /**< date de création de la Note  */
@@ -41,7 +41,7 @@ public:
     virtual NoteInterface* getUI() const = 0;
 
     bool operator==(const Note &other) const{ return identifier == other.identifier;} /**< Opérateur d'égalité (basé sur l'identifiant de la Note) */
-
+    operator QString() const { return title; }
     // a voir si on peut la mettre en privée
     // a mettre dans la méthode dès que l'on change une valeur d'attribut (sauf pour l'état de la note)
     void setEdited(); /**< Méthode modifiant l'attribut edited */
