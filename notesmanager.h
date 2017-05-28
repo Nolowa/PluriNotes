@@ -13,7 +13,6 @@
 #include "notes/task.h"
 #include "notes/sound.h"
 #include "relations/relationsmanager.h"
-#include "notesmodelholder.h"
 
 
 class NotesManager : public QObject{

@@ -57,15 +57,7 @@ void MainWindow::initMenu(){
 
      //Menu AFFICHAGE
      menuAffichage = menuBar()->addMenu("&Affichage");
-
-     //Affichage pour la partie Relation rétractable.
-     actionRelation = new QAction("Afficher les relations");
-     actionRelation->setCheckable(true);
-     actionRelation->setChecked(true);
-     actionRelation->setShortcut(QKeySequence("Ctrl+R"));
-     //connect(actionAfficherDockDroit, SIGNAL(toggled(bool)), this, SLOT(showRelation(bool)));
-
-     menuAffichage->addAction(actionRelation);
+     menuAffichage->addAction(relationsDock->toggleViewAction());
 
 
 
