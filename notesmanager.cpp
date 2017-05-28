@@ -257,7 +257,7 @@ void NotesManager::load_vrai(int id){
         case 3:nouveau_a->setState(non_editable);break;
         }
         Note* note1=static_cast<Note*>(nouveau_a);
-        notes.push_back(note1);
+        registerNewNote(note1);
     }
     if(!Genre.compare(nom2)){//Image
         q1.exec("SELECT * FROM Image WHERE Id='"+ QString::number(id) +"';");
@@ -278,7 +278,7 @@ void NotesManager::load_vrai(int id){
         nouveau_i->setDescription(Description2);
         nouveau_i->setImage(File);
         Note* note2=static_cast<Note*>(nouveau_i);
-        notes.push_back(note2);
+        registerNewNote(note2);
     }
     if(!Genre.compare(nom3)){//Task
         q1.exec("SELECT * FROM Task WHERE Id='"+ QString::number(id) +"';");
@@ -304,7 +304,7 @@ void NotesManager::load_vrai(int id){
         if(Status=="en_cours"){nouveau_t->setStatus(en_cours);}
         if(Status=="terminee"){nouveau_t->setStatus(terminee);}
         Note* note3=static_cast<Note*>(nouveau_t);
-        notes.push_back(note3);
+        registerNewNote(note3);
     }
     if(!Genre.compare(nom4)){//Sound
         q1.exec("SELECT * FROM Sound WHERE Id='"+ QString::number(id) +"';");
@@ -323,7 +323,7 @@ void NotesManager::load_vrai(int id){
         }
         nouveau_s->setDescription(Description4);
         Note* note4=static_cast<Note*>(nouveau_s);
-        notes.push_back(note4);
+        registerNewNote(note4);
     }
     if(!Genre.compare(nom5)){//Video
         q1.exec("SELECT * FROM Video WHERE Id='"+ QString::number(id) +"';");
@@ -342,7 +342,7 @@ void NotesManager::load_vrai(int id){
         }
         nouveau_v->setDescription(Description5);
         Note* note5=static_cast<Note*>(nouveau_v);
-        notes.push_back(note5);
+        registerNewNote(note5);
     }
 }
 
