@@ -1,6 +1,5 @@
 #include "version.h"
 QSqlDatabase version::db = QSqlDatabase::addDatabase("QSQLITE");
-int version::table_exist=0;
 int version::open=0;
 
 version::version(NotesManager& n) : nm(n){
@@ -190,109 +189,6 @@ void version::insert(const Note* n){
     }
 }
 
-void version::parcourir(const Note* n){
-    /*verifier le type de n*/
-    QString genre;
-    int num=-1;
-    typeGenre(const_cast<Note*>(n),&num,genre);
-
-    QSqlQuery q1;
-    switch (num) {
-    case 0://Article
-        Article* nouveau_a;
-        nouveau_a=dynamic_cast<Article*>(const_cast<Note*>(n));
-        q1.prepare("SELECT * FROM Article WHERE Idreal=:Id");
-        q1.bindValue(":Id",n->getIdentifier());
-        if (!q1.exec()) {
-              QMessageBox::critical(0, QObject::tr("Database Error"),
-                                    q1.lastError().text());
-        }else{
-            while (q1.next()) {
-                    QString Id = q1.value(0).toString();
-                    QString Idreal = q1.value(1).toString();
-                    QString Text = q1.value(2).toString();
-                    qDebug() << Id <<"Idreal"<<Idreal <<"Text:"<<Text  ;
-                }
-        }
-        q1.finish();
-        break;
-    case 1://Image
-        Image* nouveau_i;
-        nouveau_i=dynamic_cast<Image*>(const_cast<Note*>(n));
-        q1.prepare("SELECT * FROM Image WHERE Idreal=:Id");
-        q1.bindValue(":Id",n->getIdentifier());
-        if (!q1.exec()) {
-              QMessageBox::critical(0, QObject::tr("Database Error"),
-                                    q1.lastError().text());
-        }else{
-            while (q1.next()) {
-                    QString Id = q1.value(0).toString();
-
-                    qDebug() << Id ;
-                }
-        }
-        q1.finish();
-        break;
-    case 2://Task
-        Task* nouveau_t;
-        nouveau_t=dynamic_cast<Task*>(const_cast<Note*>(n));
-        q1.prepare("SELECT * FROM Task WHERE Idreal=:Id");
-        q1.bindValue(":Id",n->getIdentifier());
-        if (!q1.exec()) {
-              QMessageBox::critical(0, QObject::tr("Database Error"),
-                                    q1.lastError().text());
-        }else{
-            while (q1.next()) {
-                    QString Id = q1.value(0).toString();
-
-                    qDebug() << Id ;
-                }
-        }
-        q1.finish();
-
-
-        break;
-    case 3://Sound
-        Sound* nouveau_s;
-        nouveau_s=dynamic_cast<Sound*>(const_cast<Note*>(n));
-        q1.prepare("SELECT * FROM Sound WHERE Idreal=:Id");
-        q1.bindValue(":Id",n->getIdentifier());
-        if (!q1.exec()) {
-              QMessageBox::critical(0, QObject::tr("Database Error"),
-                                    q1.lastError().text());
-        }else{
-            while (q1.next()) {
-                    QString Id = q1.value(0).toString();
-                    QString Idreal = q1.value(1).toString();
-                    QString Text = q1.value(2).toString();
-                    qDebug() << Id <<"Idreal"<<Idreal <<"Text:"<<Text  ;
-                }
-        }
-        q1.finish();
-
-        break;
-    case 4://Video
-        Video* nouveau_v;
-        nouveau_v=dynamic_cast<Video*>(const_cast<Note*>(n));
-        q1.prepare("SELECT * FROM Video WHERE Idreal=:Id");
-        q1.bindValue(":Id",n->getIdentifier());
-        if (!q1.exec()) {
-              QMessageBox::critical(0, QObject::tr("Database Error"),
-                                    q1.lastError().text());
-        }else{
-            while (q1.next()) {
-                    QString Id = q1.value(0).toString();
-                    QString Idreal = q1.value(1).toString();
-                    QString Text = q1.value(2).toString();
-                    qDebug() << Id <<"Idreal"<<Idreal <<"Text:"<<Text  ;
-                }
-        }
-        q1.finish();
-
-        break;
-    }
-
-}
 
 
 void version::typeGenre(Note* n,int* num, QString& genre){

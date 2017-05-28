@@ -125,13 +125,7 @@ NotesManager::Iterator& NotesManager::getIterator() const{
 }
 
 
-void NotesManager::save() const{
-    Iterator& it=this->getIterator();
-    while(!it.isDone()){
-        it.next();
-        version::insert(&it.current());
-    }
-}
+
 
 /*void NotesManager::NotesModelHolder::generateModel(NotesManager &nm){
     Iterator<const Note>& notes = nm.getIterator();
@@ -169,59 +163,6 @@ const Note* NotesManager::NotesModelHolder::findByIndex(QModelIndex& index) cons
     return notesManager.find(indexMap.key(index));
 }
 
-/***************************************************************/
-/* TODO : Cette fonction ne devrait pas être dans NotesManager */
-/***************************************************************/
-
-void NotesManager::load_affiche(){
-    /*extraire les dernieres versions*/
-    QSqlQuery q;
-    q.exec("SELECT n.Id,n.Genre,n.Title,max(n.Edited) FROM (Note n INNER JOIN Article a ON n.Id=a.Id) GROUP BY a.Idreal;");
-    while (q.next()) {
-            QString Id = q.value(0).toString();
-            QString Genre = q.value(1).toString();
-            QString Title = q.value(2).toString();
-            QString Edited = q.value(3).toString();
-            qDebug() <<"Id: "<< Id <<"Genre: " <<Genre<< "Title: "<<Title<<"Edited: "<<Edited ;
-    }
-    q.finish();
-    q.exec("SELECT n.Id,n.Genre,n.Title,max(n.Edited) FROM (Note n INNER JOIN Image a ON n.Id=a.Id) GROUP BY a.Idreal;");
-    while (q.next()) {
-            QString Id = q.value(0).toString();
-            QString Genre = q.value(1).toString();
-            QString Title = q.value(2).toString();
-            QString Edited = q.value(3).toString();
-            qDebug() <<"Id: "<< Id <<"Genre: " <<Genre<< "Title: "<<Title<<"Edited: "<<Edited ;
-    }
-    q.finish();
-    q.exec("SELECT n.Id,n.Genre,n.Title,max(n.Edited) FROM (Note n INNER JOIN Task a ON n.Id=a.Id) GROUP BY a.Idreal;");
-    while (q.next()) {
-            QString Id = q.value(0).toString();
-            QString Genre = q.value(1).toString();
-            QString Title = q.value(2).toString();
-            QString Edited = q.value(3).toString();
-            qDebug() <<"Id: "<< Id <<"Genre: " <<Genre<< "Title: "<<Title<<"Edited: "<<Edited ;
-    }
-    q.finish();
-    q.exec("SELECT n.Id,n.Genre,n.Title,max(n.Edited) FROM (Note n INNER JOIN Video a ON n.Id=a.Id) GROUP BY a.Idreal;");
-    while (q.next()) {
-            QString Id = q.value(0).toString();
-            QString Genre = q.value(1).toString();
-            QString Title = q.value(2).toString();
-            QString Edited = q.value(3).toString();
-            qDebug() <<"Id: "<< Id <<"Genre: " <<Genre<< "Title: "<<Title<<"Edited: "<<Edited ;
-    }
-    q.finish();
-    q.exec("SELECT n.Id,n.Genre,n.Title,max(n.Edited) FROM (Note n INNER JOIN Sound a ON n.Id=a.Id) GROUP BY a.Idreal;");
-    while (q.next()) {
-            QString Id = q.value(0).toString();
-            QString Genre = q.value(1).toString();
-            QString Title = q.value(2).toString();
-            QString Edited = q.value(3).toString();
-            qDebug() <<"Id: "<< Id <<"Genre: " <<Genre<< "Title: "<<Title<<"Edited: "<<Edited ;
-    }
-    q.finish();
-}
 
 
 /***************************************************************/
@@ -348,31 +289,31 @@ void NotesManager::load_vrai(int id){
 
 void NotesManager::load_version(){
     QSqlQuery q;
-    q.exec("SELECT n.Id,max(n.Edited) FROM (Note n INNER JOIN Article a ON n.Id=a.Id)WHERE n.State='active' GROUP BY a.Idreal;");
+    q.exec("SELECT n.Id,max(n.Edited) FROM (Note n INNER JOIN Article a ON n.Id=a.Id) GROUP BY a.Idreal;");
     while (q.next()) {
             int Id = q.value(0).toInt();
             load_vrai(Id);
     }
     q.finish();
-    q.exec("SELECT n.Id,n.Genre,n.Title,max(n.Edited) FROM (Note n INNER JOIN Image a ON n.Id=a.Id)WHERE n.State='active' GROUP BY a.Idreal;");
+    q.exec("SELECT n.Id,n.Genre,n.Title,max(n.Edited) FROM (Note n INNER JOIN Image a ON n.Id=a.Id) GROUP BY a.Idreal;");
     while (q.next()) {
             int Id = q.value(0).toInt();
             load_vrai(Id);
     }
     q.finish();
-    q.exec("SELECT n.Id,n.Genre,n.Title,max(n.Edited) FROM (Note n INNER JOIN Task a ON n.Id=a.Id)WHERE n.State='active' GROUP BY a.Idreal;");
+    q.exec("SELECT n.Id,n.Genre,n.Title,max(n.Edited) FROM (Note n INNER JOIN Task a ON n.Id=a.Id) GROUP BY a.Idreal;");
     while (q.next()) {
             int Id = q.value(0).toInt();
             load_vrai(Id);
     }
     q.finish();
-    q.exec("SELECT n.Id,n.Genre,n.Title,max(n.Edited) FROM (Note n INNER JOIN Video a ON n.Id=a.Id)WHERE n.State='active' GROUP BY a.Idreal;");
+    q.exec("SELECT n.Id,n.Genre,n.Title,max(n.Edited) FROM (Note n INNER JOIN Video a ON n.Id=a.Id) GROUP BY a.Idreal;");
     while (q.next()) {
             int Id = q.value(0).toInt();
             load_vrai(Id);
     }
     q.finish();
-    q.exec("SELECT n.Id,n.Genre,n.Title,max(n.Edited) FROM (Note n INNER JOIN Sound a ON n.Id=a.Id)WHERE n.State='active' GROUP BY a.Idreal;");
+    q.exec("SELECT n.Id,n.Genre,n.Title,max(n.Edited) FROM (Note n INNER JOIN Sound a ON n.Id=a.Id) GROUP BY a.Idreal;");
     while (q.next()) {
             int Id = q.value(0).toInt();
             load_vrai(Id);

@@ -16,17 +16,16 @@
 class version
 {
     static QSqlDatabase db;
-    static int table_exist;
+
     static int open;
     NotesManager& nm;
 public:
-    version(NotesManager& n);
-    static bool connectBd(const QString& dbname);
-    static void closeBd();
-    static void createTables();
-    static void insert(const Note* n);
-    static void parcourir(const Note* n);
-    static void typeGenre(Note* n,int* num, QString& genre);
+    version(NotesManager& n);/**< fait appel à la fonction connectBd*/
+    static bool connectBd(const QString& dbname);/**< connecter à la base de donnée */
+    static void closeBd();/**< déconnecter*/
+    static void createTables();/**< créer les tables*/
+    static void insert(const Note* n);/**< insérer tous les infos d'une note dans BDD*/
+    static void typeGenre(Note* n,int* num, QString& genre);/**< vérifier le type de n*/
 };
 
 

@@ -62,10 +62,8 @@ public:
 
     void load(); // load notes from file filename
 
-    void load_affiche(); // load les notes dernieres from BBD et puis afficher ses id title...
-    void save() const; // save notes in BBD
     void load_vrai(int id);//à travers de l'interface on sait excatement l'id de note qu'on veut charger
-    void load_version();/**< load toutes les notes actives de versions dernières dans notemanagers*/
+    void load_version();/**< load toutes les notes de versions dernières dans notemanagers*/
 
 
     class Iterator : public ::Iterator<const Note>{
