@@ -28,17 +28,25 @@ class ArticleInterface: public NoteInterface{
     QHBoxLayout* buttonLayoutc;
     QVBoxLayout* mainLayout;
     QPushButton* generate;
+    /**< la partie choisir et charger les versions */
     QComboBox * versions;
     QPushButton* choisir;
     int Id;
     std::vector <int> a;
+
+    QPushButton* activer;/**< archive->active */
+    QPushButton* supprimer;/**< supprimer */
+    QHBoxLayout* buttonLayouts;
 public:
     ArticleInterface(const Article& a, QWidget *parent = 0);
-    void parcourir();
+    ArticleInterface(const Article& a,int i, QWidget *parent = 0);/**< l'interface pour les notes non éditable */
+    void parcourir();/**< parcourir les versions*/
+
 public slots:
     void save();
-    void charger();
-    void enregistrerid(int i);
+    void charger();/**< charger la version*/
+    void enregistrerid(int i);/**< garder id présent*/
+
 };
 
 #endif // ARTICLEINTERFACE_H

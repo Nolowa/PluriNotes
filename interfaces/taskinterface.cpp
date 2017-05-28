@@ -1,11 +1,5 @@
 #include "taskinterface.h"
-#include <iostream>
-#include <QDateTime>
-#include <QSql>
-#include <QDebug>
-#include <QSqlQuery>
-#include <QStringList>
-#include <QDateTime>
+
 TaskInterface::TaskInterface(const Task& t,QWidget *parent): NoteInterface(parent),task(&t){
     layout=new QFormLayout;
 
@@ -53,7 +47,8 @@ TaskInterface::TaskInterface(const Task& t,QWidget *parent): NoteInterface(paren
     parcourir();
     layout->addWidget(versions);
     layout->addWidget(choisir);
-
+    supprimer=new QPushButton(QString("supprimer"));
+    layout->addWidget(supprimer);
 
     setLayout(layout);
     setWindowTitle("Tâche à réaliser");
@@ -63,6 +58,49 @@ TaskInterface::TaskInterface(const Task& t,QWidget *parent): NoteInterface(paren
     QObject::connect(versions, SIGNAL(activated(int)), this, SLOT(enregistrerid(int)));
     QObject::connect(choisir, SIGNAL(clicked()), this, SLOT(charger()));
 
+
+}
+
+TaskInterface::TaskInterface(const Task& t, int i, QWidget *parent): NoteInterface(parent),task(&t){
+    layout=new QFormLayout;
+
+
+    titleEdit= new QLineEdit(task->getTitle(),this);
+    titleEdit->setReadOnly(1);
+    actionEdit= new QTextEdit(task->getActionToBeDone(),this);
+    actionEdit->setReadOnly(1);
+    //QString date=QDateTime::currentDateTime().toString();
+    dateEdit= new QLineEdit(task->getExpired().toString(),this);
+    dateEdit->setReadOnly(1);
+    idEdit= new QLineEdit(task->getIdentifier().toString(),this);
+    idEdit->setReadOnly(1);
+    idEdit->setFixedWidth(300);
+
+    // priority
+    priorityEdit= new QLineEdit(QString::number(task->getPriority()),this);
+    priorityEdit->setReadOnly(1);
+    // status
+    statusEdit= new QLineEdit(task->getStatus(),this);
+    statusEdit->setReadOnly(1);
+    //Fixation des tailles des Widgets
+    dateEdit->setFixedWidth(180);
+    titleEdit->setFixedWidth(180);
+    //ajout des Widget sur le layout
+    layout->addRow("Identifiant :",idEdit);
+    layout->addRow("Titre :",titleEdit);
+    layout->addRow("Status :",statusEdit);
+    layout->addRow("Priorité :",priorityEdit);
+    layout->addRow("Date échouant",dateEdit);
+    layout->addRow("Objectif :",actionEdit);
+
+
+    activer=new QPushButton(QString("activer"));
+    layout->addWidget(activer);
+    setLayout(layout);
+    setWindowTitle("Tâche à réaliser");
+
+    //slot
+    //QObject::connect(activer, SIGNAL(clicked()), this, SLOT(charger()));
 
 }
 

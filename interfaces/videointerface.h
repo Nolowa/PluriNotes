@@ -60,16 +60,21 @@ class VideoInterface : public NoteInterface {
     QMediaPlayer* player;
     bool initVideo;
 
+    /**< la partie choisir et charger les versions */
     QFormLayout* boxLayout;
     QComboBox * versions;
     QPushButton* choisir;
     int Id;
     std::vector <int> a;
 
+    QPushButton* activer;/**< archive->active */
+    QPushButton* supprimer;/**< supprimer */
+
 public:
     VideoInterface(const Video& vid, QWidget *parent = 0);
+    VideoInterface(const Video& vid, int i, QWidget *parent = 0);/**< l'interface pour les notes non éditable */
     void updateButtons();
-    void parcourir();
+    void parcourir();/**< parcourir les versions*/
 
 public slots:
     void openVideo();
@@ -77,8 +82,8 @@ public slots:
     void stopVideo();
     void pauseVideo();
     void save();
-    void charger();
-    void enregistrerid(int i);
+    void charger();/**< charger la version*/
+    void enregistrerid(int i);/**< garder id présent*/
 };
 
 #endif // VIDEOINTERFACE_H

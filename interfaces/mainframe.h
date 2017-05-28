@@ -5,6 +5,7 @@
 #include "noteslistview.h"
 #include "notesmanager.h"
 #include "noteframeview.h"
+#include "corbeillelistview.h"
 
 class Mainframe : public QWidget
 {
@@ -14,10 +15,13 @@ class Mainframe : public QWidget
 
     NotesListView* listView;
     NoteFrameView* noteView;
+    CorbeilleListView* CorbeilleView;//pour corbeille
+    Corbeille& cb;//pour corbeille
 
     void initUI();
 public:
-    explicit Mainframe(NotesManager& nm, QWidget *parent = 0);
+    //explicit Mainframe(NotesManager& nm, QWidget *parent = 0);
+    explicit Mainframe(NotesManager& nm,Corbeille& cb ,QWidget *parent = 0);//pour corbeille
 
 signals:
 

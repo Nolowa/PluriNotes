@@ -37,28 +37,31 @@ class ImageInterface: public NoteInterface {
     QPushButton* generate;
     QPushButton* bAddImage;
     QCheckBox* fitCheckBox;
-
+    /**< la partie choisir et charger les versions */
     QFormLayout* boxLayout;
     QComboBox * versions;
     QPushButton* choisir;
     int Id;
     std::vector <int> a;
 
+    QPushButton* activer;/**< archive->active */
+    QPushButton* supprimer;/**< supprimer */
     //QPushButton* bDeleteImage;
     //bool deletedImage;
 
 public:
     ImageInterface(const Image& im, QWidget *parent = 0);
+    ImageInterface(const Image& im, int i, QWidget *parent = 0);/**< l'interface pour les notes non éditable */
     void setNameFileImage(QString nameImage);
-    void parcourir();
+    void parcourir();/**< parcourir les versions*/
 
 public slots :
     void openImage();
     void fitToWindow();
     void save();
     //void deleteImage();
-    void charger();
-    void enregistrerid(int i);
+    void charger();/**< charger la version*/
+    void enregistrerid(int i);/**< garder id présent*/
 };
 
 #endif // IMAGEINTERFACE_H

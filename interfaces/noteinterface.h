@@ -3,6 +3,12 @@
 
 #include <QWidget>
 #include "notes/note.h"
+#include <iostream>
+#include <QDateTime>
+#include <QDebug>
+#include <QSqlQuery>
+#include <QStringList>
+
 
 class NoteManager;
 class Note;
@@ -16,6 +22,7 @@ public:
 
 signals:
     void newVersion(const Note*);
+    void loadVersion(const Note*);// signal pour mettre à jour NoteListView arpès chargement d'une ancienne version
 };
 
 #endif // GENERALINTERFACE_H

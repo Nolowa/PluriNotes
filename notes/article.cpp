@@ -23,6 +23,10 @@ NoteInterface* Article::getUI() const{
 
 }
 
+NoteInterface* Article::getUIarchive() const{
+    return new ArticleInterface(*this,1);
+
+}
 
 void Article::load(Note* n){
     Article* nouveau;

@@ -19,7 +19,7 @@ int main(int argc, char *argv[]){
     QTextStream qout(stdout);
     qout << "Demarrage" << endl;
     NotesManager& m=NotesManager::getInstance();
-
+    Corbeille& c=Corbeille::get_instance();
 
 
     //NotesListView nlv;
@@ -28,9 +28,10 @@ int main(int argc, char *argv[]){
 
     version* v=new version(m);
     m.load_version();
+    c.load_tout();
+   
 
-
-    MainWindow window(m);
+    MainWindow window(m,c);
     window.show();
 
 

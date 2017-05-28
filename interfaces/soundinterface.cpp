@@ -1,10 +1,5 @@
 #include "soundinterface.h"
-#include <iostream>
-#include <QDateTime>
-#include <QSql>
-#include <QDebug>
-#include <QSqlQuery>
-#include <QStringList>
+
 SoundInterface::SoundInterface(const Sound& s,QWidget *parent) : NoteInterface(parent), sound(&s){
       layout=new QFormLayout;
       boutonLayout= new QHBoxLayout;
@@ -40,7 +35,8 @@ SoundInterface::SoundInterface(const Sound& s,QWidget *parent) : NoteInterface(p
       parcourir();
       boxLayout->addRow(versions);
       boxLayout->addRow(choisir);
-
+      supprimer=new QPushButton(QString("supprimer"));
+      boxLayout->addRow(supprimer);
 
       //gestion des Layouts
       mainLayout = new QVBoxLayout;
@@ -80,6 +76,61 @@ SoundInterface::SoundInterface(const Sound& s,QWidget *parent) : NoteInterface(p
 
 }
 
+SoundInterface::SoundInterface(const Sound& s, int i, QWidget *parent) : NoteInterface(parent), sound(&s){
+    layout=new QFormLayout;
+    boutonLayout= new QHBoxLayout;
+
+    bStopMusic= new QPushButton(QString("Stop"));
+    bPlayMusic= new QPushButton(QString("Play"));
+    titleEdit= new QLineEdit(sound->getTitle(),this);
+    titleEdit->setReadOnly(1);
+    descriptionEdit= new QTextEdit(sound->getDescription(),this);
+    descriptionEdit->setReadOnly(1);
+    nameFileSound = new QString(sound->getSoundFileName());
+    idEdit= new QLineEdit(sound->getIdentifier().toString(),this);
+    idEdit->setReadOnly(1);
+    initSound=0;
+
+    //ajustement de la taille des Widgets
+    descriptionEdit->setFixedHeight(120);
+    titleEdit->setFixedWidth(180);
+    idEdit->setFixedWidth(300);
+
+    // ajout des composants sur la layout
+    layout->addRow("Identifiant :",idEdit);
+    layout->addRow("Titre :",titleEdit);
+    layout->addRow("Description :",descriptionEdit);
+    boutonLayout->addWidget(bStopMusic);
+    boutonLayout->addWidget(bPlayMusic);
+
+    activer=new QPushButton(QString("activer"));
+    boxLayout=new QFormLayout;
+    boxLayout->addRow(activer);
+
+
+    //gestion des Layouts
+    mainLayout = new QVBoxLayout;
+    mainLayout->addLayout(layout);
+    mainLayout->addLayout(boutonLayout);
+    mainLayout->addLayout(boxLayout);
+    setLayout(mainLayout);
+    setWindowTitle("Bande Son");
+
+    if(!((*nameFileSound)==QString(""))){
+        soundToRegister= new QSound(*nameFileSound);
+        initSound=1;
+        soundToRegister->play();
+    }
+
+
+
+    //slot
+    QObject::connect(bPlayMusic, SIGNAL(clicked()), this, SLOT(playMusic()));
+    QObject::connect(bStopMusic, SIGNAL(clicked()), this, SLOT(stopMusic()));
+    //QObject::connect(activer, SIGNAL(clicked()), this, SLOT(charger()));
+
+}
+
 
 void SoundInterface::setNameFileSound(QString nameSound){
     nameFileSound=&nameSound;
@@ -107,6 +158,7 @@ void SoundInterface::stopMusic(){
     if(initSound)
      soundToRegister->stop();
 }
+
 void SoundInterface::save(){
     Sound * s = new Sound(*sound);
     s->setTitle(titleEdit->text());
@@ -133,12 +185,12 @@ void SoundInterface::parcourir(){
 
 void SoundInterface::charger(){
     QSqlQuery q;
-    q.exec("SELECT n.Title,a.Description FROM Sound a,Note n WHERE n.Id=a.Id AND a.Id='"+ QString::number(Id) +"';");
+    q.exec("SELECT n.Title,a.Description,a.File FROM Sound a,Note n WHERE n.Id=a.Id AND a.Id='"+ QString::number(Id) +"';");
     q.next();
     Sound* change=const_cast<Sound*>(sound);
     change->setTitle(q.value(0).toString());
     change->setDescription(q.value(1).toString());
-    change->setFilename(q.value(2).toString());
+    change->setSoundFile(q.value(2).toString());
 }
 
 void SoundInterface::enregistrerid(int i){

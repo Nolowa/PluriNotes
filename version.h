@@ -26,22 +26,9 @@ public:
     static void createTables();
     static void insert(const Note* n);
     static void parcourir(const Note* n);
+    static void typeGenre(Note* n,int* num, QString& genre);
 };
 
-/*
-class bbd : public QObject
-{
-    Q_OBJECT
-private:
-    NotesManager& nm;
-    const Note* no;
-
-public:
-    bbd(NotesManager& n,const Note* notes);
-
-public slots:
-    void insert();
-};*/
 
 
 #endif // VERSION_H

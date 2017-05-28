@@ -24,7 +24,7 @@ public:
     const QString& getType() const;
 
     NoteInterface* getUI() const;
-
+    NoteInterface* getUIarchive() const;
 };
 
 #endif // SOUND_H

@@ -62,6 +62,9 @@ void Task::setExpired(const QDateTime exp){
 NoteInterface* Task::getUI() const{
     return new TaskInterface(*this);
 }
+NoteInterface* Task::getUIarchive() const{
+    return new TaskInterface(*this,1);
+}
 
 Status Task::getStatus_re() const{
     return status;

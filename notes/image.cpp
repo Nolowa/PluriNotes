@@ -11,6 +11,9 @@ const QImage& Image::getImage() const{
 NoteInterface* Image::getUI() const{
     return new ImageInterface(*this);
 }
+NoteInterface* Image::getUIarchive() const{
+    return new ImageInterface(*this,1);
+}
 
 void Image::setImage(const QString &im){
     nameFile=im;

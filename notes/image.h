@@ -21,7 +21,7 @@ public:
     const QImage& getImage() const; /**< Accesseur de l'attribut image  */
     const QImage& getFile() const; /**< Accesseur de l'attribut image */
     NoteInterface* getUI() const; /**< Méthode virtuelle renvoyant l'interface de Image */
-
+    NoteInterface* getUIarchive() const;
 
     Note* save();
     void load(Note* n);

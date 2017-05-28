@@ -5,5 +5,8 @@
         <file alias="sound">resources/icons/sound.png</file>
         <file alias="task">resources/icons/task.png</file>
         <file alias="video">resources/icons/video.png</file>
+		<file alias="corbeille">resources/icons/corbeille.png</file>
+		<file alias="vide">resources/icons/vide.png</file>
+		<file alias="archive">resources/icons/archive.png</file>
     </qresource>
 </RCC>

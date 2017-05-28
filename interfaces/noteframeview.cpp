@@ -26,3 +26,15 @@ void NoteFrameView::setNote(const Note * note){
 
     QObject::connect(widget, SIGNAL(newVersion(const Note*)), this, SIGNAL(noteUpdated(const Note*)));
 }
+
+void NoteFrameView::setNoteArchive(const Note * note){
+    if(widget != nullptr){
+        layout->removeWidget(widget);
+        delete widget;
+    }
+
+    widget = note->getUIarchive();
+    layout->addWidget(widget);
+
+    QObject::connect(widget, SIGNAL(newVersion(const Note*)), this, SIGNAL(noteUpdated(const Note*)));
+}

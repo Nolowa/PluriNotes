@@ -10,6 +10,9 @@ Sound::Sound(QUuid identifier, QDateTime c,const QString& filename):NoTextualNot
 NoteInterface* Sound::getUI() const{
     return new SoundInterface(*this);
 }
+NoteInterface* Sound::getUIarchive() const{
+    return new SoundInterface(*this,1);
+}
 
 const QSound& Sound::getSound() const{
     return *soundFile;
@@ -21,8 +24,7 @@ const QString& Sound::getSoundFileName() const{
 
 void Sound::setSoundFile(const QString& name){
     soundFileName=name;
-    delete soundFile;
-    soundFile= new QSound (name);
+    soundFile= new QSound(name);
 }
 
 const QString& Sound::getType() const{

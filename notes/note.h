@@ -39,7 +39,7 @@ public:
     void setEdited(QDateTime e); /**< Méthode modifiant l'attribut edited */
 
     virtual NoteInterface* getUI() const = 0;
-
+    virtual NoteInterface* getUIarchive() const = 0;
     bool operator==(const Note &other) const{ return identifier == other.identifier;} /**< Opérateur d'égalité (basé sur l'identifiant de la Note) */
 
     // a voir si on peut la mettre en privée

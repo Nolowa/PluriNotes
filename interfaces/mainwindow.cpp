@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 
-MainWindow::MainWindow(NotesManager& nm, QWidget *parent) : QMainWindow(parent)
+/*MainWindow::MainWindow(NotesManager& nm, QWidget *parent) : QMainWindow(parent)
 {
 
     mf = new Mainframe(nm);
@@ -11,7 +11,7 @@ MainWindow::MainWindow(NotesManager& nm, QWidget *parent) : QMainWindow(parent)
     initMenu();
 
 
-}
+}*/
 
 
 void MainWindow::initMenu(){
@@ -57,6 +57,19 @@ void MainWindow::initMenu(){
 
      menuAffichage->addAction(actionRelation);
 
+
+
+}
+
+MainWindow::MainWindow(NotesManager& nm,Corbeille& cb ,QWidget *parent) : QMainWindow(parent)//pour corbeille
+{
+
+    mf = new Mainframe(nm,cb);
+    setCentralWidget(mf);
+    setWindowTitle("PluriNotes");
+    setWindowIcon(QIcon(":/icons/article"));
+
+    initMenu();
 
 
 }

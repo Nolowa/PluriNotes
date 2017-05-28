@@ -20,7 +20,7 @@ public:
     Video(QUuid identifier,QDateTime c,const QString& filename);
 
     NoteInterface* getUI() const;  /**< Méthode virtuelle renvoyant l'interface de la Video */
-
+    NoteInterface* getUIarchive() const;
     const QString& getVideoFileName() const;  /**< Accesseur de l'attribut nameVideoFile */
     const QMovie& getVideo() const; /**< Accesseur de l'attribut videoFile */
     // change nameVideoFile et videoFile

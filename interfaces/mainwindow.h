@@ -23,8 +23,8 @@ class MainWindow : public QMainWindow{
     void initMenu();
 
 public:
-    explicit MainWindow(NotesManager& nm, QWidget *parent = 0);
-
+    //explicit MainWindow(NotesManager& nm, QWidget *parent = 0);
+    explicit MainWindow(NotesManager& nm,Corbeille& cb ,QWidget *parent = 0);//pour corbeille
 signals:
 
 public slots:

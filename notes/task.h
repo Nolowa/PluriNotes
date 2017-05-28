@@ -35,7 +35,7 @@ public:
     void setExpired(const QDateTime exp); /**< Méthode modifiant l'attribut expired */
 
     NoteInterface* getUI() const;   /**< Méthode virtuelle renvoyant l'interface de la Tâche */
-
+    NoteInterface* getUIarchive() const;
 
     Note* save();
     void restore(Note* n);

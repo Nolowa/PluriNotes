@@ -22,7 +22,24 @@ void Corbeille::liberer_instance() {
 
 //Fin des membres statiques
 
-
+void Corbeille::pushNote(Note*n){
+    for (int i = 0; i < nbNotes; i++) {
+        if (notes[i]->getIdentifier() == n->getIdentifier()) throw new AppException("note déjà dans corbeille");
+    }
+    if (nbNotes == nbMaxNotes) {
+        Note** newNotes = new Note*[nbNotes + 5];
+        for (int i = 0; i < nbNotes; i++)
+            newNotes[i] = notes[i];
+        Note** oldNote = notes;
+        notes = newNotes;
+        nbMaxNotes += 5;
+        delete[] oldNote;
+        notes[nbNotes++] = n;
+    }
+    else {
+        notes[nbNotes++] = n;
+    }
+}
 
 
 void Corbeille::ajouterNote(Note* n) {
@@ -48,7 +65,7 @@ void Corbeille::ajouterNote(Note* n) {
     size_t nombre=strlen(typeid(*n).name());
     std::string nom=std::string(typeid(*n).name(),nombre);
     std::string nom1="class Article",nom2="class Image",nom3="class Task",nom4="class Sound",nom5="class Video";
-    std::cout<<nom;
+    //std::cout<<nom;
     if(!nom.compare(nom1)){
         q.exec("SELECT n.Id FROM (Note n INNER JOIN Article a ON n.Id=a.Id) WHERE a.Idreal='"+ n->getIdentifier().toString()+"';");
         while(q.next()){
@@ -79,22 +96,17 @@ void Corbeille::ajouterNote(Note* n) {
             q1.exec("UPDATE Note SET State = 'sursis' WHERE Id="+q.value(0).toString()+";");
         }
     }
+    emit noteCreatedc(*n);
 }
 
 void Corbeille::vidage(){
     if(nbNotes){
         for (int i = 0; i < nbNotes; i++){
             /*supprimer ses versions*/
-            size_t nombre=strlen(typeid(*notes[i]).name());
-            int num=10;
-            std::string nom=std::string(typeid(*notes[i]).name(),nombre);
-            QString genre;
-            if(!nom.compare("class Article")){num=0;genre="Article";}
-            if(!nom.compare("class Image")){num=1;genre="Image";}
-            if(!nom.compare("class Task")){num=2;genre="Task";}
-            if(!nom.compare("class Sound")){num=3;genre="Sound";}
-            if(!nom.compare("class Video")){num=4;genre="Video";}
 
+            QString genre;
+            int num=-1;
+            version::typeGenre(notes[i],&num,genre);
             QSqlQuery q;
             QString Id=notes[i]->getIdentifier().toString();
             q.exec("DELETE FROM  Note WHERE Id IN (SELECT Id FROM "+genre+" WHERE Idreal='"+Id+"') ");
@@ -141,7 +153,8 @@ void Corbeille::load_une(int id){
         case 3:nouveau_a->setState(non_editable);break;
         }
         Note* note1=static_cast<Note*>(nouveau_a);
-        ajouterNote(note1);
+        pushNote(note1);
+        //emit noteCreatedc(*note1);
     }
     if(!Genre.compare(nom2)){//Image
         q1.exec("SELECT * FROM Image WHERE Id='"+ QString::number(id) +"';");
@@ -159,7 +172,8 @@ void Corbeille::load_une(int id){
         }
         nouveau_i->setDescription(Description2);
         Note* note2=static_cast<Note*>(nouveau_i);
-        ajouterNote(note2);
+        pushNote(note2);
+        //emit noteCreatedc(*note2);
     }
     if(!Genre.compare(nom3)){//Task
         q1.exec("SELECT * FROM Task WHERE Id='"+ QString::number(id) +"';");
@@ -185,7 +199,8 @@ void Corbeille::load_une(int id){
         if(Status=="en_cours"){nouveau_t->setStatus(en_cours);}
         if(Status=="terminee"){nouveau_t->setStatus(terminee);}
         Note* note3=static_cast<Note*>(nouveau_t);
-        ajouterNote(note3);
+        pushNote(note3);
+        //emit noteCreatedc(*note3);
     }
     if(!Genre.compare(nom4)){//Sound
         q1.exec("SELECT * FROM Sound WHERE Id='"+ QString::number(id) +"';");
@@ -204,7 +219,8 @@ void Corbeille::load_une(int id){
         }
         nouveau_s->setDescription(Description4);
         Note* note4=static_cast<Note*>(nouveau_s);
-        ajouterNote(note4);
+        pushNote(note4);
+        //emit noteCreatedc(*note4);
     }
     if(!Genre.compare(nom5)){//Video
         q1.exec("SELECT * FROM Video WHERE Id='"+ QString::number(id) +"';");
@@ -223,7 +239,8 @@ void Corbeille::load_une(int id){
         }
         nouveau_v->setDescription(Description5);
         Note* note5=static_cast<Note*>(nouveau_v);
-        ajouterNote(note5);
+        pushNote(note5);
+        //emit noteCreatedc(*note5);
     }
 }
 
@@ -259,6 +276,16 @@ void Corbeille::load_tout(){
             load_une(Id);
     }
     q.finish();
+}
+
+const Note* Corbeille::find(const QUuid& identifier) const{        
+    for (Corbeille::Iterator it = Corbeille::getIterator(); !it.isDone(); it.next()) {
+        const Note& current = it.current();
+        if(current.getIdentifier() == identifier){
+            return &current;
+        }
+     }
+     return nullptr;
 }
 
 

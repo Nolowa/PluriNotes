@@ -24,6 +24,7 @@ signals:
     void noteUpdated(const Note * note);
 public slots:
     void setNote(const Note * note);
+    void setNoteArchive(const Note * note);
 };
 
 #endif // NOTEFRAMEVIEW_H

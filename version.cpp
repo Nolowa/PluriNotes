@@ -91,16 +91,9 @@ void version::createTables(){
 
 void version::insert(const Note* n){
     /*verifier le type de n*/
-    size_t nombre=strlen(typeid(*n).name());
-    int num=10;
-    std::string nom=std::string(typeid(*n).name(),nombre);
     QString genre;
-    if(!nom.compare("class Article")){num=0;genre="Article";}
-    if(!nom.compare("class Image")){num=1;genre="Image";}
-    if(!nom.compare("class Task")){num=2;genre="Task";}
-    if(!nom.compare("class Sound")){num=3;genre="Sound";}
-    if(!nom.compare("class Video")){num=4;genre="Video";}
-    //std::cout<<nom <<"  "<<nom.compare(nom3)<<std::endl;
+    int num=-1;
+    typeGenre(const_cast<Note*>(n),&num,genre);
 
     /*insert into note*/
     QSqlQuery q;
@@ -139,7 +132,7 @@ void version::insert(const Note* n){
         q1.bindValue(":Id",id);
         q1.bindValue(":Idreal",nouveau_i->getIdentifier());
         q1.bindValue(":Description",nouveau_i->getDescription());
-        q1.bindValue(":File",nouveau_i->getFilename());
+        q1.bindValue(":File",nouveau_i->getnameFile());
         if (!q1.exec()) {
               QMessageBox::critical(0, QObject::tr("Database Error"),
                                     q1.lastError().text());
@@ -171,7 +164,7 @@ void version::insert(const Note* n){
         q1.bindValue(":Id",id);
         q1.bindValue(":Idreal",nouveau_s->getIdentifier());
         q1.bindValue(":Description",nouveau_s->getDescription());
-        q1.bindValue(":File",nouveau_s->getFilename());
+        q1.bindValue(":File",nouveau_s->getSoundFileName());
         if (!q1.exec()) {
               QMessageBox::critical(0, QObject::tr("Database Error"),
                                     q1.lastError().text());
@@ -186,7 +179,7 @@ void version::insert(const Note* n){
         q1.bindValue(":Id",id);
         q1.bindValue(":Idreal",nouveau_v->getIdentifier());
         q1.bindValue(":Description",nouveau_v->getDescription());
-        q1.bindValue(":File",nouveau_v->getFilename());
+        q1.bindValue(":File",nouveau_v->getVideoFileName());
         if (!q1.exec()) {
               QMessageBox::critical(0, QObject::tr("Database Error"),
                                     q1.lastError().text());
@@ -199,16 +192,9 @@ void version::insert(const Note* n){
 
 void version::parcourir(const Note* n){
     /*verifier le type de n*/
-    size_t nombre=strlen(typeid(*n).name());
-    int num=10;
-    std::string nom=std::string(typeid(*n).name(),nombre);
     QString genre;
-    if(!nom.compare("class Article")){num=0;genre="Article";}
-    if(!nom.compare("class Image")){num=1;genre="Image";}
-    if(!nom.compare("class Task")){num=2;genre="Task";}
-    if(!nom.compare("class Sound")){num=3;genre="Sound";}
-    if(!nom.compare("class Video")){num=4;genre="Video";}
-
+    int num=-1;
+    typeGenre(const_cast<Note*>(n),&num,genre);
 
     QSqlQuery q1;
     switch (num) {
@@ -308,17 +294,13 @@ void version::parcourir(const Note* n){
 
 }
 
-
-/*
-bbd::bbd(NotesManager& n,const Note* notes):nm(n),no(notes)
-{
-    QObject::connect(&n, SIGNAL(noteUpdated(const Note&)), this, SLOT(insert()));
+void version::typeGenre(Note* n,int* num, QString& genre){
+    if(typeid(*n)==typeid(Article)){(*num)=0;genre="Article";}
+    if(typeid(*n)==typeid(Image)){(*num)=1;genre="Image";}
+    if(typeid(*n)==typeid(Task)){(*num)=2;genre="Task";}
+    if(typeid(*n)==typeid(Sound)){(*num)=3;genre="Sound";}
+    if(typeid(*n)==typeid(Video)){(*num)=4;genre="Video";}
 }
 
-
-void bbd::insert(){
-        version::insert(no);
-        std::cout<<"succ";
-}*/
 
 

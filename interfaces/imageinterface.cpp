@@ -1,10 +1,5 @@
 #include "imageinterface.h"
-#include <iostream>
-#include <QDateTime>
-#include <QSql>
-#include <QDebug>
-#include <QSqlQuery>
-#include <QStringList>
+
 ImageInterface::ImageInterface(const Image& im, QWidget *parent): NoteInterface(parent), image(&im){
     layout=new QFormLayout;
     boutonLayout = new QHBoxLayout;
@@ -17,12 +12,13 @@ ImageInterface::ImageInterface(const Image& im, QWidget *parent): NoteInterface(
     idEdit->setReadOnly(1);
 
     choisir=new QPushButton(QString("choisir"));
+    supprimer=new QPushButton(QString("supprimer"));
     boxLayout=new QFormLayout;
     versions=new QComboBox;
     parcourir();
     boxLayout->addRow(versions);
     boxLayout->addRow(choisir);
-
+    boxLayout->addRow(supprimer);
     titleEdit= new QLineEdit(image->getTitle(),this);
     descriptionEdit= new QTextEdit(image->getDescription(),this);
 
@@ -87,6 +83,75 @@ ImageInterface::ImageInterface(const Image& im, QWidget *parent): NoteInterface(
 
 }
 
+ImageInterface::ImageInterface(const Image& im, int i, QWidget *parent): NoteInterface(parent), image(&im){
+    layout=new QFormLayout;
+    boutonLayout = new QHBoxLayout;
+    nameFileImage= new QString(image->getnameFile());
+    idEdit= new QLineEdit(image->getIdentifier().toString(),this);
+    idEdit->setReadOnly(1);
+
+    activer=new QPushButton(QString("activer"));
+    boxLayout=new QFormLayout;
+    boxLayout->addRow(activer);
+
+    titleEdit= new QLineEdit(image->getTitle(),this);
+    titleEdit->setReadOnly(1);
+    descriptionEdit= new QTextEdit(image->getDescription(),this);
+    descriptionEdit->setReadOnly(1);
+    // Espace pour l'image
+    imageLabel = new QLabel("Pas d'image chargé");
+    imageLabel->setAlignment(Qt::AlignCenter);
+    //imageLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+    imageLabel->setBackgroundRole(QPalette::Dark);
+    imageLabel->setAutoFillBackground(true);
+    fitCheckBox = new QCheckBox("Fit to Window");
+    QHBoxLayout* layoutImage = new QHBoxLayout;
+    layoutImage->addStretch();
+    layoutImage->addWidget(imageLabel);
+    layoutImage->addStretch();
+    imageLabel->setFixedSize(264,144);
+
+
+    //ajustement de la taille des Widgets
+    descriptionEdit->setFixedHeight(120);
+    titleEdit->setFixedWidth(180);
+    idEdit->setFixedWidth(300);
+
+    // ajout des composants sur la layout
+    layout->addRow("Identifiant :",idEdit);
+    layout->addRow("Titre :",titleEdit);
+    layout->addRow("Description :",descriptionEdit);
+
+    //gestion des Layouts
+    mainLayout = new QVBoxLayout;
+    mainLayout->addLayout(layout);
+    //mainLayout->addWidget(imageLabel);
+    mainLayout->addLayout(layoutImage);
+    mainLayout->addWidget(fitCheckBox);
+    mainLayout->addLayout(boutonLayout);
+    mainLayout->addLayout(boxLayout);
+
+    setLayout(mainLayout);
+    setWindowTitle("Image");
+    resize(400, 400);
+
+
+    //Si déjà présence d'une image l'afficher directement!
+    if(!(image->getImage().isNull())){
+        //imageLabel->setPixmap(QPixmap::fromImage(image->getImage()).scaled(QSize(213,10)));
+        imageLabel->setPixmap(QPixmap(*nameFileImage));
+        //layout->addWidget(imageLabel);
+        imageLabel->show();
+
+    }
+
+    //slot
+    QObject::connect(fitCheckBox, SIGNAL(clicked()), this, SLOT(fitToWindow()));
+    //QObject::connect(activer, SIGNAL(clicked()), this, SLOT(charger()));
+
+
+}
+
 
 void ImageInterface::setNameFileImage(QString nameImage){
     nameFileImage=&nameImage;
@@ -147,12 +212,12 @@ void ImageInterface::parcourir(){
 
 void ImageInterface::charger(){
     QSqlQuery q;
-    q.exec("SELECT n.Title,a.Description FROM Image a,Note n WHERE n.Id=a.Id AND a.Id='"+ QString::number(Id) +"';");
+    q.exec("SELECT n.Title,a.Description,a.File FROM Image a,Note n WHERE n.Id=a.Id AND a.Id='"+ QString::number(Id) +"';");
     q.next();
     Image* change=const_cast<Image*>(image);
     change->setTitle(q.value(0).toString());
     change->setDescription(q.value(1).toString());
-    change->setFilename(q.value(2).toString());
+    change->setImage(q.value(2).toString());
 }
 
 void ImageInterface::enregistrerid(int i){

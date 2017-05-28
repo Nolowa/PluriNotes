@@ -42,25 +42,29 @@ class SoundInterface : public NoteInterface{
     QPushButton* bPlayMusic;
     bool initSound;
     //QMediaPlayer* player;
+    /**< la partie choisir et charger les versions */
     QFormLayout* boxLayout;
     QComboBox * versions;
     QPushButton* choisir;
     int Id;
     std::vector <int> a;
 
+    QPushButton* activer;/**< archive->active */
+    QPushButton* supprimer;/**< supprimer */
 
 public :
     SoundInterface(const Sound& s, QWidget *parent = 0);
+    SoundInterface(const Sound& s, int i, QWidget *parent = 0);/**< l'interface pour les notes non éditable */
     void setNameFileSound(QString nameSound);
-    void parcourir();
+    void parcourir();/**< parcourir les versions*/
 
 public slots :
     void openSound();
     void playMusic();
     void stopMusic();
     void save();
-    void charger();
-    void enregistrerid(int i);
+    void charger();/**< charger la version*/
+    void enregistrerid(int i);/**< garder id présent*/
 };
 
 #endif // SOUNDINTERFACE_H
