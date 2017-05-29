@@ -4,6 +4,7 @@
 #include <QTimer>
 #include <QTreeView>
 #include "notesmanager.h"
+#include "memento.h"
 #include "version.h"
 #include "interfaces/noteslistview.h"
 #include "corbeille.h"
@@ -25,11 +26,12 @@ int main(int argc, char *argv[]){
 
     NotesManager& m=NotesManager::getInstance();
     Corbeille& c=Corbeille::get_instance();
-    RelationsManager<Note>* rm = new RelationsManager<Note>;
+    RelationsManager<Note>* rm = new RelationsManager<Note>; // Penser à faire le DP singleton
+    MementoCaretaker* mainMemento= new MementoCaretaker; // Penser à faire le DP singleton
 
 
-    Relationship<Note>& r1 = rm->createRelation("UneRelationUnidirectionelle");
-    Relationship<Note>& r2 = rm->createRelation("UneDeuxiemeRelation");
+    //Relationship<Note>& r1 = rm->createRelation("UneRelationUnidirectionelle");
+    //Relationship<Note>& r2 = rm->createRelation("UneDeuxiemeRelation");
 
 
 

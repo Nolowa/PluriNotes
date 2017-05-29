@@ -2,31 +2,67 @@
 #define MEMENTO_H
 #include "notes/note.h"
 #include<vector>
-/*class Memento{
-    Note* m_note;
+
+
+class Memento{
+    Note* note;
 public:
-    Memento(Note* n){ m_note = new Note(n); }
-    Memento();
-    Memento& operator=(const Memento &memento)
-    {
-        m_note = memento.m_note;
-        return *this;
-    }
-    Note* getM_note()const {return m_note;}
+    Memento(){}
+    virtual Note* getState() const{return note;}
+
 };
 
-class MementoCaretaker {
-   std::vector<Memento> m_vecMemento;
+class MementoNote: public Memento{
+    Note* m_note;
+public:
+    MementoNote& operator=(const MementoNote &memento){m_note = memento.m_note; return *this;}
+    Note* getState()const {return m_note;}
+};
+
+
+// A voir ce que nous devons enregister pour les relations
+class MementoRelation: public Memento{
+    //Note* m_note;
+public:
+    MementoRelation& operator=(const MementoRelation &memento);
+    //Note* getState()const {return m_note;}
+};
+
+
+class MementoCorbeille: public Memento{
+    Note* m_note;
+public:
+    MementoCorbeille& operator=(const MementoCorbeille &memento){m_note = memento.m_note; return *this;}
+    Note* getState()const {return m_note;}
+};
+
+
+
+
+class MementoCaretaker: public QWidget {
+   Q_OBJECT
+   std::vector<Memento> m_vecMemento; // pour le controle Z: annuler
+   std::vector<Memento> m_vecMementoInverse; // pour le controle Y: rétablir
 
 public:
     MementoCaretaker(){}
-    Memento Load(int state) {
-        return m_vecMemento[state];;
-    }
 
-    void Save(Memento memento) {
-        m_vecMemento.push_back(memento);
-    }
-};*/
+
+public slots:
+    void undo();
+    void redo();
+    void save(const Memento& memento);
+
+signals:
+    void DeleteOnNotesListView(const Note*);
+    void CreateOnNotesListView(const Note*);
+    //void DeleteRelation(const QUELQUECHOSE);
+    //void CreateRelation(const QUELQUECHOSE);
+    void DeleteOnCorbeille(const Note*);
+    void PutOnCorbeille(const Note*);
+
+
+
+};
 
 #endif // MEMENTO_H
