@@ -24,7 +24,7 @@ NoteInterface* Article::getUI() const{
 }
 
 NoteInterface* Article::getUIarchive() const{
-    return new ArticleInterface(*this,1);
+    return new ArticleInterface(*this);
 
 }
 

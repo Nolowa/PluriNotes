@@ -11,7 +11,7 @@ NoteInterface* Sound::getUI() const{
     return new SoundInterface(*this);
 }
 NoteInterface* Sound::getUIarchive() const{
-    return new SoundInterface(*this,1);
+    return new SoundInterface(*this);
 }
 
 const QSound& Sound::getSound() const{

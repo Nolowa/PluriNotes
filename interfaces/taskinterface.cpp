@@ -1,107 +1,109 @@
 #include "taskinterface.h"
 TaskInterface::TaskInterface(const Task& t,QWidget *parent): NoteInterface(parent),task(&t){
-    layout=new QFormLayout;
+    if(task->getState()=="active"){
+        layout=new QFormLayout;
+        generate= new QPushButton(QString("Enregistrer"));
+        titleEdit= new QLineEdit(task->getTitle(),this);
+        actionEdit= new QTextEdit(task->getActionToBeDone(),this);
+        //QString date=QDateTime::currentDateTime().toString();
+        dateEdit= new QLineEdit(task->getExpired().toString(),this);
+        idEdit= new QLineEdit(task->getIdentifier().toString(),this);
+        idEdit->setReadOnly(1);
+        idEdit->setFixedWidth(300);
+        statusCombo= new QComboBox(this);
+        priorityCombo= new QComboBox(this);
 
-    generate= new QPushButton(QString("Enregistrer"));
-    titleEdit= new QLineEdit(task->getTitle(),this);
-    actionEdit= new QTextEdit(task->getActionToBeDone(),this);
-    //QString date=QDateTime::currentDateTime().toString();
-    dateEdit= new QLineEdit(task->getExpired().toString(),this);
-    idEdit= new QLineEdit(task->getIdentifier().toString(),this);
-    idEdit->setReadOnly(1);
-    idEdit->setFixedWidth(300);
-    statusCombo= new QComboBox(this);
-    priorityCombo= new QComboBox(this);
+        // priority
+        priorityCombo->addItem("0");
+        priorityCombo->addItem("1");
+        priorityCombo->addItem("2");
+        priorityCombo->addItem("3");
+        priorityCombo->addItem("4");
+        priorityCombo->addItem("5");
+        priorityCombo->setCurrentIndex(task->getPriority());
 
-    // priority
-    priorityCombo->addItem("0");
-    priorityCombo->addItem("1");
-    priorityCombo->addItem("2");
-    priorityCombo->addItem("3");
-    priorityCombo->addItem("4");
-    priorityCombo->addItem("5");
-    priorityCombo->setCurrentIndex(task->getPriority());
+        // status
+        statusCombo->addItem("En attente");
+        statusCombo->addItem("En cours");
+        statusCombo->addItem("Terminée");
+        statusCombo->setCurrentIndex(task->getStatusInt());
 
-    // status
-    statusCombo->addItem("En attente");
-    statusCombo->addItem("En cours");
-    statusCombo->addItem("Terminée");
-    statusCombo->setCurrentIndex(task->getStatusInt());
+        //Fixation des tailles des Widgets
+        dateEdit->setFixedWidth(180);
+        titleEdit->setFixedWidth(180);
+        //ajout des Widget sur le layout
+        layout->addRow("Identifiant :",idEdit);
+        layout->addRow("Titre :",titleEdit);
+        layout->addRow("Status :",statusCombo);
+        layout->addRow("Priorité :",priorityCombo);
+        layout->addRow("Date échouant",dateEdit);
+        layout->addRow("Objectif :",actionEdit);
+        layout->addWidget(generate);
 
-    //Fixation des tailles des Widgets
-    dateEdit->setFixedWidth(180);
-    titleEdit->setFixedWidth(180);
-    //ajout des Widget sur le layout
-    layout->addRow("Identifiant :",idEdit);
-    layout->addRow("Titre :",titleEdit);
-    layout->addRow("Status :",statusCombo);
-    layout->addRow("Priorité :",priorityCombo);
-    layout->addRow("Date échouant",dateEdit);
-    layout->addRow("Objectif :",actionEdit);
-    layout->addWidget(generate);
+        //layout de versions
+        choisir=new QPushButton(QString("choisir"));
+        versions=new QComboBox;
+        parcourir();
+        layout->addWidget(versions);
+        layout->addWidget(choisir);
+        supprimer=new QPushButton(QString("supprimer"));
+        layout->addWidget(supprimer);
 
-    //layout de versions
-    choisir=new QPushButton(QString("choisir"));
-    versions=new QComboBox;
-    parcourir();
-    layout->addWidget(versions);
-    layout->addWidget(choisir);
-    supprimer=new QPushButton(QString("supprimer"));
-    layout->addWidget(supprimer);
+        setLayout(layout);
+        setWindowTitle("Tâche à réaliser");
 
-    setLayout(layout);
-    setWindowTitle("Tâche à réaliser");
-
-    //slot
-    QObject::connect(generate, SIGNAL(clicked()), this, SLOT(save()));
-    QObject::connect(versions, SIGNAL(activated(int)), this, SLOT(enregistrerid(int)));
-    QObject::connect(choisir, SIGNAL(clicked()), this, SLOT(charger()));
+        //slot
+        QObject::connect(generate, SIGNAL(clicked()), this, SLOT(save()));
+        QObject::connect(versions, SIGNAL(activated(int)), this, SLOT(enregistrerid(int)));
+        QObject::connect(choisir, SIGNAL(clicked()), this, SLOT(charger()));
+    }else{
+        layout=new QFormLayout;
 
 
+        titleEdit= new QLineEdit(task->getTitle(),this);
+        titleEdit->setReadOnly(1);
+        actionEdit= new QTextEdit(task->getActionToBeDone(),this);
+        actionEdit->setReadOnly(1);
+        //QString date=QDateTime::currentDateTime().toString();
+        dateEdit= new QLineEdit(task->getExpired().toString(),this);
+        dateEdit->setReadOnly(1);
+        idEdit= new QLineEdit(task->getIdentifier().toString(),this);
+        idEdit->setReadOnly(1);
+        idEdit->setFixedWidth(300);
+
+        // priority
+        priorityEdit= new QLineEdit(QString::number(task->getPriority()),this);
+        priorityEdit->setReadOnly(1);
+        // status
+        statusEdit= new QLineEdit(task->getStatus(),this);
+        statusEdit->setReadOnly(1);
+        //Fixation des tailles des Widgets
+        dateEdit->setFixedWidth(180);
+        titleEdit->setFixedWidth(180);
+        //ajout des Widget sur le layout
+        layout->addRow("Identifiant :",idEdit);
+        layout->addRow("Titre :",titleEdit);
+        layout->addRow("Status :",statusEdit);
+        layout->addRow("Priorité :",priorityEdit);
+        layout->addRow("Date échouant",dateEdit);
+        layout->addRow("Objectif :",actionEdit);
+
+
+        activer=new QPushButton(QString("activer"));
+        layout->addWidget(activer);
+        setLayout(layout);
+        setWindowTitle("Tâche à réaliser");
+
+        //slot
+        //QObject::connect(activer, SIGNAL(clicked()), this, SLOT(charger()));
+
+    }
 }
 
-TaskInterface::TaskInterface(const Task& t, int i, QWidget *parent): NoteInterface(parent),task(&t){
-    layout=new QFormLayout;
 
 
-    titleEdit= new QLineEdit(task->getTitle(),this);
-    titleEdit->setReadOnly(1);
-    actionEdit= new QTextEdit(task->getActionToBeDone(),this);
-    actionEdit->setReadOnly(1);
-    //QString date=QDateTime::currentDateTime().toString();
-    dateEdit= new QLineEdit(task->getExpired().toString(),this);
-    dateEdit->setReadOnly(1);
-    idEdit= new QLineEdit(task->getIdentifier().toString(),this);
-    idEdit->setReadOnly(1);
-    idEdit->setFixedWidth(300);
-
-    // priority
-    priorityEdit= new QLineEdit(QString::number(task->getPriority()),this);
-    priorityEdit->setReadOnly(1);
-    // status
-    statusEdit= new QLineEdit(task->getStatus(),this);
-    statusEdit->setReadOnly(1);
-    //Fixation des tailles des Widgets
-    dateEdit->setFixedWidth(180);
-    titleEdit->setFixedWidth(180);
-    //ajout des Widget sur le layout
-    layout->addRow("Identifiant :",idEdit);
-    layout->addRow("Titre :",titleEdit);
-    layout->addRow("Status :",statusEdit);
-    layout->addRow("Priorité :",priorityEdit);
-    layout->addRow("Date échouant",dateEdit);
-    layout->addRow("Objectif :",actionEdit);
 
 
-    activer=new QPushButton(QString("activer"));
-    layout->addWidget(activer);
-    setLayout(layout);
-    setWindowTitle("Tâche à réaliser");
-
-    //slot
-    //QObject::connect(activer, SIGNAL(clicked()), this, SLOT(charger()));
-
-}
 
 void TaskInterface::parcourir(){
     QSqlQuery q;

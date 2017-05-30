@@ -9,6 +9,7 @@ ArticleInterface::ArticleInterface(const Article& a, QWidget *parent): NoteInter
     choisir=new QPushButton(QString("choisir"));
     generate= new QPushButton(QString("sauvegarder"));
     supprimer= new QPushButton(QString("supprimer"));
+
     titleEdit= new QLineEdit(article->getTitle(),this);
     textEdit= new QTextEdit(article->getText(),this);
     idEdit= new QLineEdit(article->getIdentifier().toString(),this);
@@ -22,74 +23,50 @@ ArticleInterface::ArticleInterface(const Article& a, QWidget *parent): NoteInter
     layout->addRow("Identifiant :",idEdit);
     layout->addRow("Titre :",titleEdit);
     layout->addRow("Corps :",textEdit);
-    buttonLayout->addStretch();
-    buttonLayout->addWidget(generate);
-    buttonLayout->addStretch();
-    boxLayout->addStretch();
-    boxLayout->addWidget(versions);
-    boxLayout->addStretch();
-    buttonLayoutc->addStretch();
-    buttonLayoutc->addWidget(choisir);
-    buttonLayoutc->addStretch();
-    parcourir();
-    //gestion des layouts
-    buttonLayouts->addStretch();
-    buttonLayouts->addWidget(supprimer);
-    buttonLayouts->addStretch();
-    mainLayout->addLayout(layout);
-    mainLayout->addLayout(buttonLayout);
-    mainLayout->addLayout(boxLayout);
-    mainLayout->addLayout(buttonLayoutc);
-    mainLayout->addLayout(buttonLayouts);
-    //layout->addWidget(generate);
-
+    if(article->getState()=="active"){
+        buttonLayout->addStretch();
+        buttonLayout->addWidget(generate);
+        buttonLayout->addStretch();
+        boxLayout->addStretch();
+        boxLayout->addWidget(versions);
+        boxLayout->addStretch();
+        buttonLayoutc->addStretch();
+        buttonLayoutc->addWidget(choisir);
+        buttonLayoutc->addStretch();
+        parcourir();
+        //gestion des layouts
+        buttonLayouts->addStretch();
+        buttonLayouts->addWidget(supprimer);
+        buttonLayouts->addStretch();
+        mainLayout->addLayout(layout);
+        mainLayout->addLayout(buttonLayout);
+        mainLayout->addLayout(boxLayout);
+        mainLayout->addLayout(buttonLayoutc);
+        mainLayout->addLayout(buttonLayouts);
+    }else{
+        titleEdit->setReadOnly(1);
+        textEdit->setReadOnly(1);
+        idEdit->setReadOnly(1);
+        activer= new QPushButton(QString("activer"));
+        buttonLayout->addStretch();
+        buttonLayout->addWidget(activer);
+        buttonLayout->addStretch();
+        mainLayout->addLayout(layout);
+        mainLayout->addLayout(buttonLayout);
+    }
     setLayout(mainLayout);
     setWindowTitle("Article");
 
     //slot
+
     QObject::connect(generate, SIGNAL(clicked()), this, SLOT(save()));
     QObject::connect(versions, SIGNAL(activated(int)), this, SLOT(enregistrerid(int)));
     QObject::connect(choisir, SIGNAL(clicked()), this, SLOT(charger()));
-    //QObject::connect(choisir, SIGNAL(clicked()), this, SLOT(supprimer());
-}
-
-ArticleInterface::ArticleInterface(const Article& a,int i, QWidget *parent): NoteInterface(parent),article(&a){
-    layout=new QFormLayout;
-    buttonLayout=new QHBoxLayout;
-    buttonLayoutc=new QHBoxLayout;
-    mainLayout= new QVBoxLayout;
-    activer= new QPushButton(QString("activer"));
-
-    titleEdit= new QLineEdit(article->getTitle(),this);
-    titleEdit->setReadOnly(1);
-    textEdit= new QTextEdit(article->getText(),this);
-    textEdit->setReadOnly(1);
-    idEdit= new QLineEdit(article->getIdentifier().toString(),this);
-    idEdit->setReadOnly(1);
-    //ajustement de la taille des Widgets
-    titleEdit->setFixedWidth(180);
-    idEdit->setFixedWidth(300);
-
-    //ajout des widgets à la layout
-    layout->addRow("Identifiant :",idEdit);
-    layout->addRow("Titre :",titleEdit);
-    layout->addRow("Corps :",textEdit);
-    buttonLayout->addStretch();
-    buttonLayout->addWidget(activer);
-    buttonLayout->addStretch();
-
-
-    //gestion des layouts
-    mainLayout->addLayout(layout);
-    mainLayout->addLayout(buttonLayout);
-
-    setLayout(mainLayout);
-    setWindowTitle("Article");
-
-    //slot
-
     //QObject::connect(activer, SIGNAL(clicked()), this, SLOT(charger()));
+
 }
+
+
 
 void ArticleInterface::parcourir(){
     QSqlQuery q;

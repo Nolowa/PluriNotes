@@ -29,20 +29,31 @@ SoundInterface::SoundInterface(const Sound& s,QWidget *parent) : NoteInterface(p
       boutonLayout2->addWidget(bPlayMusic);
 
       choisir=new QPushButton(QString("choisir"));
+      supprimer=new QPushButton(QString("supprimer"));
+      activer=new QPushButton(QString("activer"));
       boxLayout=new QFormLayout;
       versions=new QComboBox;
       parcourir();
-      boxLayout->addRow(versions);
-      boxLayout->addRow(choisir);
-      supprimer=new QPushButton(QString("supprimer"));
-      boxLayout->addRow(supprimer);
+
 
       //gestion des Layouts
       mainLayout = new QVBoxLayout;
-      mainLayout->addLayout(layout);
-      mainLayout->addLayout(boutonLayout);
-      mainLayout->addLayout(boutonLayout2);
-      mainLayout->addLayout(boxLayout);
+      if(sound->getState()=="active"){
+          boxLayout->addRow(versions);
+          boxLayout->addRow(choisir);
+          boxLayout->addRow(supprimer);
+          mainLayout->addLayout(layout);
+          mainLayout->addLayout(boutonLayout);
+          mainLayout->addLayout(boutonLayout2);
+          mainLayout->addLayout(boxLayout);
+      }else{
+          titleEdit->setReadOnly(1);
+          descriptionEdit->setReadOnly(1);
+          boxLayout->addRow(activer);
+          mainLayout->addLayout(layout);
+          mainLayout->addLayout(boutonLayout2);
+          mainLayout->addLayout(boxLayout);
+      }
       setLayout(mainLayout);
       setWindowTitle("Bande Son");
 
@@ -75,60 +86,7 @@ SoundInterface::SoundInterface(const Sound& s,QWidget *parent) : NoteInterface(p
 
 }
 
-SoundInterface::SoundInterface(const Sound& s, int i, QWidget *parent) : NoteInterface(parent), sound(&s){
-    layout=new QFormLayout;
-    boutonLayout= new QHBoxLayout;
 
-    bStopMusic= new QPushButton(QString("Stop"));
-    bPlayMusic= new QPushButton(QString("Play"));
-    titleEdit= new QLineEdit(sound->getTitle(),this);
-    titleEdit->setReadOnly(1);
-    descriptionEdit= new QTextEdit(sound->getDescription(),this);
-    descriptionEdit->setReadOnly(1);
-    nameFileSound = new QString(sound->getSoundFileName());
-    idEdit= new QLineEdit(sound->getIdentifier().toString(),this);
-    idEdit->setReadOnly(1);
-    initSound=0;
-
-    //ajustement de la taille des Widgets
-    descriptionEdit->setFixedHeight(120);
-    titleEdit->setFixedWidth(180);
-    idEdit->setFixedWidth(300);
-
-    // ajout des composants sur la layout
-    layout->addRow("Identifiant :",idEdit);
-    layout->addRow("Titre :",titleEdit);
-    layout->addRow("Description :",descriptionEdit);
-    boutonLayout->addWidget(bStopMusic);
-    boutonLayout->addWidget(bPlayMusic);
-
-    activer=new QPushButton(QString("activer"));
-    boxLayout=new QFormLayout;
-    boxLayout->addRow(activer);
-
-
-    //gestion des Layouts
-    mainLayout = new QVBoxLayout;
-    mainLayout->addLayout(layout);
-    mainLayout->addLayout(boutonLayout);
-    mainLayout->addLayout(boxLayout);
-    setLayout(mainLayout);
-    setWindowTitle("Bande Son");
-
-    if(!((*nameFileSound)==QString(""))){
-        soundToRegister= new QSound(*nameFileSound);
-        initSound=1;
-        soundToRegister->play();
-    }
-
-
-
-    //slot
-    QObject::connect(bPlayMusic, SIGNAL(clicked()), this, SLOT(playMusic()));
-    QObject::connect(bStopMusic, SIGNAL(clicked()), this, SLOT(stopMusic()));
-    //QObject::connect(activer, SIGNAL(clicked()), this, SLOT(charger()));
-
-}
 
 
 void SoundInterface::setNameFileSound(QString nameSound){

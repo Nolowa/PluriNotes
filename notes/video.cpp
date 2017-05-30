@@ -24,7 +24,7 @@ NoteInterface* Video::getUI() const{
 }
 
 NoteInterface* Video::getUIarchive() const{
-    return new VideoInterface(*this,1);
+    return new VideoInterface(*this);
 }
 
 const QMovie& Video::getVideo() const{

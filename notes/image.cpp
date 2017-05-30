@@ -12,7 +12,7 @@ NoteInterface* Image::getUI() const{
     return new ImageInterface(*this);
 }
 NoteInterface* Image::getUIarchive() const{
-    return new ImageInterface(*this,1);
+    return new ImageInterface(*this);
 }
 
 void Image::setImage(const QString &im){

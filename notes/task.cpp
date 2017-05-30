@@ -63,7 +63,7 @@ NoteInterface* Task::getUI() const{
     return new TaskInterface(*this);
 }
 NoteInterface* Task::getUIarchive() const{
-    return new TaskInterface(*this,1);
+    return new TaskInterface(*this);
 }
 
 Status Task::getStatus_re() const{

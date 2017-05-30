@@ -51,7 +51,6 @@ class ImageInterface: public NoteInterface {
 
 public:
     ImageInterface(const Image& im, QWidget *parent = 0);
-    ImageInterface(const Image& im, int i, QWidget *parent = 0);/**< l'interface pour les notes non éditable */
     void setNameFileImage(QString nameImage);
     void parcourir();/**< parcourir les versions*/
 

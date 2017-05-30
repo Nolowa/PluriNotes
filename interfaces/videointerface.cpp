@@ -66,31 +66,49 @@ VideoInterface::VideoInterface(const Video& vid,QWidget *parent) : NoteInterface
     layout->addRow("Titre :",titleEdit);
     layout->addRow("Description :",descriptionEdit);
     layoutVideo->addWidget(graphicsView);
-    boutonLayout->addStretch();
-    boutonLayout->addWidget(openButton);
-    boutonLayout->addWidget(playButton);
-    boutonLayout->addWidget(pauseButton);
-    boutonLayout->addWidget(stopButton);
-    boutonLayout->addStretch();
-    boutonLayout2->addWidget(generate);
+
 
     //layout de versions
     choisir=new QPushButton(QString("choisir"));
+    supprimer=new QPushButton(QString("supprimer"));
+    activer=new QPushButton(QString("activer"));
     boxLayout=new QFormLayout;
     versions=new QComboBox;
     parcourir();
-    boxLayout->addRow(versions);
-    boxLayout->addRow(choisir);
-    supprimer=new QPushButton(QString("supprimer"));
-    boxLayout->addRow(supprimer);
+
 
     //gestion des Layouts
     mainLayout = new QVBoxLayout;
-    mainLayout->addLayout(layout);
-    mainLayout->addLayout(layoutVideo);
-    mainLayout->addLayout(boutonLayout);
-    mainLayout->addLayout(boutonLayout2);
-    mainLayout->addLayout(boxLayout);
+    if(video->getState()=="active"){
+        boutonLayout->addStretch();
+        boutonLayout->addWidget(openButton);
+        boutonLayout->addWidget(playButton);
+        boutonLayout->addWidget(pauseButton);
+        boutonLayout->addWidget(stopButton);
+        boutonLayout->addStretch();
+        boutonLayout2->addWidget(generate);
+        boxLayout->addRow(versions);
+        boxLayout->addRow(choisir);
+        boxLayout->addRow(supprimer);
+        mainLayout->addLayout(layout);
+        mainLayout->addLayout(layoutVideo);
+        mainLayout->addLayout(boutonLayout);
+        mainLayout->addLayout(boutonLayout2);
+        mainLayout->addLayout(boxLayout);
+    }else{
+        titleEdit->setReadOnly(1);
+        descriptionEdit->setReadOnly(1);
+        boutonLayout->addStretch();
+        boutonLayout->addWidget(playButton);
+        boutonLayout->addWidget(pauseButton);
+        boutonLayout->addWidget(stopButton);
+        boutonLayout->addStretch();
+        mainLayout->addLayout(layout);
+        mainLayout->addLayout(layoutVideo);
+        mainLayout->addLayout(boutonLayout);
+        boxLayout->addRow(activer);
+        mainLayout->addLayout(boxLayout);
+    }
 
     setLayout(mainLayout);
     setWindowTitle("Video");
@@ -120,110 +138,7 @@ VideoInterface::VideoInterface(const Video& vid,QWidget *parent) : NoteInterface
 
 }
 
-VideoInterface::VideoInterface(const Video& vid, int i, QWidget *parent) : NoteInterface(parent), video(&vid){
-    QSize iconSize(36, 36);
-    //layout
-    layout=new QFormLayout;
-    boutonLayout= new QHBoxLayout;
-    boutonLayout2= new QHBoxLayout;
 
-    //BoutonStopVideo
-    stopButton = new QToolButton;
-    stopButton->setIcon(style()->standardIcon(QStyle::SP_MediaStop));
-    stopButton->setIconSize(iconSize);
-    stopButton->setToolTip(tr("Stop"));
-
-
-    //boutonPlay
-    playButton = new QToolButton;
-    playButton->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
-    playButton->setIconSize(iconSize);
-    playButton->setToolTip(tr("Play"));
-
-
-
-    //boutonPause
-    pauseButton = new QToolButton;
-    pauseButton->setCheckable(true);
-    pauseButton->setIcon(style()->standardIcon(QStyle::SP_MediaPause));
-    pauseButton->setIconSize(iconSize);
-    pauseButton->setToolTip(tr("Pause"));
-
-    titleEdit= new QLineEdit(video->getTitle(),this);
-    titleEdit->setReadOnly(1);
-    descriptionEdit= new QTextEdit(video->getDescription(),this);
-    descriptionEdit->setReadOnly(1);
-    nameFileVideo= new QString(video->getVideoFileName());
-    idEdit= new QLineEdit(video->getIdentifier().toString(),this);
-    idEdit->setReadOnly(1);
-    initVideo=0;
-
-    //partie video
-    graphicsView = new QGraphicsView;
-    player = new QMediaPlayer;
-    layoutVideo = new QHBoxLayout;
-
-    scene = new QGraphicsScene;
-    item = new QGraphicsVideoItem;
-    //graphicsView->showFullScreen();
-    //graphicsView->scale(graphicsView->width(), graphicsView->height());
-
-    //ajustement de la taille des Widgets
-    descriptionEdit->setFixedHeight(120);
-    titleEdit->setFixedWidth(180);
-    idEdit->setFixedWidth(300);
-
-
-    // ajout des composants sur la layout
-    layout->addRow("Identifiant :",idEdit);
-    layout->addRow("Titre :",titleEdit);
-    layout->addRow("Description :",descriptionEdit);
-    layoutVideo->addWidget(graphicsView);
-    boutonLayout->addStretch();
-    boutonLayout->addWidget(playButton);
-    boutonLayout->addWidget(pauseButton);
-    boutonLayout->addWidget(stopButton);
-    boutonLayout->addStretch();
-
-
-    //layout de versions
-    activer=new QPushButton(QString("activer"));
-    boxLayout=new QFormLayout;
-    boxLayout->addRow(activer);
-
-
-    //gestion des Layouts
-    mainLayout = new QVBoxLayout;
-    mainLayout->addLayout(layout);
-    mainLayout->addLayout(layoutVideo);
-    mainLayout->addLayout(boutonLayout);
-    mainLayout->addLayout(boutonLayout2);
-    mainLayout->addLayout(boxLayout);
-
-    setLayout(mainLayout);
-    setWindowTitle("Video");
-
-
-    if(!((*nameFileVideo)==QString(""))){
-        videoToRegister= new QMovie(*nameFileVideo);
-        graphicsView->setScene(scene);
-        graphicsView->setFixedSize(350,185);
-        player->setVideoOutput(item);
-        graphicsView->scene()->addItem(item);
-        player->setMedia(QUrl::fromLocalFile(*nameFileVideo));
-        player->play();
-        initVideo=1;
-
-    }
-
-    //slot
-    QObject::connect(playButton, SIGNAL(clicked()), this, SLOT(playVideo()));
-    QObject::connect(stopButton, SIGNAL(clicked()), this, SLOT(stopVideo()));
-    QObject::connect(pauseButton, SIGNAL(clicked()), this, SLOT(pauseVideo()));
-
-    //QObject::connect(activer, SIGNAL(clicked()), this, SLOT(charger()));
-
-}
 
 
 //slot

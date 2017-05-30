@@ -40,7 +40,6 @@ class TaskInterface: public NoteInterface {
     QPushButton* supprimer;/**< supprimer */
 public:
     TaskInterface(const Task& t, QWidget *parent = 0);
-    TaskInterface(const Task& t, int i, QWidget *parent = 0);/**< l'interface pour les notes non éditable */
     void parcourir();/**< parcourir les versions*/
 public slots:
     void save();

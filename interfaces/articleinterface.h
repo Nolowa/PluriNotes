@@ -39,7 +39,6 @@ class ArticleInterface: public NoteInterface{
     QHBoxLayout* buttonLayouts;
 public:
     ArticleInterface(const Article& a, QWidget *parent = 0);
-    ArticleInterface(const Article& a,int i, QWidget *parent = 0);/**< l'interface pour les notes non éditable */
     void parcourir();/**< parcourir les versions*/
 
 public slots:
