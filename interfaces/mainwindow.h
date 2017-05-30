@@ -12,6 +12,7 @@
 #include "notesmanager.h"
 #include "relateddockview.h"
 #include "relations/relationsmanager.h"
+#include "memento.h"
 
 
 class MainWindow : public QMainWindow
@@ -19,7 +20,7 @@ class MainWindow : public QMainWindow
     Mainframe* mf;
     RelatedDockView* relationsView;
     QDockWidget* relationsDock;
-
+    MementoCaretaker* memento;
 
 
     //menu
@@ -35,11 +36,12 @@ class MainWindow : public QMainWindow
 public:
 
 
-    explicit MainWindow(NotesManager& nm, RelationsManager<Note>& rm,Corbeille& cb, QWidget *parent = 0);
+    explicit MainWindow(NotesManager& nm, RelationsManager<Note>& rm,MementoCaretaker& mement,Corbeille& cb, QWidget *parent = 0);
 
 
 signals:
-
+    void undo();
+    void redo();
 public slots:
     //void showRelation(bool); // pour l'affichage de la partie rectractable
 };

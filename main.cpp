@@ -27,7 +27,7 @@ int main(int argc, char *argv[]){
     NotesManager& m=NotesManager::getInstance();
     Corbeille& c=Corbeille::get_instance();
     RelationsManager<Note>* rm = new RelationsManager<Note>; // Penser à faire le DP singleton
-    MementoCaretaker* mainMemento= new MementoCaretaker; // Penser à faire le DP singleton
+    MementoCaretaker* mainMemento= new MementoCaretaker(); // Penser à faire le DP singleton
 
 
     //Relationship<Note>& r1 = rm->createRelation("UneRelationUnidirectionelle");
@@ -41,7 +41,7 @@ int main(int argc, char *argv[]){
    
 
 
-    MainWindow window(m, *rm,c);
+    MainWindow window(m, *rm,*mainMemento,c);
 
     window.show();
 

@@ -1,5 +1,5 @@
 #include "memento.h"
-
+#include <QMessageBox>
 //
 // MementoCaretaker
 //
@@ -13,6 +13,9 @@ void MementoCaretaker::undo() {
         if (typeid(mem)==typeid(MementoCorbeille)){emit DeleteOnCorbeille(mem.getState());}
         //if (typeid(mem)==typeid(MementoRelation)){emit ;}
         throw("Error de TypeMemento");
+    }
+    else{
+        std::cout<<"rien à annuler"<<std::endl;
     }
 }
 
@@ -30,4 +33,9 @@ void MementoCaretaker::redo(){
         //if (typeid(mem)==typeid(MementoRelation)){emit ;}
         throw("Error de TypeMemento");
     }
+    else{
+        std::cout<<"rien à rétablir"<<std::endl;
+    }
+    //QMessageBox::information(this,QString("great!"),QString("great"));
+
 }

@@ -3,9 +3,7 @@
 
 
 
-MainWindow::MainWindow(NotesManager& nm, RelationsManager<Note>& rm,Corbeille& cb, QWidget *parent) : QMainWindow(parent)
-
-{
+MainWindow::MainWindow(NotesManager& nm, RelationsManager<Note>& rm,MementoCaretaker& mement, Corbeille& cb, QWidget *parent) : QMainWindow(parent),memento(&mement){
     mf = new Mainframe(nm,cb);
     setCentralWidget(mf);
 
@@ -22,7 +20,6 @@ MainWindow::MainWindow(NotesManager& nm, RelationsManager<Note>& rm,Corbeille& c
     setWindowIcon(QIcon(":/icons/article"));
 
     initMenu();
-
 
 }
 
@@ -63,6 +60,8 @@ void MainWindow::initMenu(){
      relationsDock->toggleViewAction()->setShortcut(QKeySequence("Ctrl+R"));
      menuAffichage->addAction(relationsDock->toggleViewAction());
 
+     QObject::connect(actionUndo, SIGNAL(triggered()), memento, SLOT(undo()));
+     QObject::connect(actionRedo, SIGNAL(triggered()), memento, SLOT(redo()));
 
 
 }
