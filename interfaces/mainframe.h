@@ -2,10 +2,9 @@
 #define MAINFRAME_H
 
 #include <QWidget>
-#include "noteslistview.h"
+#include "interfaces/sidebar/sidebar.h"
 #include "notesmanager.h"
-#include "noteframeview.h"
-#include "corbeillelistview.h"
+#include "interfaces/editor/noteframeview.h"
 
 class Mainframe : public QWidget
 {
@@ -13,17 +12,14 @@ class Mainframe : public QWidget
 
     NotesManager& data;
 
-    NotesListView* listView;
+    Sidebar* sidebar;
     NoteFrameView* noteView;
-    CorbeilleListView* CorbeilleView;//pour corbeille
-    Corbeille& cb;//pour corbeille
 
     void initUI();
 public:
 
-    //explicit Mainframe(NotesManager& nm, QWidget *parent = 0);
-    explicit Mainframe(NotesManager& nm,Corbeille& cb ,QWidget *parent = 0);//pour corbeille
-    NotesListView const * getListView() const{ return listView; }
+    explicit Mainframe(NotesManager& nm,QWidget *parent = 0);
+    Sidebar const * getSidebar() const{ return sidebar; }
 
 
 signals:

@@ -2,11 +2,6 @@
 
 const QString Task::type = QString("Task");
 
-// constructeur
-Task::Task(QUuid identifier):Note(identifier),status(en_attente),priority(0){}
-
-Task::Task(QUuid identifier, QDateTime c):Note(identifier,c),status(en_attente),priority(0){}
-
 // accesseurs
  QString Task::getStatus() const{ //{en_attente, en_cours,terminee}
     if(status==0)
@@ -48,8 +43,8 @@ void Task::setPriority(unsigned int p){
     setEdited();
 }
 
-void Task::setStatus(Status s){
-    status=s;
+void Task::setStatus(int s){
+    status=static_cast<Status>(s);
     setEdited();
 }
 
@@ -62,30 +57,9 @@ void Task::setExpired(const QDateTime exp){
 NoteInterface* Task::getUI() const{
     return new TaskInterface(*this);
 }
-NoteInterface* Task::getUIarchive() const{
-    return new TaskInterface(*this,1);
-}
 
 Status Task::getStatus_re() const{
     return status;
-}
-
-Note* Task::save(){
-    Note* n=new Task(*this);
-    return n;
-}
-
-
-void Task::restore(Note* n){
-    Task* nouveau;
-    nouveau=static_cast<Task*>(n);
-    this->setTitle(nouveau->getTitle());
-    this->setCreated(nouveau->getCreated());
-    this->setState(nouveau->getStates());
-    actionToBeDone=nouveau->getActionToBeDone();
-    status=nouveau->getStatus_re();
-    priority=nouveau->getPriority();
-    expired=nouveau->getExpired();
 }
 
 const QString& Task::getType() const{

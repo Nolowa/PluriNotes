@@ -99,6 +99,8 @@ Relationship<T>& RelationsManager<T>::getRelation(const QString& title) {
             return **i;
         }
     }
+
+    throw new AppException("Relation inexistante");
 }
 
 template<typename T>

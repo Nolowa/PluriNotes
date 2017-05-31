@@ -26,26 +26,16 @@ class TaskInterface: public NoteInterface {
     QComboBox* statusCombo;
     QComboBox* priorityCombo;
     QFormLayout* layout;
-    QPushButton* generate;
 
-    /**< la partie choisir et charger les versions */
-    QComboBox * versions;
-    QPushButton* choisir;
-    int Id;
-    std::vector <int> a;
 
-    QPushButton* activer;/**< archive->active */
     QLineEdit* priorityEdit;
     QLineEdit* statusEdit;
-    QPushButton* supprimer;/**< supprimer */
 public:
     TaskInterface(const Task& t, QWidget *parent = 0);
     TaskInterface(const Task& t, int i, QWidget *parent = 0);/**< l'interface pour les notes non éditable */
-    void parcourir();/**< parcourir les versions*/
+
+    const Note& toNote();
 public slots:
-    void save();
-    void charger();/**< charger la version*/
-    void enregistrerid(int i);/**< garder id présent*/
 };
 
 #endif // TASKINTERFACE_H

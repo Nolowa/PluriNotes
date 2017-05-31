@@ -1,7 +1,7 @@
 #include "relateddockview.h"
 #include <QDebug>
 
-RelatedDockView::RelatedDockView(RelationsManager<Note>& relationsManager, QWidget *parent) : QWidget(parent), relationsManager(relationsManager)
+RelatedDockView::RelatedDockView(RelationsManager<NoteHolder>& relationsManager, QWidget *parent) : QWidget(parent), relationsManager(relationsManager)
 {
     initUI();
     setSelectedNote(nullptr);
@@ -51,7 +51,7 @@ void RelatedDockView::initUI(){
 }
 
 
-void RelatedDockView::setSelectedNote(const Note* n){
+void RelatedDockView::setSelectedNote(const NoteHolder* n){
     selectedNote = n;
 
     if(n != nullptr){
@@ -69,8 +69,8 @@ void RelatedDockView::refresh(){
         linkButton->setDisabled(true);
     }else{
         linkButton->setDisabled(false);
-        relationsManager.fillTree(&childrenModel, &childrenIndexMap, *selectedNote, RelationsManager<Note>::CHILD);
-        relationsManager.fillTree(&parentsModel, &parentsIndexMap, *selectedNote, RelationsManager<Note>::PARENT);
+        relationsManager.fillTree(&childrenModel, &childrenIndexMap, *selectedNote, RelationsManager<NoteHolder>::CHILD);
+        relationsManager.fillTree(&parentsModel, &parentsIndexMap, *selectedNote, RelationsManager<NoteHolder>::PARENT);
         childrenView->expandToDepth(1);
         parentsView->expandToDepth(1);
     }
@@ -83,7 +83,7 @@ bool RelatedDockView::eventFilter(QObject *object, QEvent *event){
             bool parents = (object == parentsView);
 
             QModelIndex idx = (parents ? parentsView->currentIndex() : childrenView->currentIndex());
-            const Association<Note>* assoc = (parents ? parentsIndexMap.value(idx) : childrenIndexMap.value(idx));
+            const Association<NoteHolder>* assoc = (parents ? parentsIndexMap.value(idx) : childrenIndexMap.value(idx));
             if(assoc){
 
                 deleteConfirm->setInformativeText("Relation entre " + assoc->getRelatedFrom() + " et " + assoc->getRelatedTo() + " de type " + assoc->getRelation().getName());
@@ -93,9 +93,11 @@ bool RelatedDockView::eventFilter(QObject *object, QEvent *event){
                     refresh();
                 }
             }
+
+            return true;
         }
     }
-    return NULL;
+    return false;
 }
 
 

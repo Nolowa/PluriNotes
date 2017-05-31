@@ -3,7 +3,7 @@
 
 
 #include "notes/note.h"
-#include "interfaces/taskinterface.h"
+#include "interfaces/content-editor/taskinterface.h"
 
 class TaskInterface;
 typedef enum {en_attente, en_cours,terminee} Status;// en_attente=0, en_cours=1, terminee=2
@@ -19,9 +19,6 @@ class Task: public Note {
     static const QString type; /**< Attribut statique donnant le type de Note (dérivée) */
 
 public:
-    Task(QUuid identifier = QUuid::createUuid()); /**< Constructeur */
-    //Task(const Task& t):Note(t),actionToBeDone(),status(t.getStatus_re()),priority(t.getPriority()),expired(t.getExpired()){}
-    Task(QUuid identifier,QDateTime c);
     const QString& getActionToBeDone() const; /**< Accesseur de l'attribut l'action à réaliser  */
     QString getStatus() const; /**< Accesseur de l'attribut status  */
     unsigned int getStatusInt() const; /**< Accesseur 2 l'attribut status  */
@@ -31,14 +28,11 @@ public:
 
     void setActionToBeDone(const QString& a); /**< Méthode modifiant l'attribut actionToBeDone  */
     void setPriority(unsigned int p); /**< Méthode modifiant l'attribut de priority  */
-    void setStatus(Status s); /**< Méthode modifiant l'attribut status  */
+    void setStatus(int s); /**< Méthode modifiant l'attribut status  */
     void setExpired(const QDateTime exp); /**< Méthode modifiant l'attribut expired */
 
     NoteInterface* getUI() const;   /**< Méthode virtuelle renvoyant l'interface de la Tâche */
-    NoteInterface* getUIarchive() const;
 
-    Note* save();
-    void restore(Note* n);
 
     const QString& getType() const; /**< Méthode renvoyant le type de Note (dérivée) */
 };

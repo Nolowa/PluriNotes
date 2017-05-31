@@ -6,6 +6,7 @@
 #include <QStandardItemModel>
 #include <QModelIndex>
 #include "utils.h"
+#include "notes/noteholder.h"
 #include "notes/note.h"
 #include "notes/image.h"
 #include "notes/article.h"
@@ -14,6 +15,8 @@
 #include "notes/sound.h"
 #include "relations/relationsmanager.h"
 
+class Note;
+class NoteHolder;
 
 class NotesManager : public QObject{
 public:
@@ -22,26 +25,23 @@ public:
     {
         NotesManager& notesManager;
         QStandardItemModel model;
-        QMap<QUuid, QModelIndex> indexMap;
+        QMap<NoteHolder*, QModelIndex> indexMap;
 
-        //void generateModel(NotesManager&);
-        QStandardItem* generateItem(const Note&);
-        void updateItem(QStandardItem*, const Note&);
-        void updateItem(const Note& note);
+        QStandardItem* generateItem(const NoteHolder&);
+        void updateItem(QStandardItem*, const NoteHolder&);
+        void updateItem(const NoteHolder& note);
 
         friend class NotesManager;
 
     public:
         NotesModelHolder(NotesManager& nm) : notesManager(nm){}
         QStandardItemModel& getModel(){ return model; }
-        const Note* findByIndex(QModelIndex&) const;
+        const NoteHolder& findByIndex(const QModelIndex&) const;
 
     };
 
 private:
-    std::vector<const Note*> notes;
-    Note** notess;
-    QString filename;
+    std::vector<NoteHolder> notes;
     NotesModelHolder* modelHolder;
 
     static NotesManager* instance;// singleton
@@ -49,7 +49,7 @@ private:
     NotesManager(const NotesManager& n);
     NotesManager& operator=(const NotesManager& n);
 
-    void registerNewNote(Note* note);
+    void registerNewNote(NoteHolder& note);
 
     Q_OBJECT
 
@@ -59,42 +59,39 @@ public:
 
     const Note* find(const QUuid& identifier) const;
     NotesModelHolder & getModelHolder() const { return *modelHolder; }
+    NoteHolder& import(QString identifier, QDateTime created, int state, const Note& body);
 
-    void load(); // load notes from file filename
-
-    void load_vrai(int id);//à travers de l'interface on sait excatement l'id de note qu'on veut charger
-    void load_version();/**< load toutes les notes de versions dernières dans notemanagers*/
-
-
-    class Iterator : public ::Iterator<const Note>{
+    class Iterator : public ::Iterator<const NoteHolder>{
         const NotesManager& manager;
         int idx;
         Iterator();
     public:
         Iterator(const NotesManager& m) : manager(m), idx(-1){}
-        const Note& current() const;
+        const NoteHolder& current() const;
         bool isDone() const;
         void next();
 
     };
 
-
     NotesManager::Iterator& getIterator() const;
 
+    Note& createNoteBody(QString type) const;
     bool replaceReference(const Note *);
 
 signals:
 
-    void noteCreated(const Note&);
-    void noteUpdated(const Note&);
+    void noteCreated(const NoteHolder&);
+    void noteUpdated(const NoteHolder&);
 
 public slots:
-    const Article& createArticle();
-    const Task& createTask();
-    const Image& createImage();
-    const Sound& createSound();
-    const Video& createVideo();
-    void updateNote(const Note * note);
+
+    const NoteHolder& createArticle();
+    const NoteHolder& createTask();
+    const NoteHolder& createImage();
+    const NoteHolder& createSound();
+    const NoteHolder& createVideo();
+    const NoteHolder& createNote(QString type);
+    void updateNote(const NoteHolder& holder, const Note& newBody);
 
 
    // ~NotesManager();

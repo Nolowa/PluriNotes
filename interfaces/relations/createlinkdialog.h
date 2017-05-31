@@ -19,7 +19,7 @@
 class CreateLinkDialog : public QDialog
 {
     NotesManager& notesManager = NotesManager::getInstance();
-    RelationsManager<Note>& relationsManager;
+    RelationsManager<NoteHolder>& relationsManager;
     QVBoxLayout* glblLayout;
     QFormLayout* formLayout;
     QComboBox* relationCombo;
@@ -27,7 +27,7 @@ class CreateLinkDialog : public QDialog
     QLineEdit* labelField;
     QDialogButtonBox* btnsLayout;
 
-    const Note* currentNote;
+    const NoteHolder* currentNote;
 
     void initUI();
     void populate();
@@ -36,8 +36,8 @@ class CreateLinkDialog : public QDialog
 
     Q_OBJECT
 public:
-    explicit CreateLinkDialog(RelationsManager<Note>& relationsManager, QWidget *parent = 0);
-    void setCurrentNote(const Note& n);
+    explicit CreateLinkDialog(RelationsManager<NoteHolder>& relationsManager, QWidget *parent = 0);
+    void setCurrentNote(const NoteHolder& n);
 
 signals:
 

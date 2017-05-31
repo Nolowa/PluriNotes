@@ -20,21 +20,22 @@ SOURCES += main.cpp \
     notes/sound.cpp \
     notes/notextualnote.cpp \
     memento.cpp \
-    version.cpp \
-    interfaces/articleinterface.cpp \
-    interfaces/taskinterface.cpp \
-    interfaces/imageinterface.cpp \
-    interfaces/soundinterface.cpp \
-    interfaces/videointerface.cpp \
-    corbeille.cpp \
+    interfaces/content-editor/articleinterface.cpp \
+    interfaces/content-editor/taskinterface.cpp \
+    interfaces/content-editor/imageinterface.cpp \
+    interfaces/content-editor/soundinterface.cpp \
+    interfaces/content-editor/videointerface.cpp \
     interfaces/mainframe.cpp \
-    interfaces/noteslistview.cpp \
-    interfaces/noteframeview.cpp \
-    interfaces/noteinterface.cpp \
+    interfaces/editor/noteframeview.cpp \
+    interfaces/content-editor/noteinterface.cpp \
     interfaces/mainwindow.cpp \
-    interfaces/corbeillelistview.cpp  \
-    interfaces/relateddockview.cpp \
-    interfaces/createlinkdialog.cpp
+    interfaces/relations/relateddockview.cpp \
+    interfaces/relations/createlinkdialog.cpp \
+    notesproxyfilter.cpp \
+    notes/noteholder.cpp \
+    database.cpp \
+    interfaces/sidebar/sidebar.cpp \
+    interfaces/sidebar/noteslistview.cpp
 
 
 # The following define makes your compiler emit warnings if you use
@@ -59,25 +60,26 @@ HEADERS +=\
     notes/sound.h \
     notes/notextualnote.h \
     memento.h \
-    version.h \
-    interfaces/articleinterface.h \
-    interfaces/taskinterface.h \
-    interfaces/imageinterface.h \
-    interfaces/soundinterface.h \
-    interfaces/videointerface.h \
+    interfaces/content-editor/articleinterface.h \
+    interfaces/content-editor/taskinterface.h \
+    interfaces/content-editor/imageinterface.h \
+    interfaces/content-editor/soundinterface.h \
+    interfaces/content-editor/videointerface.h \
     relations/relationship.h \
     relations/relationsmanager.h \
     relations/association.h \
     relations/bidirectionalrelationship.h \
-    corbeille.h \
     interfaces/mainframe.h \
-    interfaces/noteslistview.h \
-    interfaces/noteframeview.h \
-    interfaces/noteinterface.h \
+    interfaces/editor/noteframeview.h \
+    interfaces/content-editor/noteinterface.h \
     interfaces/mainwindow.h \
-    interfaces/corbeillelistview.h \
-    interfaces/relateddockview.h \
-    interfaces/createlinkdialog.h
+    interfaces/relations/relateddockview.h \
+    interfaces/relations/createlinkdialog.h \
+    notesproxyfilter.h \
+    notes/noteholder.h \
+    database.h \
+    interfaces/sidebar/sidebar.h \
+    interfaces/sidebar/noteslistview.h
 
 
 RESOURCES += \

@@ -24,16 +24,16 @@ class RelatedDockView : public QWidget
 
     CreateLinkDialog* createDialog;
 
-    RelationsManager<Note>& relationsManager;
+    RelationsManager<NoteHolder>& relationsManager;
 
     QStandardItemModel childrenModel;
     QStandardItemModel parentsModel;
 
-    QMap<QModelIndex, const Association<Note>*> childrenIndexMap;
-    QMap<QModelIndex, const Association<Note>*> parentsIndexMap;
+    QMap<QModelIndex, const Association<NoteHolder>*> childrenIndexMap;
+    QMap<QModelIndex, const Association<NoteHolder>*> parentsIndexMap;
 
 
-    const Note* selectedNote;
+    const NoteHolder* selectedNote;
 
     QMessageBox* deleteConfirm;
 
@@ -41,12 +41,12 @@ class RelatedDockView : public QWidget
 
     Q_OBJECT
 public:
-    explicit RelatedDockView(RelationsManager<Note>& relationsManager, QWidget *parent = 0);
+    explicit RelatedDockView(RelationsManager<NoteHolder>& relationsManager, QWidget *parent = 0);
     bool eventFilter(QObject *object, QEvent *event);
 signals:
 
 public slots:
-    void setSelectedNote(const Note*);
+    void setSelectedNote(const NoteHolder*);
     void refresh();
 };
 

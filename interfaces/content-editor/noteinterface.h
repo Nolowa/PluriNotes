@@ -16,9 +16,9 @@ class Note;
 class NoteInterface : public QWidget{
     Q_OBJECT
 
-    //virtual const Note * save() = 0;
 public:
     explicit NoteInterface(QWidget *parent = 0);
+    virtual const Note& toNote() = 0;
 
 signals:
     void newVersion(const Note*);

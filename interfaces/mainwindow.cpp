@@ -3,10 +3,10 @@
 
 
 
-MainWindow::MainWindow(NotesManager& nm, RelationsManager<Note>& rm,Corbeille& cb, QWidget *parent) : QMainWindow(parent)
+MainWindow::MainWindow(NotesManager& nm, RelationsManager<NoteHolder>& rm,QWidget *parent) : QMainWindow(parent)
 
 {
-    mf = new Mainframe(nm,cb);
+    mf = new Mainframe(nm);
     setCentralWidget(mf);
 
     relationsView = new RelatedDockView(rm);
@@ -15,7 +15,7 @@ MainWindow::MainWindow(NotesManager& nm, RelationsManager<Note>& rm,Corbeille& c
     relationsDock->setWidget(relationsView);
     relationsDock->setFeatures(QDockWidget::DockWidgetClosable);
 
-    connect(mf->getListView(), SIGNAL(noteSelected(const Note*)), relationsView, SLOT(setSelectedNote(const Note*)));
+    connect(mf->getSidebar(), SIGNAL(noteSelected(const NoteHolder*)), relationsView, SLOT(setSelectedNote(const NoteHolder*)));
 
     addDockWidget(Qt::RightDockWidgetArea, relationsDock);
     setWindowTitle("PluriNotes");
