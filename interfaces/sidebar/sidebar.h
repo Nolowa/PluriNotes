@@ -31,6 +31,7 @@ class Sidebar : public QWidget
     QLabel* binTitle;
 
     QPushButton* deleteBtn;
+    QPushButton* restoreBtn;
 
     const NoteHolder* selectedNote = nullptr;
 
@@ -42,9 +43,10 @@ public:
 
 signals:
     void noteSelected(const NoteHolder*);
-    void noteDeleted(const NoteHolder&);
+    void noteStatusChangeRequested(const NoteHolder&, NoteState newState);
 public slots:
     void deleteNote();
+    void restoreNote();
     void selectActiveNote(const NoteHolder*);
     void selectDeletedNote(const NoteHolder*);
 

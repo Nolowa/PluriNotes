@@ -94,9 +94,9 @@ void NotesManager::updateNote(const NoteHolder& holder, const Note& newBody){
     emit noteUpdated(holder);
 }
 
-void NotesManager::deleteNote(const NoteHolder& const_holder){
+void NotesManager::noteStatusChangeRequested(const NoteHolder& const_holder, NoteState state){
     NoteHolder& holder = const_cast<NoteHolder&>(const_holder);
-    holder.setState(DELETED);
+    holder.setState(state);
 
     emit noteStatusChanged(holder);
 }

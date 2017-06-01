@@ -27,7 +27,7 @@ void Mainframe::initUI(){
     setLayout(layout);
 
     connect(sidebar, SIGNAL(noteSelected(const NoteHolder*)), noteView, SLOT(setNote(const NoteHolder*)));
-    connect(sidebar, SIGNAL(noteDeleted(const NoteHolder&)), &data, SLOT(deleteNote(const NoteHolder&)));
+    connect(sidebar, SIGNAL(noteStatusChangeRequested(const NoteHolder&, NoteState)), &data, SLOT(noteStatusChangeRequested(const NoteHolder&, NoteState)));
     connect(noteView, SIGNAL(noteSaved(const NoteHolder&, const Note&)), &data, SLOT(updateNote(const NoteHolder&, const Note&)));
 
 }

@@ -6,6 +6,7 @@ Sidebar::Sidebar(NotesManager& nm, QWidget *parent) : QWidget(parent), nm(nm)
     QObject::connect(stdListview, SIGNAL(noteSelected(const NoteHolder*)), this, SLOT(selectActiveNote(const NoteHolder*)));
     QObject::connect(binListview, SIGNAL(noteSelected(const NoteHolder*)), this, SLOT(selectDeletedNote(const NoteHolder*)));
     QObject::connect(deleteBtn, SIGNAL(released()), this, SLOT(deleteNote()));
+    QObject::connect(restoreBtn, SIGNAL(released()), this, SLOT(restoreNote()));
 }
 
 void Sidebar::initUI(){
@@ -18,6 +19,10 @@ void Sidebar::initUI(){
     binListview->setMaximumHeight(100);
 
     deleteBtn = new QPushButton(QIcon(":/icons/corbeille"), "Supprimer");
+    restoreBtn = new QPushButton(QIcon(":/icons/restore"), "Restaurer");
+
+    deleteBtn->setDisabled(true);
+    restoreBtn->setVisible(false);
 
     // Barre "nouveau"
     btnsLayout = new QHBoxLayout(this);
@@ -53,6 +58,7 @@ void Sidebar::initUI(){
     layout->addWidget(binTitle);
     layout->addWidget(binListview);
     layout->addWidget(deleteBtn);
+    layout->addWidget(restoreBtn);
 
     layout->setMargin(0);
     this->setLayout(layout);
@@ -72,6 +78,17 @@ void Sidebar::initUI(){
 
 void Sidebar::selectNote(const NoteHolder* selectedNote){
     this->selectedNote = selectedNote;
+
+    if(selectedNote){
+        deleteBtn->setDisabled(false);
+        deleteBtn->setVisible(selectedNote->isActive());
+        restoreBtn->setVisible(!selectedNote->isActive());
+    }else{
+        deleteBtn->setDisabled(true);
+        deleteBtn->setVisible(true);
+        restoreBtn->setVisible(false);
+    }
+
     emit noteSelected(selectedNote);
 }
 
@@ -87,6 +104,13 @@ void Sidebar::selectDeletedNote(const NoteHolder* selectedNote){
 
 void Sidebar::deleteNote(){
     if(selectedNote){
-        emit noteDeleted(*selectedNote);
+        emit noteStatusChangeRequested(*selectedNote, DELETED);
     }
 }
+
+void Sidebar::restoreNote(){
+    if(selectedNote){
+        emit noteStatusChangeRequested(*selectedNote, ACTIVE);
+    }
+}
+

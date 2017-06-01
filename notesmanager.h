@@ -92,7 +92,7 @@ public slots:
     const NoteHolder& createSound();
     const NoteHolder& createVideo();
     const NoteHolder& createNote(QString type);
-    void deleteNote(const NoteHolder& holder);
+    void noteStatusChangeRequested(const NoteHolder& holder, NoteState state);
     void updateNote(const NoteHolder& holder, const Note& newBody);
 
 
