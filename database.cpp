@@ -99,9 +99,10 @@ void Database::updateStatus(const NoteHolder &n){
     if(ignoreManagerSignal) return;
 
     QSqlQuery q;
-    q.exec("UPDATE Note SET Task = " + QString::number(n.getState())  +" WHERE HolderId = \"" + n.getId().toString() + "\"");
-    qDebug() << q.lastError().text();
-    //f(!q.exec()) throw new AppException("Erreur lors de la mise à jour d'une note en base de donnée");
+    q.prepare("UPDATE Note SET State = ? WHERE HolderId = ?");
+    q.addBindValue(n.getState());
+    q.addBindValue(n.getId().toString());
+    if(!q.exec()) throw new AppException("Erreur lors de l'insertion d'une note en base de donnée");
 }
 
 const Note& Database::loadContent(int version_id, const QString& note_type){
