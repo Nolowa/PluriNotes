@@ -83,6 +83,12 @@ void ImageInterface::fitToWindow(){
      imageLabel->setScaledContents(fitCheckBox->isChecked());
 }
 
+void ImageInterface::setReadOnly(bool readOnly){
+    titleEdit->setDisabled(readOnly);
+    descriptionEdit->setDisabled(readOnly);
+    bAddImage->setHidden(readOnly);
+}
+
 const Note& ImageInterface::toNote(){
     Image* i = new Image(*image);
     i->setDescription(descriptionEdit->toPlainText());

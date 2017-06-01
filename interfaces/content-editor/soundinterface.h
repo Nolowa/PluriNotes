@@ -47,6 +47,7 @@ public :
     void setNameFileSound(QString nameSound);
 
     const Note& toNote();
+    void setReadOnly(bool);
 
 public slots :
     void openSound();

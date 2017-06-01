@@ -24,3 +24,7 @@ const Note& ArticleInterface::toNote(){
     return *(article = a);
 }
 
+void ArticleInterface::setReadOnly(bool readOnly){
+    titleEdit->setDisabled(readOnly);
+    textEdit->setDisabled(readOnly);
+}

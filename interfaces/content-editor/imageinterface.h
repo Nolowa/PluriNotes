@@ -44,6 +44,7 @@ public:
     void setNameFileImage(QString nameImage);
 
     const Note& toNote();
+    void setReadOnly(bool);
 
 public slots :
     void openImage();

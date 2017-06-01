@@ -19,10 +19,8 @@ class NoteInterface : public QWidget{
 public:
     explicit NoteInterface(QWidget *parent = 0);
     virtual const Note& toNote() = 0;
+    virtual void setReadOnly(bool) = 0;
 
-signals:
-    void newVersion(const Note*);
-    void loadVersion(const Note*);// signal pour mettre à jour NoteListView arpès chargement d'une ancienne version
 };
 
 #endif // GENERALINTERFACE_H

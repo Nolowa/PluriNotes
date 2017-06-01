@@ -61,6 +61,7 @@ public:
     void updateButtons();
 
     const Note& toNote();
+    void setReadOnly(bool);
 
 public slots:
     void openVideo();

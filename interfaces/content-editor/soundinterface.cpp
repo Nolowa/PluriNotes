@@ -57,6 +57,12 @@ void SoundInterface::setNameFileSound(QString nameSound){
     nameFileSound=&nameSound;
 }
 
+void SoundInterface::setReadOnly(bool readOnly){
+    titleEdit->setDisabled(readOnly);
+    descriptionEdit->setDisabled(readOnly);
+    bAddSound->setHidden(readOnly);
+}
+
 //slot
 void SoundInterface::openSound(){
       *nameFileSound = QFileDialog::getOpenFileName(this, "Ouvrir un fichier", QString(), "Son (*.wav)");

@@ -27,6 +27,7 @@ class ArticleInterface: public NoteInterface{
 public:
     ArticleInterface(const Article& a, QWidget *parent = 0);
     const Note& toNote();
+    void setReadOnly(bool);
 
 };
 

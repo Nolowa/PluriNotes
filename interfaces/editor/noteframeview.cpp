@@ -56,10 +56,12 @@ void NoteFrameView::setNote(const NoteHolder * note){
         delete widget;
     }
 
+    widget = note->getLastVersion().getUI();
+    widget->setReadOnly(!note->isActive());
     btns_bar->setVisible(true);
     save_btn->setVisible(note->isActive());
+    copy_id_btn->setVisible(note->isActive());
 
-    widget = note->getLastVersion().getUI();
     layout->insertWidget(0, widget);
 }
 

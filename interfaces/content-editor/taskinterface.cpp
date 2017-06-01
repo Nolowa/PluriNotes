@@ -39,7 +39,13 @@ TaskInterface::TaskInterface(const Task& t,QWidget *parent): NoteInterface(paren
 
 }
 
-
+void TaskInterface::setReadOnly(bool readOnly){
+    titleEdit->setDisabled(readOnly);
+    actionEdit->setDisabled(readOnly);
+    dateEdit->setDisabled(readOnly);
+    priorityCombo->setDisabled(readOnly);
+    statusCombo->setDisabled(readOnly);
+}
 
 //slots
 const Note& TaskInterface::toNote(){

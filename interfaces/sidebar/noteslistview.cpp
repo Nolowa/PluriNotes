@@ -4,9 +4,11 @@ NotesListView::NotesListView(const NotesManager& manager, NoteState state, QWidg
 {
     filter = new NotesProxyFilter(manager, state, this);
     setModel(filter);
-    setIconSize(QSize(32, 32));
     setStyleSheet("background: #fcfcfc; border:0;");
     clearSelection();
+
+    if(state == ACTIVE)
+        setIconSize(QSize(32, 32));
 
 }
 

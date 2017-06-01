@@ -96,6 +96,13 @@ VideoInterface::VideoInterface(const Video& vid,QWidget *parent) : NoteInterface
 
 }
 
+void VideoInterface::setReadOnly(bool readOnly){
+    titleEdit->setDisabled(readOnly);
+    descriptionEdit->setDisabled(readOnly);
+    openButton->setHidden(readOnly);
+}
+
+
 //slot
 void VideoInterface::openVideo(){
       *nameFileVideo = QFileDialog::getOpenFileName(this, "Ouvrir une vidéo", QString(), "Video (*.mp4 *.avi)");

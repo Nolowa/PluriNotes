@@ -33,6 +33,7 @@ class TaskInterface: public NoteInterface {
 public:
     TaskInterface(const Task& t, QWidget *parent = 0);
     const Note& toNote();
+    void setReadOnly(bool);
 public slots:
 };
 
