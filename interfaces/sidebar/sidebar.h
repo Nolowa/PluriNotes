@@ -35,6 +35,7 @@ class Sidebar : public QWidget
     const NoteHolder* selectedNote = nullptr;
 
     void initUI();
+    void selectNote(const NoteHolder*);
 
 public:
     explicit Sidebar(NotesManager& nm, QWidget *parent = 0);
@@ -44,7 +45,8 @@ signals:
     void noteDeleted(const NoteHolder&);
 public slots:
     void deleteNote();
-    void selectNote(const NoteHolder*);
+    void selectActiveNote(const NoteHolder*);
+    void selectDeletedNote(const NoteHolder*);
 
 };
 

@@ -3,8 +3,8 @@
 Sidebar::Sidebar(NotesManager& nm, QWidget *parent) : QWidget(parent), nm(nm)
 {
     initUI();
-    QObject::connect(stdListview, SIGNAL(noteSelected(const NoteHolder*)), this, SLOT(selectNote(const NoteHolder*)));
-    QObject::connect(binListview, SIGNAL(noteSelected(const NoteHolder*)), this, SLOT(selectNote(const NoteHolder*)));
+    QObject::connect(stdListview, SIGNAL(noteSelected(const NoteHolder*)), this, SLOT(selectActiveNote(const NoteHolder*)));
+    QObject::connect(binListview, SIGNAL(noteSelected(const NoteHolder*)), this, SLOT(selectDeletedNote(const NoteHolder*)));
     QObject::connect(deleteBtn, SIGNAL(released()), this, SLOT(deleteNote()));
 }
 
@@ -73,6 +73,16 @@ void Sidebar::initUI(){
 void Sidebar::selectNote(const NoteHolder* selectedNote){
     this->selectedNote = selectedNote;
     emit noteSelected(selectedNote);
+}
+
+void Sidebar::selectActiveNote(const NoteHolder* selectedNote){
+    selectNote(selectedNote);
+    binListview->clearSelection();
+}
+
+void Sidebar::selectDeletedNote(const NoteHolder* selectedNote){
+    selectNote(selectedNote);
+    stdListview->clearSelection();
 }
 
 void Sidebar::deleteNote(){
