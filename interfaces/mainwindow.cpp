@@ -8,7 +8,7 @@ MainWindow::MainWindow(NotesManager& nm, RelationsManager<NoteHolder>& rm, Memen
 
     setCentralWidget(mf);
 
-    relationsView = new RelatedDockView(rm);
+    relationsView = new RelatedDockView(rm,*memento);
     relationsDock = new QDockWidget("Relations", this);
     relationsDock->setAllowedAreas(Qt::RightDockWidgetArea);
     relationsDock->setWidget(relationsView);

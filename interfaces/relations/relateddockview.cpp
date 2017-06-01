@@ -1,7 +1,7 @@
 #include "relateddockview.h"
 #include <QDebug>
 
-RelatedDockView::RelatedDockView(RelationsManager<NoteHolder>& relationsManager, QWidget *parent) : QWidget(parent), relationsManager(relationsManager)
+RelatedDockView::RelatedDockView(RelationsManager<NoteHolder>& relationsManager, MementoCaretaker &mement, QWidget *parent) : QWidget(parent), relationsManager(relationsManager), memento(mement)
 {
     initUI();
     setSelectedNote(nullptr);

@@ -5,6 +5,7 @@
 #include <QTreeView>
 #include "notesmanager.h"
 #include "relations/relationsmanager.h"
+#include "memento.h"
 #include <QVBoxLayout>
 #include <QLabel>
 #include "notes/note.h"
@@ -25,6 +26,7 @@ class RelatedDockView : public QWidget
     CreateLinkDialog* createDialog;
 
     RelationsManager<NoteHolder>& relationsManager;
+    MementoCaretaker& memento;
 
     QStandardItemModel childrenModel;
     QStandardItemModel parentsModel;
@@ -41,9 +43,11 @@ class RelatedDockView : public QWidget
 
     Q_OBJECT
 public:
-    explicit RelatedDockView(RelationsManager<NoteHolder>& relationsManager, QWidget *parent = 0);
+    explicit RelatedDockView(RelationsManager<NoteHolder>& relationsManager,MementoCaretaker& mement ,QWidget *parent = 0);
     bool eventFilter(QObject *object, QEvent *event);
 signals:
+    void RelationCreated();
+    void RelationDeleted();
 
 public slots:
     void setSelectedNote(const NoteHolder*);

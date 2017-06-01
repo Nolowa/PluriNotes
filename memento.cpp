@@ -11,7 +11,7 @@ void MementoCaretaker::undo() {
         m_vecMementoInverse.push_back(mem);
         if (typeid(mem)==typeid(MementoNote)){emit DeleteOnNotesListView(mem.getState());}
         if (typeid(mem)==typeid(MementoCorbeille)){emit DeleteOnCorbeille(mem.getState());}
-        //if (typeid(mem)==typeid(MementoRelation)){emit ;}
+        if (typeid(mem)==typeid(MementoRelation)){emit DeleteRelation(mem.getRelation());}
         throw("Error de TypeMemento");
     }
     else{
@@ -30,7 +30,7 @@ void MementoCaretaker::redo(){
         m_vecMemento.push_back(mem);
         if (typeid(mem)==typeid(MementoNote)){emit CreateOnNotesListView(mem.getState());}
         if (typeid(mem)==typeid(MementoCorbeille)){emit PutOnCorbeille(mem.getState());}
-        //if (typeid(mem)==typeid(MementoRelation)){emit ;}
+        if (typeid(mem)==typeid(MementoRelation)){emit CreateRelation(mem.getRelation());}
         throw("Error de TypeMemento");
     }
     else{

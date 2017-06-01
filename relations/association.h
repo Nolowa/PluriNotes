@@ -4,6 +4,9 @@
 #include "relationship.h"
 #include "relationsmanager.h"
 
+
+
+
 template <typename> class Relationship;
 template <typename> class RelationsManager;
 
@@ -19,8 +22,10 @@ class Association{
     friend class RelationsManager<T>;
 
     Association();
+    Association(const Association<T>& a): obj1(a.obj1),obj2(a.obj2),relation(a.relation){}
     Association(Relationship<T>& rel, const T& obj1, const T& obj2, const QString& label = "") : relation(rel), obj1(obj1), obj2(obj2), label(label){}
 public:
+
     bool operator ==(const Association& o){
         return (&obj1 == &(o.obj1) && &obj2 == &(o.obj2) && label == o.label);
     }
