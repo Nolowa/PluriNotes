@@ -122,6 +122,8 @@ QStandardItem* NotesManager::NotesModelHolder::generateItem(const NoteHolder& no
     QString qstr = QString(":/icons/") + note.getLastVersion().getType().toLower();
     QStandardItem* item = new QStandardItem(QIcon(qstr), note.getLastVersion().getTitle().length() ? note.getLastVersion().getTitle() : "Note sans nom");
 
+    QModelIndex idx = model.index(model.rowCount(), 0);
+
     model.appendRow(item);
     indexMap.insert(const_cast<NoteHolder*>(&note), item->index());
     return item;
@@ -140,6 +142,11 @@ void NotesManager::NotesModelHolder::updateItem(const NoteHolder& note){
 const NoteHolder& NotesManager::NotesModelHolder::findByIndex(const QModelIndex& index) const{
     return *indexMap.key(index);
 }
+
+bool NotesManager::NotesModelHolder::hasIndex(const QModelIndex& index) const{
+    return indexMap.key(index) != 0;
+}
+
 
 NoteHolder& NotesManager::import(QString identifier, QDateTime created, int state, const Note& body){
     NoteHolder* nh = new NoteHolder(identifier, created, state);

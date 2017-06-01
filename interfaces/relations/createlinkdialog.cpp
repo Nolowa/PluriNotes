@@ -57,7 +57,6 @@ void CreateLinkDialog::accept(){
         const NoteHolder& nh = notesManager.getModelHolder().findByIndex(qidx);
 
         if(relationsManager.areLinked(rel, *currentNote, nh)){
-            //QDialog::accept();
             QMessageBox::warning(this, "Liaison impossible",
                                            "Les notes sélectionnés sont déjà liés par cette relation.",
                                            QMessageBox::Ok,

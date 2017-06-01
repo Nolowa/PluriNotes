@@ -32,6 +32,7 @@ public:
 
 public slots:
     void insertVersion(const NoteHolder& n);/**< insérer tous les infos d'une note dans BDD*/
+    void updateStatus(const NoteHolder& n);
 };
 
 #endif // DATABASE_H

@@ -19,6 +19,7 @@ Database::Database(NotesManager& nm, const QString& filename) : notesManager(nm)
 
    QObject::connect(&nm, SIGNAL(noteCreated(NoteHolder)), this, SLOT(insertVersion(NoteHolder)));
    QObject::connect(&nm, SIGNAL(noteUpdated(NoteHolder)), this, SLOT(insertVersion(NoteHolder)));
+   QObject::connect(&nm, SIGNAL(noteStatusChanged(NoteHolder)), this, SLOT(updateStatus(NoteHolder)));
 
 }
 
@@ -92,6 +93,15 @@ void Database::insertVersion(const NoteHolder& note){
 
         q.finish();
     }
+}
+
+void Database::updateStatus(const NoteHolder &n){
+    if(ignoreManagerSignal) return;
+
+    QSqlQuery q;
+    q.exec("UPDATE Note SET Task = " + QString::number(n.getState())  +" WHERE HolderId = \"" + n.getId().toString() + "\"");
+    qDebug() << q.lastError().text();
+    //f(!q.exec()) throw new AppException("Erreur lors de la mise à jour d'une note en base de donnée");
 }
 
 const Note& Database::loadContent(int version_id, const QString& note_type){

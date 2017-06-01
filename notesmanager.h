@@ -37,7 +37,7 @@ public:
         NotesModelHolder(NotesManager& nm) : notesManager(nm){}
         QStandardItemModel& getModel(){ return model; }
         const NoteHolder& findByIndex(const QModelIndex&) const;
-
+        bool hasIndex(const QModelIndex&) const;
     };
 
 private:
