@@ -18,6 +18,7 @@ void RelatedDockView::initUI(){
 
     connect(linkButton, SIGNAL(pressed()), createDialog, SLOT(open()));
     connect(createDialog, SIGNAL(accepted()), this, SLOT(refresh()));
+    connect(createDialog, SIGNAL(linkCreated(QString,NoteHolder,NoteHolder,QString)), this, SIGNAL(linkCreated(QString,NoteHolder,NoteHolder,QString)));
 
     childrenView = new QTreeView;
     parentsView = new QTreeView;
@@ -89,8 +90,13 @@ bool RelatedDockView::eventFilter(QObject *object, QEvent *event){
                 deleteConfirm->setInformativeText("Relation entre " + assoc->getRelatedFrom() + " et " + assoc->getRelatedTo() + " de type " + assoc->getRelation().getName());
                 int code = deleteConfirm->exec();
                 if(code == 0){
-                    relationsManager.unlink(assoc->getRelation(), assoc->getRelatedFrom(), assoc->getRelatedTo());
+                    Relationship<NoteHolder>& rel = assoc->getRelation();
+                    const NoteHolder& e1 = assoc->getRelatedFrom();
+                    const NoteHolder& e2 = assoc->getRelatedFrom();
+                    relationsManager.unlink(rel, e1, e2);
                     refresh();
+
+                    emit linkDestroyed(rel.getName(), e1, e2);
                 }
             }
 

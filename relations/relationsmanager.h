@@ -1,6 +1,7 @@
 #ifndef RELATIONSMANAGER_H
 #define RELATIONSMANAGER_H
 
+#include <QObject>
 #include <QDebug>
 #include <stdio.h>
 #include <QString>
@@ -15,17 +16,12 @@
 #include "bidirectionalrelationship.h"
 #include "utils.h"
 
-//template <typename> class Relationship;
-
 template<typename T>
 class RelationsManager
 {
 
     QVector<Relationship<T>*> relationships;
 
-    //void fillTreeInternal(QStack<const T*>*, QStandardItem*, QMap<QModelIndex, const T*>*, int dir) const;
-
-    //template<typename T>
     void fillTreeInternal(const T* root, QStack<const Association<T>*>* els_stack, QStandardItem* el_item, QMap<QModelIndex,  const Association<T>*>* indexMap, int dir) const;
 
 public:
@@ -64,6 +60,7 @@ public:
     QVector<const Association<T>*>* getParents(const T& ref) const;
 
     void fillTree(QStandardItemModel* model, QMap<QModelIndex, const Association<T>*>* indexMap, const T& ref, int dir) const;
+
 };
 
 template<typename T>

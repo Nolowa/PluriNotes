@@ -11,6 +11,7 @@
 #include "mainframe.h"
 #include "notesmanager.h"
 #include "interfaces/relations/relateddockview.h"
+#include "interfaces/versions/versionsdockview.h"
 #include "relations/relationsmanager.h"
 #include "memento.h"
 
@@ -20,6 +21,10 @@ class MainWindow : public QMainWindow
     Mainframe* mf;
     RelatedDockView* relationsView;
     QDockWidget* relationsDock;
+
+    VersionsDockView* versionsView;
+    QDockWidget* versionsDock;
+
     MementoCaretaker* memento;
 
     //menu
@@ -33,9 +38,9 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(NotesManager& nm, RelationsManager<NoteHolder>& rm, MementoCaretaker& mement, QWidget *parent = 0);
+    explicit MainWindow(NotesManager& nm, RelationsManager<NoteHolder>& rm, MementoCaretaker& mement, Database& db, QWidget *parent = 0);
 
-
+    RelatedDockView* getRelatedDockView() { return relationsView; }
 signals:
     void undo();
     void redo();
