@@ -44,7 +44,6 @@ class SoundInterface : public NoteInterface{
 
 public :
     SoundInterface(const Sound& s, QWidget *parent = 0);
-    SoundInterface(const Sound& s, int i, QWidget *parent = 0);/**< l'interface pour les notes non éditable */
     void setNameFileSound(QString nameSound);
 
     const Note& toNote();

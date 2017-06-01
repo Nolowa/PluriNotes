@@ -2,6 +2,7 @@
 #define MEMENTO_H
 #include "notes/note.h"
 #include<vector>
+#include <QString>
 
 
 class Memento{
@@ -56,7 +57,7 @@ public slots:
 signals:
     void DeleteOnNotesListView(const Note*);
     void CreateOnNotesListView(const Note*);
-    //void DeleteRelation(const QUELQUECHOSE);
+    //void DeleteRelation(const& QString, const Note*,const Note*);
     //void CreateRelation(const QUELQUECHOSE);
     void DeleteOnCorbeille(const Note*);
     void PutOnCorbeille(const Note*);

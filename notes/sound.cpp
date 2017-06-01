@@ -12,6 +12,7 @@ NoteInterface* Sound::getUI() const{
     return new SoundInterface(*this);
 }
 
+
 const QSound& Sound::getSound() const{
     return *soundFile;
 }

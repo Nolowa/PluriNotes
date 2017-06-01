@@ -58,7 +58,6 @@ class VideoInterface : public NoteInterface {
 
 public:
     VideoInterface(const Video& vid, QWidget *parent = 0);
-    VideoInterface(const Video& vid, int i, QWidget *parent = 0);/**< l'interface pour les notes non éditable */
     void updateButtons();
 
     const Note& toNote();

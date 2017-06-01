@@ -3,6 +3,8 @@
 #include <QHBoxLayout>
 #include <QObject>
 #include <QFrame>
+#include <QClipboard>
+#include <QApplication>
 
 NoteFrameView::NoteFrameView(QWidget *parent) :
     QWidget(parent),
@@ -21,12 +23,10 @@ void NoteFrameView::initUI(){
 
     save_btn = new QPushButton("Enregistrer");
     copy_id_btn = new QPushButton("Référencer");
-    delete_btn = new QPushButton("Supprimer");
 
     btns_bar_l->addWidget(save_btn);
     btns_bar_l->addWidget(copy_id_btn);
     btns_bar_l->addSpacing(10);
-    btns_bar_l->addWidget(delete_btn);
 
     btns_bar->setMaximumHeight(50);
     btns_bar->setLayout(btns_bar_l);
@@ -37,7 +37,14 @@ void NoteFrameView::initUI(){
     setMinimumWidth(500);
     setLayout(layout);
 
-    QObject::connect(save_btn, SIGNAL(pressed()), this, SLOT(save()));
+    copyDialog = new QMessageBox(this);
+    copyDialog->setIcon(QMessageBox::Information);
+    copyDialog->setText("L'identifiant de cette note a été copié dans le presse papier. Collez-le dans une autre note pour permettre le référencement.");
+    copyDialog->setModal(true);
+    copyDialog->setWindowModality(Qt::WindowModal);
+
+    QObject::connect(save_btn, SIGNAL(released()), this, SLOT(save()));
+    QObject::connect(copy_id_btn, SIGNAL(released()), this, SLOT(copy_id()));
 
 }
 
@@ -51,7 +58,6 @@ void NoteFrameView::setNote(const NoteHolder * note){
 
     btns_bar->setVisible(true);
     save_btn->setVisible(note->isActive());
-    delete_btn->setVisible(!note->isDeleted());
 
     widget = note->getLastVersion().getUI();
     layout->insertWidget(0, widget);
@@ -62,4 +68,11 @@ void NoteFrameView::save(){
         const Note& newBody = widget->toNote();
         emit noteSaved(*note, newBody);
     }
+}
+
+void NoteFrameView::copy_id(){
+    QClipboard *clipboard = QApplication::clipboard();
+    clipboard->setText(note->getId().toString());
+
+    copyDialog->exec();
 }

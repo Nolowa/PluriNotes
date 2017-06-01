@@ -32,8 +32,6 @@ class TaskInterface: public NoteInterface {
     QLineEdit* statusEdit;
 public:
     TaskInterface(const Task& t, QWidget *parent = 0);
-    TaskInterface(const Task& t, int i, QWidget *parent = 0);/**< l'interface pour les notes non éditable */
-
     const Note& toNote();
 public slots:
 };

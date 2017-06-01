@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QHBoxLayout>
 #include <QPushButton>
+#include <QMessageBox>
 #include "notes/noteholder.h"
 #include "interfaces/content-editor/noteinterface.h"
 
@@ -21,7 +22,8 @@ class NoteFrameView : public QWidget
 
     QPushButton* save_btn;
     QPushButton* copy_id_btn;
-    QPushButton* delete_btn;
+
+    QMessageBox* copyDialog;
 
     void initUI();
 
@@ -34,6 +36,7 @@ signals:
 public slots:
     void setNote(const NoteHolder * note);
     void save();
+    void copy_id();
 };
 
 #endif // NOTEFRAMEVIEW_H

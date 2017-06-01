@@ -22,8 +22,6 @@ int main(int argc, char *argv[]){
 
             QApplication app(argc, argv);
     try{
-            QTextStream qout(stdout);
-            qout << "Demarrage" << endl;
 
             NotesManager& m=NotesManager::getInstance();
             RelationsManager<NoteHolder>* rm = new RelationsManager<NoteHolder>; // Penser à faire le DP singleton -> Non.
@@ -32,16 +30,16 @@ int main(int argc, char *argv[]){
             rm->createRelation("UneRelationUnidirectionelle");
             rm->createRelation("UneDeuxiemeRelation");
 
-            Database* db =new Database(m, "database.db");
+            Database* db = new Database(m, "database.db");
             db->loadAll();
 
-            MainWindow window(m, *rm);
+            MainWindow window(m, *rm, *mainMemento);
 
             window.show();
 
             return app.exec();
     }catch(AppException* ex){
         QMessageBox::critical(nullptr, "Erreur", ex->message);
-
     }
+
 }

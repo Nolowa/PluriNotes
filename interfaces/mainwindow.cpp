@@ -1,12 +1,11 @@
 #include "mainwindow.h"
 
 
-
-
-MainWindow::MainWindow(NotesManager& nm, RelationsManager<NoteHolder>& rm,QWidget *parent) : QMainWindow(parent)
+MainWindow::MainWindow(NotesManager& nm, RelationsManager<NoteHolder>& rm, MementoCaretaker& mement, QWidget *parent) : QMainWindow(parent),memento(&mement)
 
 {
     mf = new Mainframe(nm);
+
     setCentralWidget(mf);
 
     relationsView = new RelatedDockView(rm);
@@ -22,7 +21,6 @@ MainWindow::MainWindow(NotesManager& nm, RelationsManager<NoteHolder>& rm,QWidge
     setWindowIcon(QIcon(":/icons/article"));
 
     initMenu();
-
 
 }
 
@@ -63,6 +61,8 @@ void MainWindow::initMenu(){
      relationsDock->toggleViewAction()->setShortcut(QKeySequence("Ctrl+R"));
      menuAffichage->addAction(relationsDock->toggleViewAction());
 
+     QObject::connect(actionUndo, SIGNAL(triggered()), memento, SLOT(undo()));
+     QObject::connect(actionRedo, SIGNAL(triggered()), memento, SLOT(redo()));
 
 
 }
