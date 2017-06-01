@@ -25,8 +25,8 @@ SoundInterface::SoundInterface(const Sound& s,QWidget *parent) : NoteInterface(p
       //gestion des Layouts
       mainLayout = new QVBoxLayout;
       mainLayout->addLayout(layout);
-      mainLayout->addLayout(boutonLayout2);
       mainLayout->addLayout(boutonLayout);
+      mainLayout->addLayout(boutonLayout2);
       setLayout(mainLayout);
       setWindowTitle("Bande Son");
 
