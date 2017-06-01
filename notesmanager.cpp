@@ -89,10 +89,16 @@ const NoteHolder& NotesManager::createSound(){
 }
 
 void NotesManager::updateNote(const NoteHolder& holder, const Note& newBody){
-    std::cout << std::endl << "note received update" << std::endl;
     const_cast<NoteHolder&>(holder).update(newBody);
     modelHolder->updateItem(holder);
     emit noteUpdated(holder);
+}
+
+void NotesManager::deleteNote(const NoteHolder& const_holder){
+    NoteHolder& holder = const_cast<NoteHolder&>(const_holder);
+    holder.setState(DELETED);
+
+    emit noteStatusChanged(holder);
 }
 
 NotesManager::Iterator& NotesManager::getIterator() const{

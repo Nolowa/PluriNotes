@@ -13,6 +13,7 @@
 
 #include "notesmanager.h"
 #include "noteslistview.h"
+#include "notes/noteholder.h"
 
 class Sidebar : public QWidget
 {
@@ -31,6 +32,8 @@ class Sidebar : public QWidget
 
     QPushButton* deleteBtn;
 
+    const NoteHolder* selectedNote = nullptr;
+
     void initUI();
 
 public:
@@ -38,7 +41,10 @@ public:
 
 signals:
     void noteSelected(const NoteHolder*);
+    void noteDeleted(const NoteHolder&);
 public slots:
+    void deleteNote();
+    void selectNote(const NoteHolder*);
 
 };
 

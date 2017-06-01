@@ -4,6 +4,8 @@ NotesProxyFilter::NotesProxyFilter(const NotesManager& manager, NoteState status
     setSourceModel(&manager.getModelHolder().getModel());
     setDynamicSortFilter(true);
 
+    QObject::connect(&manager, SIGNAL(noteStatusChanged(NoteHolder)), this, SLOT(noteStatusChanged(NoteHolder)));
+
 }
 
 bool NotesProxyFilter::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const{
@@ -11,4 +13,8 @@ bool NotesProxyFilter::filterAcceptsRow(int sourceRow, const QModelIndex &source
     const NoteHolder& note = manager.getModelHolder().findByIndex(sourceModel()->index(sourceRow, 0));
     return note.getState() == status;
 
+}
+
+void NotesProxyFilter::noteStatusChanged(const NoteHolder &){
+    invalidate();
 }

@@ -27,6 +27,7 @@ public:
     int getState() const { return status; }
     bool isActive() const { return status == NoteState::ACTIVE; }
     bool isDeleted() const { return status == NoteState::DELETED; }
+    void setState(NoteState state);
 
     void update(const Note& newVersion);
 

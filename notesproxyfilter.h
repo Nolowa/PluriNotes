@@ -23,6 +23,7 @@ public:
 signals:
 
 public slots:
+    void noteStatusChanged(const NoteHolder&);
 };
 
 #endif // NOTESPROXYFILTER_H

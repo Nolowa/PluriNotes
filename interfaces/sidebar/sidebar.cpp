@@ -3,9 +3,9 @@
 Sidebar::Sidebar(NotesManager& nm, QWidget *parent) : QWidget(parent), nm(nm)
 {
     initUI();
-    QObject::connect(stdListview, SIGNAL(noteSelected(const NoteHolder*)), this, SIGNAL(noteSelected(const NoteHolder*)));
-    QObject::connect(binListview, SIGNAL(noteSelected(const NoteHolder*)), this, SIGNAL(noteSelected(const NoteHolder*)));
-
+    QObject::connect(stdListview, SIGNAL(noteSelected(const NoteHolder*)), this, SLOT(selectNote(const NoteHolder*)));
+    QObject::connect(binListview, SIGNAL(noteSelected(const NoteHolder*)), this, SLOT(selectNote(const NoteHolder*)));
+    QObject::connect(deleteBtn, SIGNAL(released()), this, SLOT(deleteNote()));
 }
 
 void Sidebar::initUI(){
@@ -68,5 +68,15 @@ void Sidebar::initUI(){
 
     setMaximumWidth(300);
 
+}
 
+void Sidebar::selectNote(const NoteHolder* selectedNote){
+    this->selectedNote = selectedNote;
+    emit noteSelected(selectedNote);
+}
+
+void Sidebar::deleteNote(){
+    if(selectedNote){
+        emit noteDeleted(*selectedNote);
+    }
 }

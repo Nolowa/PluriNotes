@@ -82,6 +82,7 @@ signals:
 
     void noteCreated(const NoteHolder&);
     void noteUpdated(const NoteHolder&);
+    void noteStatusChanged(const NoteHolder&);
 
 public slots:
 
@@ -91,6 +92,7 @@ public slots:
     const NoteHolder& createSound();
     const NoteHolder& createVideo();
     const NoteHolder& createNote(QString type);
+    void deleteNote(const NoteHolder& holder);
     void updateNote(const NoteHolder& holder, const Note& newBody);
 
 
