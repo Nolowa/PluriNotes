@@ -83,6 +83,8 @@ signals:
     void noteCreated(const NoteHolder&);
     void noteUpdated(const NoteHolder&);
     void noteStatusChanged(const NoteHolder&);
+    void noteStatusChangedwithState(const NoteHolder& holder,NoteState oldState,NoteState newState);
+
 
 public slots:
 
@@ -93,6 +95,7 @@ public slots:
     const NoteHolder& createVideo();
     const NoteHolder& createNote(QString type);
     void noteStatusChangeRequested(const NoteHolder& holder, NoteState state);
+    void noteStatusChangeRequestedFromMemento(const NoteHolder& const_holder, NoteState state);
     void updateNote(const NoteHolder& holder, const Note& newBody);
 
 

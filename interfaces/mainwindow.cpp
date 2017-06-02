@@ -2,7 +2,6 @@
 
 
 MainWindow::MainWindow(NotesManager& nm, RelationsManager<NoteHolder>& rm, MementoCaretaker& mement, Database& db, QWidget *parent) : QMainWindow(parent),memento(&mement)
-
 {
     mf = new Mainframe(nm);
 
@@ -34,6 +33,9 @@ MainWindow::MainWindow(NotesManager& nm, RelationsManager<NoteHolder>& rm, Memen
 
     initMenu();
 
+    //mémento
+    connect(&nm, SIGNAL(noteStatusChangedwithState(const NoteHolder&,NoteState,NoteState)), memento, SLOT(saveMementoState(const NoteHolder&,NoteState,NoteState)));
+    connect(memento,SIGNAL(changeNoteState(const NoteHolder&, NoteState)) ,&nm,SLOT(noteStatusChangeRequestedFromMemento(const NoteHolder&, NoteState)));
 }
 
 
