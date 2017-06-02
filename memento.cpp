@@ -7,6 +7,7 @@
 void MementoCaretaker::undo() {
     if(m_vecMemento.size()!=0){
         Memento* mem=m_vecMemento.back();
+        stopPropagation = true;
         m_vecMemento.pop_back();
         m_vecMementoInverse.push_back(mem);
         if (typeid(*mem)==typeid(MementoNoteState)){emit changeNoteState(mem->getNote(), mem->getOldState());}
@@ -32,6 +33,7 @@ void MementoCaretaker::redo(){
         Memento* mem= m_vecMementoInverse.back();
         m_vecMementoInverse.pop_back();
         m_vecMemento.push_back(mem);
+        stopPropagation = true;
         if (typeid(*mem)==typeid(MementoNoteState)){emit changeNoteState(mem->getNote(), mem->getNewState());}
         else
             if (typeid(*mem)==typeid(MementoRelation)){emit CreateRelation(mem->getNameLabel(),mem->getNote(),mem->getNote1(),mem->getNameRelation());}

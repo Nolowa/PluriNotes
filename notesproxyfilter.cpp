@@ -4,7 +4,7 @@ NotesProxyFilter::NotesProxyFilter(const NotesManager& manager, NoteState status
     setSourceModel(&manager.getModelHolder().getModel());
 
     setDynamicSortFilter(false);
-    QObject::connect(&manager, SIGNAL(noteStatusChanged(NoteHolder)), this, SLOT(noteStatusChanged(NoteHolder)));
+    QObject::connect(&manager, SIGNAL(noteStatusChanged(NoteHolder, NoteState)), this, SLOT(noteStatusChanged(NoteHolder)));
     QObject::connect(&manager, SIGNAL(noteCreated(NoteHolder)), this, SLOT(noteStatusChanged(NoteHolder)));
 
 }

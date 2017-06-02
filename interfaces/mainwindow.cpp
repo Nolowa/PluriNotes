@@ -22,9 +22,9 @@ MainWindow::MainWindow(NotesManager& nm, RelationsManager<NoteHolder>& rm, Memen
 
     connect(mf->getSidebar(), SIGNAL(noteSelected(const NoteHolder*)), relationsView, SLOT(setSelectedNote(const NoteHolder*)));
     connect(mf->getSidebar(), SIGNAL(noteSelected(const NoteHolder*)), versionsView, SLOT(setCurrentNote(const NoteHolder*)));
-    connect(&nm, SIGNAL(noteStatusChanged(NoteHolder)), relationsView, SLOT(noteStatusChanged(NoteHolder)));
-    connect(&nm, SIGNAL(noteStatusChanged(NoteHolder)), versionsView, SLOT(noteStatusChanged(NoteHolder)));
-    connect(&nm, SIGNAL(noteStatusChanged(NoteHolder)), mf->getNoteView(), SLOT(noteStatusChanged(NoteHolder)));
+    connect(&nm, SIGNAL(noteStatusChanged(NoteHolder, NoteState)), relationsView, SLOT(noteStatusChanged(NoteHolder)));
+    connect(&nm, SIGNAL(noteStatusChanged(NoteHolder, NoteState)), versionsView, SLOT(noteStatusChanged(NoteHolder)));
+    connect(&nm, SIGNAL(noteStatusChanged(NoteHolder, NoteState)), mf->getNoteView(), SLOT(noteStatusChanged(NoteHolder)));
 
     addDockWidget(Qt::RightDockWidgetArea, relationsDock);
     addDockWidget(Qt::RightDockWidgetArea, versionsDock);
@@ -35,8 +35,8 @@ MainWindow::MainWindow(NotesManager& nm, RelationsManager<NoteHolder>& rm, Memen
     initUI();
 
     //mémento
-    connect(&nm, SIGNAL(noteStatusChangedwithState(const NoteHolder&,NoteState,NoteState)), memento, SLOT(saveMementoState(const NoteHolder&,NoteState,NoteState)));
-    connect(memento,SIGNAL(changeNoteState(const NoteHolder&, NoteState)) ,&nm,SLOT(noteStatusChangeRequestedFromMemento(const NoteHolder&, NoteState)));
+    connect(&nm, SIGNAL(noteStatusChanged(const NoteHolder&, NoteState)), memento, SLOT(saveMementoState(const NoteHolder&,NoteState)));
+    connect(memento,SIGNAL(changeNoteState(const NoteHolder&, NoteState)) ,&nm,SLOT(noteStatusChangeRequested(const NoteHolder&, NoteState)));
 }
 
 

@@ -19,7 +19,7 @@ Database::Database(NotesManager& nm, const QString& filename) : notesManager(nm)
 
    QObject::connect(&nm, SIGNAL(noteCreated(NoteHolder)), this, SLOT(insertVersion(NoteHolder)));
    QObject::connect(&nm, SIGNAL(noteUpdated(NoteHolder)), this, SLOT(insertVersion(NoteHolder)));
-   QObject::connect(&nm, SIGNAL(noteStatusChanged(NoteHolder)), this, SLOT(updateStatus(NoteHolder)));
+   QObject::connect(&nm, SIGNAL(noteStatusChanged(NoteHolder, NoteState)), this, SLOT(updateStatus(NoteHolder)));
 
 }
 

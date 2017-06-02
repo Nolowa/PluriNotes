@@ -48,7 +48,7 @@ public:
 
 
 class MementoNoteState: public Memento{
-    NoteHolder note;
+    const NoteHolder& note;
     NoteState oldState;
     NoteState newState;
 
@@ -79,16 +79,25 @@ class MementoCaretaker: public QObject{
    Q_OBJECT
    std::vector<Memento*> m_vecMemento; // pour le controle Z: annuler
    std::vector<Memento*> m_vecMementoInverse; // pour le controle Y: rétablir
+   bool stopPropagation;
    void save(Memento* memento);
 public:
-    MementoCaretaker(){}
+    MementoCaretaker() : stopPropagation(false){}
 
 public slots:
     void undo();
     void redo();
 
-    void saveMementoRelation(const QString& nameR,const NoteHolder& n, const NoteHolder& n1,const QString& nameL) { save(new MementoRelation(nameR,n,n1,nameL)); std::cout<<"Enregistrement ok Relation memento"<<std::endl;}
-    void saveMementoState(const NoteHolder& n, NoteState oldState, NoteState newState ) {save(new MementoNoteState(n,oldState,newState)); std::cout<<"Enregistrement ok State memento"<<std::endl;}
+    void saveMementoRelation(const QString& nameR,const NoteHolder& n, const NoteHolder& n1,const QString& nameL) {
+
+            save(new MementoRelation(nameR,n,n1,nameL)); std::cout<<"Enregistrement ok Relation memento"<<std::endl;
+
+        }
+    void saveMementoState(const NoteHolder& n, NoteState oldState) {
+        if(!stopPropagation){
+            save(new MementoNoteState(n,oldState, static_cast<NoteState>(n.getState()))); std::cout<<"Enregistrement ok State memento"<<std::endl;
+        }else stopPropagation = false;
+    }
 
 
 signals:
