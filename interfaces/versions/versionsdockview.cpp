@@ -111,7 +111,7 @@ void VersionsDockView::clean(){
 }
 
 void VersionsDockView::versionInserted(const NoteHolder& note, int db_id){
-    if(note == *currentNote){
+    if(currentNote && note == *currentNote){
         // Insertion de la nouvelle version dans l'historique
 
         versionsMapping.append(db_id);
