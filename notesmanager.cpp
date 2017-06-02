@@ -105,6 +105,8 @@ void NotesManager::noteStatusChangeRequested(const NoteHolder& const_holder, Not
 
 }
 
+
+// je suis obligé de redéfinir un autre slot car sinon c'est une boucle infini d'appelle de  signal
 void NotesManager::noteStatusChangeRequestedFromMemento(const NoteHolder& const_holder, NoteState state){
     NoteHolder& holder = const_cast<NoteHolder&>(const_holder);
     holder.setState(state);

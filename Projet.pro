@@ -35,7 +35,8 @@ SOURCES += main.cpp \
     notes/noteholder.cpp \
     database.cpp \
     interfaces/sidebar/sidebar.cpp \
-    interfaces/sidebar/noteslistview.cpp
+    interfaces/sidebar/noteslistview.cpp \
+    interfaces/versions/versionsdockview.cpp
 
 
 # The following define makes your compiler emit warnings if you use
@@ -79,7 +80,8 @@ HEADERS +=\
     notes/noteholder.h \
     database.h \
     interfaces/sidebar/sidebar.h \
-    interfaces/sidebar/noteslistview.h
+    interfaces/sidebar/noteslistview.h \
+    interfaces/versions/versionsdockview.h
 
 
 RESOURCES += \

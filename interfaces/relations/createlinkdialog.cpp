@@ -64,6 +64,8 @@ void CreateLinkDialog::accept(){
         }else{
             relationsManager.link(rel, *currentNote, nh, labelField->text());
             QDialog::accept();
+
+            emit linkCreated(rel.getName(), *currentNote, nh, labelField->text());
         }
 
 

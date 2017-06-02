@@ -33,7 +33,7 @@ int main(int argc, char *argv[]){
             Database* db = new Database(m, "database.db");
             db->loadAll();
 
-            MainWindow window(m, *rm, *mainMemento);
+            MainWindow window(m, *rm, *mainMemento, *db);
 
             window.show();
 

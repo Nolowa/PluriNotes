@@ -1,8 +1,7 @@
 #include "mainwindow.h"
 
 
-MainWindow::MainWindow(NotesManager& nm, RelationsManager<NoteHolder>& rm, MementoCaretaker& mement, QWidget *parent) : QMainWindow(parent),memento(&mement)
-
+MainWindow::MainWindow(NotesManager& nm, RelationsManager<NoteHolder>& rm, MementoCaretaker& mement, Database& db, QWidget *parent) : QMainWindow(parent),memento(&mement)
 {
     mf = new Mainframe(nm);
 
@@ -13,6 +12,12 @@ MainWindow::MainWindow(NotesManager& nm, RelationsManager<NoteHolder>& rm, Memen
     relationsDock->setAllowedAreas(Qt::RightDockWidgetArea);
     relationsDock->setWidget(relationsView);
     relationsDock->setFeatures(QDockWidget::DockWidgetClosable);
+
+    /*versionsView = new RelatedDockView(db, mf->getNoteView());
+    versionsDock = new QDockWidget("Historique des versions", this);
+    versionsDock->setAllowedAreas(Qt::RightDockWidgetArea);
+    versionsDock->setWidget(relationsView);
+    versionsDock->setFeatures(QDockWidget::DockWidgetClosable);*/
 
     connect(mf->getSidebar(), SIGNAL(noteSelected(const NoteHolder*)), relationsView, SLOT(setSelectedNote(const NoteHolder*)));
 

@@ -40,6 +40,7 @@ public:
     void setCurrentNote(const NoteHolder& n);
 
 signals:
+    void linkCreated(const QString& rel, const NoteHolder&, const NoteHolder&, QString label);
 
 public slots:
 };
