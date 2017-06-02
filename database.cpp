@@ -93,6 +93,8 @@ void Database::insertVersion(const NoteHolder& note){
 
         q.finish();
     }
+
+    emit versionInserted(note, id);
 }
 
 void Database::updateStatus(const NoteHolder &n){
@@ -105,7 +107,7 @@ void Database::updateStatus(const NoteHolder &n){
     if(!q.exec()) throw new AppException("Erreur lors de l'insertion d'une note en base de donnée");
 }
 
-const Note& Database::loadContent(int version_id, const QString& note_type){
+const Note& Database::loadContent(int version_id, const QString& note_type) const{
     QSqlQuery q;
     q.exec("SELECT * FROM (Note INNER JOIN " + note_type + " T ON Note.Id = T.Id) WHERE Note.Id='"+ QString::number(version_id) +"';");
     q.next();
@@ -148,6 +150,30 @@ void Database::loadAll(){
     ignoreManagerSignal = false;
 }
 
+QMap<QDateTime, int>* Database::fetchVersionsList(const NoteHolder& n) const{
+    QSqlQuery q;
+    q.prepare("SELECT Id, Edited FROM Note WHERE HolderId = :HolderId");
+    q.bindValue(":HolderId", n.getId().toString());
+
+    if(!q.exec()) throw new AppException("Note de type inconnu");
+
+    QMap<QDateTime, int>* map = new QMap<QDateTime, int>;
+
+    while(q.next()){
+        map->insert(q.value("Edited").toDateTime(), q.value("Id").toInt());
+    }
+
+    return map;
+}
+
+void Database::clean(const NoteHolder& note, int leave) const{
+    QSqlQuery q;
+    q.prepare("DELETE FROM Note WHERE HolderId = :HolderId AND Id <> :Leave");
+    q.bindValue(":HolderId", note.getId().toString());
+    q.bindValue(":Leave", leave);
+
+    if(!q.exec()) throw new AppException("Note de type inconnu");
+}
 
 Database::~Database(){
     if(open) db.close();

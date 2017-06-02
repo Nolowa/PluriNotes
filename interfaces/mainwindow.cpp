@@ -14,15 +14,21 @@ MainWindow::MainWindow(NotesManager& nm, RelationsManager<NoteHolder>& rm, Memen
     relationsDock->setWidget(relationsView);
     relationsDock->setFeatures(QDockWidget::DockWidgetClosable);
 
-    /*versionsView = new RelatedDockView(db, mf->getNoteView());
+    versionsView = new VersionsDockView(&db, mf->getNoteView());
     versionsDock = new QDockWidget("Historique des versions", this);
     versionsDock->setAllowedAreas(Qt::RightDockWidgetArea);
-    versionsDock->setWidget(relationsView);
-    versionsDock->setFeatures(QDockWidget::DockWidgetClosable);*/
+    versionsDock->setWidget(versionsView);
+    versionsDock->setFeatures(QDockWidget::DockWidgetClosable);
 
     connect(mf->getSidebar(), SIGNAL(noteSelected(const NoteHolder*)), relationsView, SLOT(setSelectedNote(const NoteHolder*)));
+    connect(mf->getSidebar(), SIGNAL(noteSelected(const NoteHolder*)), versionsView, SLOT(setCurrentNote(const NoteHolder*)));
+    connect(&nm, SIGNAL(noteStatusChanged(NoteHolder)), relationsView, SLOT(noteStatusChanged(NoteHolder)));
+    connect(&nm, SIGNAL(noteStatusChanged(NoteHolder)), versionsView, SLOT(noteStatusChanged(NoteHolder)));
+    connect(&nm, SIGNAL(noteStatusChanged(NoteHolder)), mf->getNoteView(), SLOT(noteStatusChanged(NoteHolder)));
 
     addDockWidget(Qt::RightDockWidgetArea, relationsDock);
+    addDockWidget(Qt::RightDockWidgetArea, versionsDock);
+
     setWindowTitle("PluriNotes");
     setWindowIcon(QIcon(":/icons/article"));
 
@@ -64,8 +70,12 @@ void MainWindow::initMenu(){
 
      //Menu AFFICHAGE
      menuAffichage = menuBar()->addMenu("&Affichage");
+
      relationsDock->toggleViewAction()->setShortcut(QKeySequence("Ctrl+R"));
+     versionsDock->toggleViewAction()->setShortcut(QKeySequence("Ctrl+V"));
+
      menuAffichage->addAction(relationsDock->toggleViewAction());
+     menuAffichage->addAction(versionsDock->toggleViewAction());
 
      QObject::connect(actionUndo, SIGNAL(triggered()), memento, SLOT(undo()));
      QObject::connect(actionRedo, SIGNAL(triggered()), memento, SLOT(redo()));

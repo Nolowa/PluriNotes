@@ -13,7 +13,7 @@ class NoteInterface;
 class Note {
     //NoteHolder * const holder; /**< identifiant unique qui caractérise chaque objet Note, unique pour chaque objet Note  */
     QString title; /**< titre de la Note  */
-    QDateTime edited; /**< date de dernière mise à jour de la Note  */
+    QDateTime edited = QDateTime::currentDateTime(); /**< date de dernière mise à jour de la Note  */
     static const QString type;
 
 public:

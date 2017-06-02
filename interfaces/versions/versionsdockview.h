@@ -5,6 +5,8 @@
 #include <QVBoxLayout>
 #include <QListView>
 #include <QPushButton>
+#include <QMap>
+#include <QMessageBox>
 
 #include "interfaces/editor/noteframeview.h"
 #include "database.h"
@@ -12,21 +14,39 @@
 class VersionsDockView : public QWidget
 {
 
+    const NoteHolder* currentNote;
 
     Database const * database;
-    NoteFrameView const * noteview;
+    NoteFrameView * noteview;
+
+    QList<int> versionsMapping;
+    QStringListModel* model;
 
     QPushButton* restoreButton;
+    QPushButton* cleanButton;
+
     QListView* versionList;
     QVBoxLayout* layout;
 
+    QMessageBox* cleanDialog;
+
+    void initUI();
+    QString label(int, QDateTime);
+    void refresh();
+
     Q_OBJECT
 public:
-    explicit VersionsDockView(Database const *, NoteFrameView const *, QWidget *parent = 0);
+    explicit VersionsDockView(Database const *, NoteFrameView *, QWidget *parent = 0);
 
 signals:
 
 public slots:
+    void setCurrentNote(const NoteHolder *);
+    void clean();
+    void restore();
+    void versionInserted(const NoteHolder& ,int);
+    void noteStatusChanged(const NoteHolder&);
+    void selectionChanged();
 };
 
 #endif // VERSIONSDOCKVIEW_H

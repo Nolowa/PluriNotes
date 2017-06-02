@@ -9,5 +9,6 @@
         <file alias="vide">resources/icons/vide.png</file>
         <file alias="archive">resources/icons/archive.png</file>
         <file alias="restore">resources/icons/restore.png</file>
+        <file alias="clean">resources/icons/clean.png</file>
     </qresource>
 </RCC>

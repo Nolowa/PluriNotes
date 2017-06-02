@@ -51,6 +51,7 @@ signals:
 
 public slots:
     void setSelectedNote(const NoteHolder*);
+    void noteStatusChanged(const NoteHolder& note);
     void refresh();
 };
 

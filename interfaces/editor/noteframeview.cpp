@@ -51,16 +51,22 @@ void NoteFrameView::initUI(){
 void NoteFrameView::setNote(const NoteHolder * note){
     this->note = note;
 
+    setNoteContent(note->getLastVersion());
+
+    btns_bar->setVisible(true);
+    save_btn->setVisible(note->isActive());
+    copy_id_btn->setVisible(note->isActive());
+}
+
+void NoteFrameView::setNoteContent(const Note& content){
+
     if(widget != nullptr){
         layout->removeWidget(widget);
         delete widget;
     }
 
-    widget = note->getLastVersion().getUI();
+    widget = content.getUI();
     widget->setReadOnly(!note->isActive());
-    btns_bar->setVisible(true);
-    save_btn->setVisible(note->isActive());
-    copy_id_btn->setVisible(note->isActive());
 
     layout->insertWidget(0, widget);
 }
@@ -77,4 +83,10 @@ void NoteFrameView::copy_id(){
     clipboard->setText(note->getId().toString());
 
     copyDialog->exec();
+}
+
+void NoteFrameView::noteStatusChanged(const NoteHolder& note){
+    if(this->note && *this->note == note){
+        widget->setReadOnly(!note.isActive());
+    }
 }

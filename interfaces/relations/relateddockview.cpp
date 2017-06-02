@@ -12,11 +12,10 @@ void RelatedDockView::initUI(){
 
     linkButton = new QPushButton("Lier à...");
     linkButton->setAutoDefault(true);
-    linkButton->setDefault(true);
 
     createDialog = new CreateLinkDialog(relationsManager ,this);
 
-    connect(linkButton, SIGNAL(pressed()), createDialog, SLOT(open()));
+    connect(linkButton, SIGNAL(released()), createDialog, SLOT(open()));
     connect(createDialog, SIGNAL(accepted()), this, SLOT(refresh()));
     connect(createDialog, SIGNAL(linkCreated(QString,NoteHolder,NoteHolder,QString)), this, SIGNAL(linkCreated(QString,NoteHolder,NoteHolder,QString)));
 
@@ -69,7 +68,7 @@ void RelatedDockView::refresh(){
         parentsModel.clear();
         linkButton->setDisabled(true);
     }else{
-        linkButton->setDisabled(false);
+        linkButton->setDisabled(!selectedNote->isActive());
         relationsManager.fillTree(&childrenModel, &childrenIndexMap, *selectedNote, RelationsManager<NoteHolder>::CHILD);
         relationsManager.fillTree(&parentsModel, &parentsIndexMap, *selectedNote, RelationsManager<NoteHolder>::PARENT);
         childrenView->expandToDepth(1);
@@ -104,6 +103,12 @@ bool RelatedDockView::eventFilter(QObject *object, QEvent *event){
         }
     }
     return false;
+}
+
+void RelatedDockView::noteStatusChanged(const NoteHolder& note){
+    if(selectedNote && note == *selectedNote){
+        linkButton->setDisabled(!note.isActive());
+    }
 }
 
 

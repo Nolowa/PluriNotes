@@ -9,8 +9,9 @@
 #include <QObject>
 #include <QComboBox>
 #include <QStringList>
+#include <QMap>
 
-class Database : QObject
+class Database : public QObject
 {
     NotesManager& notesManager;
     QStringList types;
@@ -26,9 +27,16 @@ class Database : QObject
 public:
     Database(NotesManager& nm, const QString& filename);/**< fait appel à la fonction connectBd*/
 
-    const Note& loadContent(int id, const QString&);
+    const Note& loadContent(int id, const QString&) const;
+    QMap<QDateTime, int>* fetchVersionsList(const NoteHolder&) const;
+    void clean(const NoteHolder&, int leave) const;
+
     void loadAll();
+
     ~Database();
+
+signals:
+    void versionInserted(const NoteHolder& n, int db_id);
 
 public slots:
     void insertVersion(const NoteHolder& n);/**< insérer tous les infos d'une note dans BDD*/

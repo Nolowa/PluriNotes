@@ -35,8 +35,10 @@ signals:
     void noteSaved(const NoteHolder&, const Note& body);
 public slots:
     void setNote(const NoteHolder * note);
+    void setNoteContent(const Note& note);
     void save();
     void copy_id();
+    void noteStatusChanged(const NoteHolder&);
 };
 
 #endif // NOTEFRAMEVIEW_H

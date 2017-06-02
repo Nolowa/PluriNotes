@@ -20,7 +20,7 @@ public:
 
     explicit Mainframe(NotesManager& nm,QWidget *parent = 0);
     Sidebar const * getSidebar() const{ return sidebar; }
-    NoteFrameView const * getNoteView() const{ return noteView; }
+    NoteFrameView * getNoteView() { return noteView; }
 
 
 signals:
