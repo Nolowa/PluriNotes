@@ -2,46 +2,74 @@
 #define MEMENTO_H
 #include "notes/note.h"
 #include "relations/association.h"
-#include<vector>
+#include "notes/noteholder.h"
+#include <vector>
 #include <QString>
 
-template <typename> class Association;
 
 class Memento{
-    Note* notes;
-    Association<Note>* relation;
 public:
     Memento(){}
-    virtual Note* getState() const{return notes;}
-    virtual Association<Note>* getRelation()const{return relation;}
+    virtual const NoteHolder& getNote() const=0;
+    virtual const QString& getNameRelation()const=0;
+    virtual const QString& getNameLabel() const=0;
+    virtual const NoteHolder& getNote1() const=0;
+
+    virtual const NoteState& getOldState()const=0;
+    virtual const NoteState& getNewState()const=0;
 
 };
 
-class MementoNote: public Memento{
-    Note* m_note;
-public:
-    MementoNote(Note* note): m_note(note){}
-    MementoNote& operator=(const MementoNote &memento){m_note = memento.m_note; return *this;}
-    Note* getState()const {return m_note;}
-};
 
 
-// A voir ce que nous devons enregister pour les relations
+
 class MementoRelation: public Memento{
-    Association<Note>* m_relation;
+    QString nameLabel;
+    QString nameRelation;
+    NoteHolder note;
+    NoteHolder note1;
+
+    //a supprimer
+    NoteState oldState;
+    NoteState newState;
 public:
-    MementoRelation( Association<Note>* a):m_relation(a){}
-    MementoRelation& operator=(const MementoRelation &memento);
-    Association<Note>* getRelation()const {return m_relation;}
+    MementoRelation(const QString& nameR,const NoteHolder& n, const NoteHolder& n1,const QString& nameL):nameLabel(nameL),nameRelation(nameR),note(n),note1(n1){}
+    const QString& getNameRelation()const {return nameRelation;}
+    const QString& getNameLabel() const {return nameLabel;}
+    const NoteHolder& getNote1() const{return note1;}
+    const NoteHolder& getNote() const {return note;}
+
+    //a supprimer
+    const NoteState& getOldState()const {return oldState;}
+    const NoteState& getNewState()const {return newState;}
+
 };
 
 
-class MementoCorbeille: public Memento{
-    Note* m_note;
+
+class MementoNoteState: public Memento{
+    NoteHolder note;
+    NoteState oldState;
+    NoteState newState;
+
+    //a supprimer
+    QString nameLabel;
+    QString nameRelation;
+    NoteHolder note1;
+
 public:
-    MementoCorbeille(Note* note): m_note(note){}
-    MementoCorbeille& operator=(const MementoCorbeille &memento){m_note = memento.m_note; return *this;}
-    Note* getState()const {return m_note;}
+    MementoNoteState(const NoteHolder& n,NoteState oldS, NoteState newS): note(n),oldState(oldS),newState(newS){}
+    const NoteHolder& getNote()const {return note;}
+    const NoteState& getOldState()const {return oldState;}
+    const NoteState& getNewState()const {return newState;}
+
+
+    //a supprimer
+    const QString& getNameRelation()const {return nameRelation;}
+    const QString& getNameLabel() const {return nameLabel;}
+    const NoteHolder& getNote1() const{return note1;}
+
+
 };
 
 
@@ -49,32 +77,25 @@ public:
 
 class MementoCaretaker: public QObject{
    Q_OBJECT
-   std::vector<Memento> m_vecMemento; // pour le controle Z: annuler
-   std::vector<Memento> m_vecMementoInverse; // pour le controle Y: rétablir
-   void save(const Memento& memento);
+   std::vector<Memento*> m_vecMemento; // pour le controle Z: annuler
+   std::vector<Memento*> m_vecMementoInverse; // pour le controle Y: rétablir
+   void save(Memento* memento);
 public:
     MementoCaretaker(){}
-
 
 public slots:
     void undo();
     void redo();
 
-    void saveMementoRelation( Association<Note>* a) { save(MementoRelation(a)); std::cout<<"Enregistrement ok relation memento";}
-    void saveMementoListView( Note* n) {save(MementoNote(n)); std::cout<<"Enregistrement ok ListView memento";}
-    void saveMementoCorbeille( Note* n){save(MementoCorbeille(n)); std::cout<<"Enregistrement ok corbeille memento";}
-
+    void saveMementoRelation(const QString& nameR,const NoteHolder& n, const NoteHolder& n1,const QString& nameL) { save(new MementoRelation(nameR,n,n1,nameL)); std::cout<<"Enregistrement ok Relation memento"<<std::endl;}
+    void saveMementoState(const NoteHolder& n, NoteState oldState, NoteState newState ) {save(new MementoNoteState(n,oldState,newState)); std::cout<<"Enregistrement ok State memento"<<std::endl;}
 
 
 signals:
-    void DeleteOnNotesListView(const Note*);
-    void CreateOnNotesListView(const Note*);
+    void changeNoteState(const NoteHolder& n, NoteState nstate);
 
-    void DeleteRelation(const Association<Note>*);
-    void CreateRelation(const Association<Note>*);
-
-    void DeleteOnCorbeille(const Note*);
-    void PutOnCorbeille(const Note*);
+    void DeleteRelation(const QString& nameLabel,const NoteHolder& note,const NoteHolder& note1,const QString& nameRelation);
+    void CreateRelation(const QString& nameLabel,const NoteHolder& note,const NoteHolder& note1,const QString& nameRelation);
 
 };
 

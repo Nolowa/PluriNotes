@@ -29,6 +29,7 @@ class MainWindow : public QMainWindow
     QAction* actionRelation;
 
     void initMenu();
+    void initMemento();
 
     Q_OBJECT
 
