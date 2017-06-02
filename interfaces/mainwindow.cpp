@@ -2,7 +2,7 @@
 #include "notes/noteholder.h"
 
 
-MainWindow::MainWindow(NotesManager& nm, RelationsManager<NoteHolder>& rm, MementoCaretaker& mement, Database& db, QWidget *parent) : QMainWindow(parent), notesManager(nm), memento(&mement), database(db)
+MainWindow::MainWindow(NotesManager& nm, RelationsManager<NoteHolder>& rm, MementoCaretaker& mement, Database& db, QWidget *parent) : QMainWindow(parent), notesManager(nm),database(db), memento(&mement)
 {
     mf = new Mainframe(nm);
 
@@ -34,9 +34,20 @@ MainWindow::MainWindow(NotesManager& nm, RelationsManager<NoteHolder>& rm, Memen
 
     initUI();
 
-    //mémento
+    /*******************************************mémento*******************************************/
+    //Memento ListView
     connect(&nm, SIGNAL(noteStatusChanged(const NoteHolder&, NoteState)), memento, SLOT(saveMementoState(const NoteHolder&,NoteState)));
     connect(memento,SIGNAL(changeNoteState(const NoteHolder&, NoteState)) ,&nm,SLOT(noteStatusChangeRequested(const NoteHolder&, NoteState)));
+
+    //Memento Relation
+    connect(relationsView,SIGNAL(linkCreated(QString, const NoteHolder&, const NoteHolder&,QString)),memento,SLOT(saveMementoRelation( QString,const NoteHolder&, const NoteHolder&, QString)));
+    connect(relationsView,SIGNAL(linkDestroyed(QString, const NoteHolder&, const NoteHolder&,QString)),memento,SLOT(saveMementoRelation( QString,const NoteHolder&, const NoteHolder&, QString)));
+
+    /* Manque le connect du retour*/
+    //connect(memento,SIGNAL(DeleteRelation(QString,NoteHolder,NoteHolder,QString)),,SLOT());
+    //connect(memento,SIGNAL(CreateRelation(QString,NoteHolder,NoteHolder,QString)),,SLOT());
+    /* Manque le connect du retour*/
+
 }
 
 

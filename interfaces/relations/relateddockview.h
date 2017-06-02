@@ -46,8 +46,8 @@ public:
     explicit RelatedDockView(RelationsManager<NoteHolder>& relationsManager,MementoCaretaker& mement ,QWidget *parent = 0);
     bool eventFilter(QObject *object, QEvent *event);
 signals:
-    void linkCreated(const QString& rel, const NoteHolder&, const NoteHolder&, QString label);
-    void linkDestroyed(const QString& rel, const NoteHolder&, const NoteHolder&);
+    void linkCreated(QString rel, const NoteHolder&, const NoteHolder&, QString label);
+    void linkDestroyed(QString rel, const NoteHolder&, const NoteHolder&,QString label);
 
 public slots:
     void setSelectedNote(const NoteHolder*);

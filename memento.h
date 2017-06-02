@@ -88,11 +88,12 @@ public slots:
     void undo();
     void redo();
 
-    void saveMementoRelation(const QString& nameR,const NoteHolder& n, const NoteHolder& n1,const QString& nameL) {
+    void saveMementoRelation(QString nameR,const NoteHolder& n, const NoteHolder& n1,QString nameL) {
 
             save(new MementoRelation(nameR,n,n1,nameL)); std::cout<<"Enregistrement ok Relation memento"<<std::endl;
 
         }
+
     void saveMementoState(const NoteHolder& n, NoteState oldState) {
         if(!stopPropagation){
             save(new MementoNoteState(n,oldState, static_cast<NoteState>(n.getState()))); std::cout<<"Enregistrement ok State memento"<<std::endl;
