@@ -166,13 +166,18 @@ QMap<QDateTime, int>* Database::fetchVersionsList(const NoteHolder& n) const{
     return map;
 }
 
-void Database::clean(const NoteHolder& note, int leave) const{
+void Database::clean(const NoteHolder& note, int leave){
     QSqlQuery q;
     q.prepare("DELETE FROM Note WHERE HolderId = :HolderId AND Id <> :Leave");
     q.bindValue(":HolderId", note.getId().toString());
     q.bindValue(":Leave", leave);
 
-    if(!q.exec()) throw new AppException("Note de type inconnu");
+    if(!q.exec()) throw new AppException("Erreur lors du nettoyage");
+}
+
+void Database::emptyTrash(){
+    QSqlQuery q;
+    if(!q.exec("DELETE FROM Note WHERE State = 2")) throw new AppException("Erreur lors du vidage de la corbeille");
 }
 
 Database::~Database(){

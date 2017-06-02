@@ -1,7 +1,7 @@
 #include "versionsdockview.h"
 #include <QDialogButtonBox>
 
-VersionsDockView::VersionsDockView(Database const * database, NoteFrameView * noteview, QWidget *parent) : QWidget(parent), currentNote(0), database(database), noteview(noteview)
+VersionsDockView::VersionsDockView(Database * database, NoteFrameView * noteview, QWidget *parent) : QWidget(parent), currentNote(0), database(database), noteview(noteview)
 {
     initUI();
 }

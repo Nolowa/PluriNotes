@@ -1,7 +1,8 @@
 #include "mainwindow.h"
+#include "notes/noteholder.h"
 
 
-MainWindow::MainWindow(NotesManager& nm, RelationsManager<NoteHolder>& rm, MementoCaretaker& mement, Database& db, QWidget *parent) : QMainWindow(parent),memento(&mement)
+MainWindow::MainWindow(NotesManager& nm, RelationsManager<NoteHolder>& rm, MementoCaretaker& mement, Database& db, QWidget *parent) : QMainWindow(parent), notesManager(nm), memento(&mement), database(db)
 {
     mf = new Mainframe(nm);
 
@@ -31,7 +32,7 @@ MainWindow::MainWindow(NotesManager& nm, RelationsManager<NoteHolder>& rm, Memen
     setWindowTitle("PluriNotes");
     setWindowIcon(QIcon(":/icons/article"));
 
-    initMenu();
+    initUI();
 
     //mémento
     connect(&nm, SIGNAL(noteStatusChangedwithState(const NoteHolder&,NoteState,NoteState)), memento, SLOT(saveMementoState(const NoteHolder&,NoteState,NoteState)));
@@ -39,7 +40,7 @@ MainWindow::MainWindow(NotesManager& nm, RelationsManager<NoteHolder>& rm, Memen
 }
 
 
-void MainWindow::initMenu(){
+void MainWindow::initUI(){
 
     // Menu
     menuFichier = menuBar()->addMenu("&Fichier");
@@ -79,9 +80,35 @@ void MainWindow::initMenu(){
      menuAffichage->addAction(relationsDock->toggleViewAction());
      menuAffichage->addAction(versionsDock->toggleViewAction());
 
+     emptyTrashDialog = new QMessageBox(this);
+     emptyTrashDialog->setIcon(QMessageBox::Warning);
+     emptyTrashDialog->setText("Voulez-vous vider la corbeille avant de quitter ?");
+     emptyTrashDialog->setInformativeText("La corbeille contient les notes que vous avez supprimés. Une fois la corbeille vidée, vous ne pourrez plus les récupérer.");
+     emptyTrashDialog->setModal(true);
+     emptyTrashDialog->setWindowModality(Qt::WindowModal);
+     emptyTrashDialog->addButton("Ne pas vider", QMessageBox::RejectRole);
+     emptyTrashDialog->addButton("Vider la corbeille", QMessageBox::DestructiveRole);
+
+
      QObject::connect(actionUndo, SIGNAL(triggered()), memento, SLOT(undo()));
      QObject::connect(actionRedo, SIGNAL(triggered()), memento, SLOT(redo()));
+     QObject::connect(emptyTrashDialog, SIGNAL(accepted()), &database, SLOT(emptyTrash()));
 
+}
 
+void MainWindow::closeEvent(QCloseEvent *event){
+    Q_UNUSED(event);
+
+    NotesManager::Iterator it = notesManager.getIterator();
+
+    // Si il y a au moins une note supprimé (dans la corbeille), on propose à l'utilisateur de vider la corbeille
+    while(!it.isDone()){
+        it.next();
+        const NoteHolder& holder = it.current();
+        if(holder.isDeleted()){
+            emptyTrashDialog->exec();
+            return;
+        }
+    }
 }
 

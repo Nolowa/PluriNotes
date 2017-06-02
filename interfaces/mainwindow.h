@@ -19,6 +19,10 @@
 class MainWindow : public QMainWindow
 {
     Mainframe* mf;
+
+    NotesManager& notesManager;
+    Database& database;
+
     RelatedDockView* relationsView;
     QDockWidget* relationsDock;
 
@@ -33,8 +37,11 @@ class MainWindow : public QMainWindow
     QMenu* menuAffichage;
     QAction* actionRelation;
 
-    void initMenu();
+    QMessageBox* emptyTrashDialog;
+
+    void initUI();
     void initMemento();
+    void closeEvent(QCloseEvent *event);
 
     Q_OBJECT
 
@@ -45,7 +52,6 @@ public:
 signals:
     void undo();
     void redo();
-public slots:
 
 };
 

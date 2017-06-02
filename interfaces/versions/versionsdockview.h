@@ -16,7 +16,7 @@ class VersionsDockView : public QWidget
 
     const NoteHolder* currentNote;
 
-    Database const * database;
+    Database * database;
     NoteFrameView * noteview;
 
     QList<int> versionsMapping;
@@ -36,7 +36,7 @@ class VersionsDockView : public QWidget
 
     Q_OBJECT
 public:
-    explicit VersionsDockView(Database const *, NoteFrameView *, QWidget *parent = 0);
+    explicit VersionsDockView(Database *, NoteFrameView *, QWidget *parent = 0);
 
 signals:
 

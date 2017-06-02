@@ -29,7 +29,8 @@ public:
 
     const Note& loadContent(int id, const QString&) const;
     QMap<QDateTime, int>* fetchVersionsList(const NoteHolder&) const;
-    void clean(const NoteHolder&, int leave) const;
+    void clean(const NoteHolder&, int leave);
+
 
     void loadAll();
 
@@ -41,6 +42,7 @@ signals:
 public slots:
     void insertVersion(const NoteHolder& n);/**< insérer tous les infos d'une note dans BDD*/
     void updateStatus(const NoteHolder& n);
+    void emptyTrash();
 };
 
 #endif // DATABASE_H
