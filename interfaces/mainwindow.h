@@ -38,6 +38,7 @@ class MainWindow : public QMainWindow
     QAction* actionRelation;
 
     QMessageBox* emptyTrashDialog;
+    QMessageBox* helpingMenu;
 
     void initUI();
     void initMemento();

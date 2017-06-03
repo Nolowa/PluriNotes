@@ -22,9 +22,7 @@ MainWindow::MainWindow(NotesManager& nm, RelationsManager<NoteHolder>& rm, Memen
 
     connect(mf->getSidebar(), SIGNAL(noteSelected(const NoteHolder*)), relationsView, SLOT(setSelectedNote(const NoteHolder*)));
     connect(mf->getSidebar(), SIGNAL(noteSelected(const NoteHolder*)), versionsView, SLOT(setCurrentNote(const NoteHolder*)));
-    connect(&nm, SIGNAL(noteStatusChanged(NoteHolder, NoteState)), relationsView, SLOT(noteStatusChanged(NoteHolder)));
-    connect(&nm, SIGNAL(noteStatusChanged(NoteHolder, NoteState)), versionsView, SLOT(noteStatusChanged(NoteHolder)));
-    connect(&nm, SIGNAL(noteStatusChanged(NoteHolder, NoteState)), mf->getNoteView(), SLOT(noteStatusChanged(NoteHolder)));
+
 
     addDockWidget(Qt::RightDockWidgetArea, relationsDock);
     addDockWidget(Qt::RightDockWidgetArea, versionsDock);
@@ -38,6 +36,9 @@ MainWindow::MainWindow(NotesManager& nm, RelationsManager<NoteHolder>& rm, Memen
     //Memento ListView
     connect(&nm, SIGNAL(noteStatusChanged(const NoteHolder&, NoteState)), memento, SLOT(saveMementoState(const NoteHolder&,NoteState)));
     connect(memento,SIGNAL(changeNoteState(const NoteHolder&, NoteState)) ,&nm,SLOT(noteStatusChangeRequested(const NoteHolder&, NoteState)));
+    connect(&nm, SIGNAL(noteStatusChanged(NoteHolder, NoteState)), relationsView, SLOT(noteStatusChanged(NoteHolder)));
+    connect(&nm, SIGNAL(noteStatusChanged(NoteHolder, NoteState)), versionsView, SLOT(noteStatusChanged(NoteHolder)));
+    connect(&nm, SIGNAL(noteStatusChanged(NoteHolder, NoteState)), mf->getNoteView(), SLOT(noteStatusChanged(NoteHolder)));
 
     //Memento Relation
     connect(relationsView,SIGNAL(linkCreated(QString, const NoteHolder&, const NoteHolder&,QString)),memento,SLOT(saveMementoRelation( QString,const NoteHolder&, const NoteHolder&, QString)));
@@ -66,8 +67,16 @@ void MainWindow::initUI(){
 
 
     //Autre fonctionnalité du menu Fichier...
-    QAction* autreAction = new QAction("Fonctionnalité à définir", this);
+    QAction* autreAction = new QAction("Menu d'aide", this);
     menuFichier->addAction(autreAction);
+    autreAction->setShortcut(QKeySequence("Ctrl+M"));
+    helpingMenu= new QMessageBox(this);
+    helpingMenu->setIcon(QMessageBox::Information);
+    helpingMenu->setText("Menu d'aide");
+    helpingMenu->setInformativeText(" ctrl+M : Menu d'aide \n ctrl+Z : Annuler \n ctrl+Y : Rétablir \n ctrl+R : Afficher/Enlever la vue des relations \n ctrl+V : Afficher/Enlever  la vue des versions  \n ctrl+Q : Quitter l’application");
+    helpingMenu->addButton("Quitter", QMessageBox::RejectRole);
+
+
 
     //Menu EDITION
     menuEdition = menuBar()->addMenu("&Edition");
@@ -85,6 +94,8 @@ void MainWindow::initUI(){
      //Menu AFFICHAGE
      menuAffichage = menuBar()->addMenu("&Affichage");
 
+
+    //Corbeille
      relationsDock->toggleViewAction()->setShortcut(QKeySequence("Ctrl+R"));
      versionsDock->toggleViewAction()->setShortcut(QKeySequence("Ctrl+V"));
 
@@ -104,6 +115,7 @@ void MainWindow::initUI(){
      QObject::connect(actionUndo, SIGNAL(triggered()), memento, SLOT(undo()));
      QObject::connect(actionRedo, SIGNAL(triggered()), memento, SLOT(redo()));
      QObject::connect(emptyTrashDialog, SIGNAL(accepted()), &database, SLOT(emptyTrash()));
+     QObject::connect(autreAction, SIGNAL(triggered()),helpingMenu,SLOT(show()));
 
 }
 
