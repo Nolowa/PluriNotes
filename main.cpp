@@ -30,6 +30,7 @@ int main(int argc, char *argv[]){
 
             rm->createRelation("UneRelationUnidirectionelle");
             rm->createRelation("UneDeuxiemeRelation");
+            rm->createRelation("UneRelationBidirectionelle", true);
 
             Database* db = new Database(m, "database.db");
             db->loadAll();

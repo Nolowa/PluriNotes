@@ -16,11 +16,22 @@
 #include "bidirectionalrelationship.h"
 #include "utils.h"
 
+// Trick pour permettre l'utilisation de signaux sur le RelationsManager qui ne peut pas hériter de QObject
+// (Qt ne supporte pas les classes template)
+class RelationsManagerSignalsProxy : public QObject{
+    Q_OBJECT
+signals:
+    void relationDeleted() const;
+};
+
+
 template<typename T>
 class RelationsManager
 {
 
     QVector<Relationship<T>*> relationships;
+    QStandardItemModel relationsModel;
+    RelationsManagerSignalsProxy signalsProxy;
 
     void fillTreeInternal(const T* root, QStack<const Association<T>*>* els_stack, QStandardItem* el_item, QMap<QModelIndex,  const Association<T>*>* indexMap, int dir) const;
 
@@ -37,6 +48,9 @@ public:
 
     /* Retourne une relation par son nom*/
     Relationship<T>& getRelation(const QString& title);
+
+    /* Supprime une relation */
+    void deleteRelation(const Relationship<T>&);
 
     /* Retourne la liste des relations disponibles */
     QStringList getRelationsName() const;
@@ -59,8 +73,11 @@ public:
 
     QVector<const Association<T>*>* getParents(const T& ref) const;
 
+    QStandardItemModel* getModel(){ return &relationsModel; }
+
     void fillTree(QStandardItemModel* model, QMap<QModelIndex, const Association<T>*>* indexMap, const T& ref, int dir) const;
 
+    RelationsManagerSignalsProxy * getProxy() { return &signalsProxy; }
 };
 
 template<typename T>
@@ -74,15 +91,20 @@ Relationship<T>& RelationsManager<T>::createRelation(const QString& title, bool 
         }
     }
 
-    // Création de la relation
+    // Création de la relation et de l'item pour le modèle Qt
     Relationship<T>* r;
+    QStandardItem* item = new QStandardItem(title);
+
     if(bidirectional){
         r = new BidirectionalRelationship<T>(title);
+        item->setIcon(QIcon(":/icons/bidirectionnal"));
     }else{
         r = new Relationship<T>(title);
+        item->setIcon(QIcon(":/icons/unidirectionnal"));
     }
 
     relationships.push_back(r);
+    relationsModel.appendRow(item);
 
     return *r;
 
@@ -123,6 +145,28 @@ bool RelationsManager<T>::areLinked(Relationship<T> &relation, const T& ref1, co
 template<typename T>
 void RelationsManager<T>::unlink(Relationship<T> &relation, const T& ref1, const T& ref2){
     relation.dissociate(ref1, ref2);
+}
+
+template<typename T>
+void RelationsManager<T>::deleteRelation(const Relationship<T> & rel){
+    relationships.removeOne(const_cast<Relationship<T>*>(&rel));
+    QString name = rel.getName();
+    delete &rel;
+
+    emit signalsProxy.relationDeleted();
+
+    QModelIndex idx;
+    int rowCount = relationsModel.rowCount();
+
+    for(int i = 0; i < rowCount; i++){
+        idx = relationsModel.index(i, 0);
+        if(relationsModel.data(idx).toString() == name){
+            relationsModel.removeRow(i);
+            return;
+        }
+    }
+
+
 }
 
 
@@ -182,7 +226,6 @@ void RelationsManager<T>::fillTreeInternal(const T* root, QStack<const Associati
         for(typename QVector<const Association<T>*>::const_iterator it = map->constBegin(); it != map->constEnd(); it++){
 
                 els_stack->push_back(*it);
-                //els_stack->push();
                 fillTreeInternal(root, els_stack, newItem, indexMap, dir);
 
         }

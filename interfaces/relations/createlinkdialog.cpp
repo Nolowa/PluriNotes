@@ -1,7 +1,7 @@
 #include "createlinkdialog.h"
 #include <QDebug>
 
-CreateLinkDialog::CreateLinkDialog(RelationsManager<NoteHolder>& relationsManager ,QWidget *parent) : QDialog(parent, Qt::Sheet), relationsManager(relationsManager)
+CreateLinkDialog::CreateLinkDialog(RelationsManager<NoteHolder>& relationsManager, ManageRelationsDialog& manageDialog, QWidget *parent) : QDialog(parent, Qt::Sheet), relationsManager(relationsManager), manageDialog(manageDialog)
 {
     initUI();
     populate();
@@ -19,6 +19,7 @@ void CreateLinkDialog::initUI(){
 
     QPushButton* linkBtn = btnsLayout->addButton("Lier", QDialogButtonBox::AcceptRole);
     QPushButton* cancelBtn = btnsLayout->addButton("Annuler", QDialogButtonBox::RejectRole);
+    QPushButton* manageBtn = btnsLayout->addButton("Gérer les relations", QDialogButtonBox::ActionRole);
 
 
     formLayout->addRow("Relation :", relationCombo);
@@ -30,8 +31,9 @@ void CreateLinkDialog::initUI(){
     glblLayout->addLayout(formLayout);
     glblLayout->addWidget(btnsLayout);
 
-    connect(linkBtn, SIGNAL(pressed()), this, SLOT(accept()));
-    connect(cancelBtn, SIGNAL(pressed()), this, SLOT(reject()));
+    connect(linkBtn, SIGNAL(released()), this, SLOT(accept()));
+    connect(cancelBtn, SIGNAL(released()), this, SLOT(reject()));
+    connect(manageBtn, SIGNAL(released()), this, SLOT(openManage()));
 
     setLayout(glblLayout);
     setModal(true);
@@ -39,10 +41,8 @@ void CreateLinkDialog::initUI(){
 
 void CreateLinkDialog::populate(){
 
-    QStringList l = relationsManager.getRelationsName();
     relatedCombo->setModel(&notesManager.getModelHolder().getModel());
-    relationCombo->clear();
-    relationCombo->addItems(l);
+    relationCombo->setModel(relationsManager.getModel());
 }
 
 void CreateLinkDialog::setCurrentNote(const NoteHolder &n){
@@ -68,6 +68,9 @@ void CreateLinkDialog::accept(){
             emit linkCreated(rel.getName(), *currentNote, nh, labelField->text());
         }
 
+}
 
-
+void CreateLinkDialog::openManage(){
+    ManageRelationsDialog* mrd = new ManageRelationsDialog(relationsManager, this);
+    mrd->show();
 }

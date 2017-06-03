@@ -10,5 +10,7 @@
         <file alias="archive">resources/icons/archive.png</file>
         <file alias="restore">resources/icons/restore.png</file>
         <file alias="clean">resources/icons/clean.png</file>
+        <file alias="unidirectionnal">resources/icons/unidirectionnal.png</file>
+        <file alias="bidirectionnal">resources/icons/bidirectionnal.png</file>
     </qresource>
 </RCC>

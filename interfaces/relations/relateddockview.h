@@ -24,6 +24,7 @@ class RelatedDockView : public QWidget
     QTreeView* parentsView;
 
     CreateLinkDialog* createDialog;
+    ManageRelationsDialog* manageDialog;
 
     RelationsManager<NoteHolder>& relationsManager;
     MementoCaretaker& memento;

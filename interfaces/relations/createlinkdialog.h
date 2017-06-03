@@ -15,11 +15,14 @@
 #include "relations/relationsmanager.h"
 #include "relations/relationship.h"
 #include "notesmanager.h"
+#include "managerelationsdialog.h"
 
 class CreateLinkDialog : public QDialog
 {
     NotesManager& notesManager = NotesManager::getInstance();
     RelationsManager<NoteHolder>& relationsManager;
+    ManageRelationsDialog& manageDialog;
+
     QVBoxLayout* glblLayout;
     QFormLayout* formLayout;
     QComboBox* relationCombo;
@@ -36,13 +39,16 @@ class CreateLinkDialog : public QDialog
 
     Q_OBJECT
 public:
-    explicit CreateLinkDialog(RelationsManager<NoteHolder>& relationsManager, QWidget *parent = 0);
+    explicit CreateLinkDialog(RelationsManager<NoteHolder>& relationsManager, ManageRelationsDialog& manageDialog, QWidget *parent = 0);
     void setCurrentNote(const NoteHolder& n);
+
 
 signals:
     void linkCreated(const QString& rel, const NoteHolder&, const NoteHolder&, QString label);
 
+
 public slots:
+     void openManage();
 };
 
 #endif // CREATELINKDIALOG_H

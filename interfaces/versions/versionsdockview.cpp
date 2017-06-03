@@ -21,6 +21,7 @@ void VersionsDockView::initUI(){
     versionList = new QListView;
     versionList->setModel(model);
     versionList->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    versionList->setAlternatingRowColors(true);
 
 
     layout->addLayout(btnsLayout);

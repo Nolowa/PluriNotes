@@ -13,11 +13,13 @@ void RelatedDockView::initUI(){
     linkButton = new QPushButton("Lier à...");
     linkButton->setAutoDefault(true);
 
-    createDialog = new CreateLinkDialog(relationsManager ,this);
+    manageDialog = new ManageRelationsDialog(relationsManager, this);
+    createDialog = new CreateLinkDialog(relationsManager, *manageDialog, this);
 
     connect(linkButton, SIGNAL(released()), createDialog, SLOT(open()));
     connect(createDialog, SIGNAL(accepted()), this, SLOT(refresh()));
     connect(createDialog, SIGNAL(linkCreated(QString,NoteHolder,NoteHolder,QString)), this, SIGNAL(linkCreated(QString,NoteHolder,NoteHolder,QString)));
+    connect(relationsManager.getProxy(), SIGNAL(relationDeleted()), this, SLOT(refresh()));
 
     childrenView = new QTreeView;
     parentsView = new QTreeView;

@@ -125,8 +125,6 @@ QStandardItem* NotesManager::NotesModelHolder::generateItem(const NoteHolder& no
     QString qstr = QString(":/icons/") + note.getLastVersion().getType().toLower();
     QStandardItem* item = new QStandardItem(QIcon(qstr), note.getLastVersion().getTitle().length() ? note.getLastVersion().getTitle() : "Note sans nom");
 
-    QModelIndex idx = model.index(model.rowCount(), 0);
-
     model.appendRow(item);
     indexMap.insert(const_cast<NoteHolder*>(&note), item->index());
     return item;
