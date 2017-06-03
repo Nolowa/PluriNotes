@@ -97,7 +97,7 @@ bool RelatedDockView::eventFilter(QObject *object, QEvent *event){
                     relationsManager.unlink(rel, e1, e2);
                     refresh();
 
-                    emit linkDestroyed(rel.getName(), e1, e2);
+                    emit linkDestroyed(rel.getName(), e1, e2,rel.getDescription());
                 }
             }
 
