@@ -10,6 +10,7 @@
 class Memento{
 public:
     Memento(){}
+    virtual ~Memento() {}
     virtual const NoteHolder& getNote() const=0;
     virtual const QString& getNameRelation()const=0;
     virtual const QString& getNameLabel() const=0;
@@ -83,6 +84,12 @@ class MementoCaretaker: public QObject{
    void save(Memento* memento);
 public:
     MementoCaretaker() : stopPropagation(false){}
+    ~MementoCaretaker() {
+        for (unsigned int i=0; i < m_vecMemento.size(); i++)
+            delete m_vecMemento[i];
+        for (unsigned int i=0; i < m_vecMementoInverse.size(); i++)
+            delete m_vecMementoInverse[i];
+    }
 
 public slots:
     void undo();
