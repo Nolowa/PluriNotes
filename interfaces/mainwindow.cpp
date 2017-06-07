@@ -2,7 +2,7 @@
 #include "notes/noteholder.h"
 
 
-MainWindow::MainWindow(NotesManager& nm, RelationsManager<NoteHolder>& rm, MementoCaretaker& mement, Database& db, QWidget *parent) : QMainWindow(parent), notesManager(nm), database(db), memento(&mement)
+MainWindow::MainWindow(NotesManager& nm, RelationsManager<NoteHolder>& rm, MementoCaretaker& mement, Database& db, QWidget *parent) : QMainWindow(parent), notesManager(nm), database(db), relationsManager(rm), memento(&mement), relationsProxy(new NotesRelationsManagerSlotsProxy(rm))
 {
     mf = new Mainframe(nm);
 
@@ -45,8 +45,8 @@ MainWindow::MainWindow(NotesManager& nm, RelationsManager<NoteHolder>& rm, Memen
     connect(relationsView,SIGNAL(linkDestroyed(QString, const NoteHolder&, const NoteHolder&,QString)),memento,SLOT(saveMementoRelation( QString,const NoteHolder&, const NoteHolder&, QString)));
 
     /* Manque le connect du retour*/
-    //connect(memento,SIGNAL(DeleteRelation(QString,NoteHolder,NoteHolder,QString)),,SLOT());
-    //connect(memento,SIGNAL(CreateRelation(QString,NoteHolder,NoteHolder,QString)),,SLOT());
+    connect(memento,SIGNAL(DeleteRelation(const QString&,const NoteHolder&,const NoteHolder&)), relationsProxy, SLOT(unlink(const QString&,const NoteHolder&,const NoteHolder&)));
+    connect(memento,SIGNAL(CreateRelation(const QString&,const NoteHolder&,const NoteHolder&,const QString&)), relationsProxy, SLOT(link(const QString&,const NoteHolder&,const NoteHolder&, const QString&)));
     /* Manque le connect du retour*/
 
 }

@@ -29,6 +29,9 @@ class MainWindow : public QMainWindow
     VersionsDockView* versionsView;
     QDockWidget* versionsDock;
 
+    RelationsManager<NoteHolder>& relationsManager;
+    NotesRelationsManagerSlotsProxy* relationsProxy;
+
     MementoCaretaker* memento;
 
     //menu

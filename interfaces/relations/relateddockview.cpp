@@ -19,7 +19,7 @@ void RelatedDockView::initUI(){
     connect(linkButton, SIGNAL(released()), createDialog, SLOT(open()));
     connect(createDialog, SIGNAL(accepted()), this, SLOT(refresh()));
     connect(createDialog, SIGNAL(linkCreated(QString,NoteHolder,NoteHolder,QString)), this, SIGNAL(linkCreated(QString,NoteHolder,NoteHolder,QString)));
-    connect(relationsManager.getProxy(), SIGNAL(relationDeleted()), this, SLOT(refresh()));
+    connect(relationsManager.getProxy(), SIGNAL(invalidate()), this, SLOT(refresh()));
 
     childrenView = new QTreeView;
     parentsView = new QTreeView;

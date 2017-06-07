@@ -5,16 +5,17 @@
 #include <QListView>
 #include "notesmanager.h"
 #include "notes/noteholder.h"
-#include "notesproxyfilter.h"
+#include "proxys/notesproxy.h"
 
 class NotesListView : public QListView
 {
-    NotesProxyFilter* filter;
+    NotesProxy* filter;
     const NotesManager& manager;
 
     Q_OBJECT
 public:
-    explicit NotesListView(const NotesManager& manager, NoteState state, QWidget *parent = 0);
+    explicit NotesListView(NotesProxy* proxy, QWidget *parent = 0);
+    void useBigIcons(){ setIconSize(QSize(32, 32)); }
 
 signals:
     void noteSelected(const NoteHolder*);

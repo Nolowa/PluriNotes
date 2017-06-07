@@ -1,9 +1,12 @@
 #include "sidebar.h"
+#include "proxys/notestatefilter.h"
+#include "proxys/taskfilter.h"
 
 Sidebar::Sidebar(NotesManager& nm, QWidget *parent) : QWidget(parent), nm(nm)
 {
     initUI();
     QObject::connect(stdListview, SIGNAL(noteSelected(const NoteHolder*)), this, SLOT(selectActiveNote(const NoteHolder*)));
+    QObject::connect(tskListview, SIGNAL(noteSelected(const NoteHolder*)), this, SLOT(selectActiveNote(const NoteHolder*)));
     QObject::connect(binListview, SIGNAL(noteSelected(const NoteHolder*)), this, SLOT(selectDeletedNote(const NoteHolder*)));
     QObject::connect(deleteBtn, SIGNAL(released()), this, SLOT(deleteNote()));
     QObject::connect(restoreBtn, SIGNAL(released()), this, SLOT(restoreNote()));
@@ -13,8 +16,16 @@ void Sidebar::initUI(){
 
     layout = new QVBoxLayout(this);
 
-    stdListview = new NotesListView(nm, ACTIVE, this);
-    binListview = new NotesListView(nm, DELETED, this);
+    tabs = new QTabWidget();
+
+    stdListview = new NotesListView(new NoteStateFilter(nm, ACTIVE), this);
+    binListview = new NotesListView(new NoteStateFilter(nm, DELETED), this);
+    tskListview = new NotesListView(new TaskFilter(nm));
+
+    tabs->addTab(stdListview, "Toutes");
+    tabs->addTab(tskListview, "Tâches");
+
+    stdListview->useBigIcons();
 
     binListview->setMaximumHeight(100);
 
@@ -54,7 +65,7 @@ void Sidebar::initUI(){
     binTitle = new QLabel("Corbeille");
 
     layout->addWidget(btnsFrame);
-    layout->addWidget(stdListview);
+    layout->addWidget(tabs);
     layout->addWidget(binTitle);
     layout->addWidget(binListview);
     layout->addWidget(deleteBtn);
@@ -100,6 +111,7 @@ void Sidebar::selectActiveNote(const NoteHolder* selectedNote){
 void Sidebar::selectDeletedNote(const NoteHolder* selectedNote){
     selectNote(selectedNote);
     stdListview->clearSelection();
+    tskListview->clearSelection();
 }
 
 void Sidebar::deleteNote(){

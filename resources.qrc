@@ -12,5 +12,8 @@
         <file alias="clean">resources/icons/clean.png</file>
         <file alias="unidirectionnal">resources/icons/unidirectionnal.png</file>
         <file alias="bidirectionnal">resources/icons/bidirectionnal.png</file>
+        <file alias="priority-high">resources/icons/high-priority.png</file>
+        <file alias="priority-low">resources/icons/low-priority.png</file>
+        <file alias="priority-medium">resources/icons/medium-priority.png</file>
     </qresource>
 </RCC>

@@ -4,18 +4,19 @@ TaskInterface::TaskInterface(const Task& t,QWidget *parent): NoteInterface(paren
 
     titleEdit= new QLineEdit(task->getTitle(),this);
     actionEdit= new QTextEdit(task->getActionToBeDone(),this);
-    dateEdit= new QLineEdit(task->getExpired().toString(),this);
+    dateEdit= new QDateTimeEdit(task->getExpired(),this);
     statusCombo= new QComboBox(this);
     priorityCombo= new QComboBox(this);
 
     // priority
-    priorityCombo->addItem("0");
-    priorityCombo->addItem("1");
-    priorityCombo->addItem("2");
-    priorityCombo->addItem("3");
-    priorityCombo->addItem("4");
-    priorityCombo->addItem("5");
-    priorityCombo->setCurrentIndex(task->getPriority());
+    priorityCombo->addItem("Forte");
+    priorityCombo->addItem("Normale");
+    priorityCombo->addItem("Faible");
+
+    priorityCombo->setItemIcon(0, QIcon(":/icons/priority-high"));
+    priorityCombo->setItemIcon(1, QIcon(":/icons/priority-medium"));
+    priorityCombo->setItemIcon(2, QIcon(":/icons/priority-low"));
+    priorityCombo->setCurrentIndex(task->getPriority()-1);
 
     // status
     statusCombo->addItem("En attente");
@@ -52,9 +53,9 @@ const Note& TaskInterface::toNote(){
     Task* t = new Task(*task);
     t->setTitle(titleEdit->text());
     t->setStatus(Status(statusCombo->currentIndex()));
-    t->setPriority(priorityCombo->currentIndex());
+    t->setPriority(priorityCombo->currentIndex()+1);
     t->setActionToBeDone(actionEdit->toPlainText());
-    t->setExpired(QDateTime::fromString(dateEdit->text()));
+    t->setExpired(dateEdit->dateTime());
 
     return *(task = t);
 }

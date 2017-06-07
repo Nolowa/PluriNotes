@@ -12,10 +12,8 @@ typedef enum {en_attente, en_cours,terminee} Status;// en_attente=0, en_cours=1,
 class Task: public Note {
     QString actionToBeDone; /**< Action à réaliser pour la Tâche */
     Status status;  /**< Status de la tâche {en_attente, en_cours,terminee} */
-    //{0,1,2,3,4,5}  0:pas de priorité; 5: très élevé :facultatif
-    unsigned int priority;  /**< Priorité de la tâche allant de 0:(pas de priorité) à 5 forte priorité */
-    // facultatif, date échouante
-    QDateTime expired; /**< Date de fin d'une Tâche */
+    unsigned int priority = 2;  /**< Priorité de la tâche allant de 1:(priorité forte) à 3 (priorité faible) */
+    QDateTime expired = QDateTime::currentDateTime(); /**< Date de fin d'une Tâche */
     static const QString type; /**< Attribut statique donnant le type de Note (dérivée) */
 
 public:

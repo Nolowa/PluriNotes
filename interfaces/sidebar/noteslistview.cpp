@@ -1,14 +1,11 @@
 #include "noteslistview.h"
 
-NotesListView::NotesListView(const NotesManager& manager, NoteState state, QWidget *parent) : QListView(parent), manager(manager)
+NotesListView::NotesListView(NotesProxy* filter, QWidget *parent) : QListView(parent), manager(manager), filter(filter)
 {
-    filter = new NotesProxyFilter(manager, state, this);
+    filter->setParent(this);
     setModel(filter);
-    setStyleSheet("background: #fcfcfc; border:0;");
+    //setStyleSheet("background: #fcfcfc; border:0;");
     clearSelection();
-
-    if(state == ACTIVE)
-        setIconSize(QSize(32, 32));
 
 }
 
@@ -16,6 +13,6 @@ void NotesListView::selectionChanged(const QItemSelection& cur, const QItemSelec
     Q_UNUSED(prev);
 
     if(cur.size()){
-        emit noteSelected(&manager.getModelHolder().findByIndex(filter->mapSelectionToSource(cur).indexes().first()));
+        emit noteSelected(&(filter->getManager().getModelHolder().findByIndex(filter->mapSelectionToSource(cur).indexes().first())));
     }
 }

@@ -10,6 +10,7 @@
 #include <QComboBox>
 #include <QMessageBox>
 #include <QVector>
+#include <QDateEdit>
 
 #include "noteinterface.h"
 #include "notes/task.h" // inclusion récursif.?
@@ -22,7 +23,7 @@ class TaskInterface: public NoteInterface {
     QLineEdit* titleEdit;
     QTextEdit* actionEdit;
     QLineEdit* idEdit;
-    QLineEdit* dateEdit;
+    QDateTimeEdit* dateEdit;
     QComboBox* statusCombo;
     QComboBox* priorityCombo;
     QFormLayout* layout;

@@ -26,8 +26,8 @@ public:
 class MementoRelation: public Memento{
     QString nameLabel;
     QString nameRelation;
-    NoteHolder note;
-    NoteHolder note1;
+    const NoteHolder& note;
+    const NoteHolder& note1;
 
     //a supprimer
     NoteState oldState;
@@ -104,8 +104,8 @@ public slots:
 signals:
     void changeNoteState(const NoteHolder& n, NoteState nstate);
 
-    void DeleteRelation(const QString& nameLabel,const NoteHolder& note,const NoteHolder& note1,const QString& nameRelation);
-    void CreateRelation(const QString& nameLabel,const NoteHolder& note,const NoteHolder& note1,const QString& nameRelation);
+    void DeleteRelation(const QString& nameRelation,const NoteHolder& note,const NoteHolder& note1);
+    void CreateRelation(const QString& nameRelation,const NoteHolder& note,const NoteHolder& note1,const QString& nameLabel);
 
 };
 

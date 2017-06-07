@@ -10,6 +10,7 @@
 #include <QUuid>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <QTabWidget>
 
 #include "notesmanager.h"
 #include "noteslistview.h"
@@ -23,8 +24,12 @@ class Sidebar : public QWidget
 
     QVBoxLayout* layout;
 
+    QTabWidget* tabs;
+
     NotesListView* stdListview;
     NotesListView* binListview;
+    NotesListView* tskListview;
+
 
     QHBoxLayout* btnsLayout;
     QPushButton** buttons;

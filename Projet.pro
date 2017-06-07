@@ -31,13 +31,15 @@ SOURCES += main.cpp \
     interfaces/mainwindow.cpp \
     interfaces/relations/relateddockview.cpp \
     interfaces/relations/createlinkdialog.cpp \
-    notesproxyfilter.cpp \
     notes/noteholder.cpp \
     database.cpp \
     interfaces/sidebar/sidebar.cpp \
     interfaces/sidebar/noteslistview.cpp \
     interfaces/versions/versionsdockview.cpp \
-    interfaces/relations/managerelationsdialog.cpp
+    interfaces/relations/managerelationsdialog.cpp \
+    proxys/notestatefilter.cpp \
+    proxys/notesproxy.cpp \
+    proxys/taskfilter.cpp
 
 
 # The following define makes your compiler emit warnings if you use
@@ -77,13 +79,15 @@ HEADERS +=\
     interfaces/mainwindow.h \
     interfaces/relations/relateddockview.h \
     interfaces/relations/createlinkdialog.h \
-    notesproxyfilter.h \
     notes/noteholder.h \
     database.h \
     interfaces/sidebar/sidebar.h \
     interfaces/sidebar/noteslistview.h \
     interfaces/versions/versionsdockview.h \
-    interfaces/relations/managerelationsdialog.h
+    interfaces/relations/managerelationsdialog.h \
+    proxys/notestatefilter.h \
+    proxys/notesproxy.h \
+    proxys/taskfilter.h
 
 
 RESOURCES += \

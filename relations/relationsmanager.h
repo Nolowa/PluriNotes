@@ -16,12 +16,16 @@
 #include "bidirectionalrelationship.h"
 #include "utils.h"
 
+
 // Trick pour permettre l'utilisation de signaux sur le RelationsManager qui ne peut pas hériter de QObject
 // (Qt ne supporte pas les classes template)
 class RelationsManagerSignalsProxy : public QObject{
     Q_OBJECT
+
+public slots:
+
 signals:
-    void relationDeleted() const;
+    void invalidate() const;
 };
 
 
@@ -135,6 +139,7 @@ QStringList RelationsManager<T>::getRelationsName() const {
 template<typename T>
 void RelationsManager<T>::link(Relationship<T>& relation, const T& ref1, const T& ref2, const QString& label){
     relation.associate(ref1, ref2, label);
+    emit signalsProxy.invalidate();
 }
 
 template<typename T>
@@ -145,6 +150,7 @@ bool RelationsManager<T>::areLinked(Relationship<T> &relation, const T& ref1, co
 template<typename T>
 void RelationsManager<T>::unlink(Relationship<T> &relation, const T& ref1, const T& ref2){
     relation.dissociate(ref1, ref2);
+    emit signalsProxy.invalidate();
 }
 
 template<typename T>
@@ -153,7 +159,7 @@ void RelationsManager<T>::deleteRelation(const Relationship<T> & rel){
     QString name = rel.getName();
     delete &rel;
 
-    emit signalsProxy.relationDeleted();
+    emit signalsProxy.invalidate();
 
     QModelIndex idx;
     int rowCount = relationsModel.rowCount();
@@ -262,7 +268,6 @@ template<typename T>
 QVector<const Association<T>*>* RelationsManager<T>::getParents(const T& ref) const{
 
     QVector<const Association<T>*>* results = new QVector<const Association<T>*>();
-    //QMultiMap<const T*, const Relationship<T>*>* multimap = new QMultiMap<const T*, const Relationship<T>*>;
 
     for(const Relationship<T>* const * r = relationships.constBegin(); r < relationships.constEnd(); r++){
         QVector<const Association<T>*>* relParents = (*r)->getParents(ref);
@@ -277,6 +282,40 @@ QVector<const Association<T>*>* RelationsManager<T>::getParents(const T& ref) co
     return results;
 }
 
+
+// Trick pour permettre l'utilisation de slots sur le RelationsManager<NoteHolder> qui ne peut pas hériter de QObject
+// (Qt ne supporte pas les classes template)
+
+#include "notes/noteholder.h"
+
+class NotesRelationsManagerSlotsProxy : public QObject{
+    Q_OBJECT
+
+    RelationsManager<NoteHolder>& manager;
+
+public:
+
+    NotesRelationsManagerSlotsProxy(RelationsManager<NoteHolder>& m) : manager(m){}
+
+public slots:
+
+    void link(const QString& rel_name, const NoteHolder& n1, const NoteHolder& n2, const QString& label){
+        qDebug() << rel_name << " " << n1.getLastVersion().getTitle() << " " << n2.getLastVersion().getTitle();
+        if(manager.getRelationsName().contains(rel_name)){
+            Relationship<NoteHolder>& rel = manager.getRelation(rel_name);
+            manager.link(rel, n1, n2, label);
+        }
+    }
+
+    void unlink(const QString& rel_name, const NoteHolder& n1, const NoteHolder& n2){
+        qDebug() << rel_name << " " << n1.getLastVersion().getTitle() << " " << n2.getLastVersion().getTitle();
+
+        if(manager.getRelationsName().contains(rel_name)){
+            Relationship<NoteHolder>& rel = manager.getRelation(rel_name);
+            manager.unlink(rel, n1, n2);
+        }
+    }
+};
 
 
 #endif // RELATIONSMANAGER_H
