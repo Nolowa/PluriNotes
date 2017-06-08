@@ -22,12 +22,12 @@ int main(int argc, char *argv[]){
 
             NotesManager& m=NotesManager::getInstance();
             RelationsManager<NoteHolder>* rm = new RelationsManager<NoteHolder>;
-            MementoCaretaker* mainMemento= new MementoCaretaker; // Penser à faire le DP singleton
+            MementoCaretaker& mainMemento=MementoCaretaker::getInstance();
 
             Database* db = new Database(m, *rm, "database.db");
             db->loadAll();
 
-            MainWindow window(m, *rm, *mainMemento, *db);
+            MainWindow window(m, *rm, mainMemento, *db);
 
             window.show();
 

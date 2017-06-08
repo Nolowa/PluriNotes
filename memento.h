@@ -82,14 +82,19 @@ class MementoCaretaker: public QObject{
    std::vector<Memento*> m_vecMementoInverse; // pour le controle Y: rétablir
    bool stopPropagation;
    void save(Memento* memento);
+   static MementoCaretaker* instance;
+   MementoCaretaker& operator=(const MementoCaretaker&);
+   MementoCaretaker(const MementoCaretaker&);
+   ~MementoCaretaker() {
+       for (unsigned int i=0; i < m_vecMemento.size(); i++)
+           delete m_vecMemento[i];
+       for (unsigned int i=0; i < m_vecMementoInverse.size(); i++)
+           delete m_vecMementoInverse[i];
+   }
 public:
     MementoCaretaker() : stopPropagation(false){}
-    ~MementoCaretaker() {
-        for (unsigned int i=0; i < m_vecMemento.size(); i++)
-            delete m_vecMemento[i];
-        for (unsigned int i=0; i < m_vecMementoInverse.size(); i++)
-            delete m_vecMementoInverse[i];
-    }
+    static MementoCaretaker& getInstance();
+    static void freeInstance();
 
 public slots:
     void undo();
