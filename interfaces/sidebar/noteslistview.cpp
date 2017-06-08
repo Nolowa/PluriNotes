@@ -1,6 +1,6 @@
 #include "noteslistview.h"
 
-NotesListView::NotesListView(NotesProxy* filter, QWidget *parent) : QListView(parent), manager(manager), filter(filter)
+NotesListView::NotesListView(NotesProxy* filter, QWidget *parent) : QListView(parent), filter(filter)
 {
     filter->setParent(this);
     setModel(filter);

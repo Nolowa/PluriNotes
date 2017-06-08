@@ -26,6 +26,10 @@ public slots:
 
 signals:
     void invalidate() const;
+    void relationDeleted(void * const) const;
+    void relationCreated(void * const) const;
+    void objectsLinked(void * const, void * const, void * const, QString) const;
+    void objectsUnlinked(void * const, void * const, void * const) const;
 };
 
 
@@ -110,6 +114,8 @@ Relationship<T>& RelationsManager<T>::createRelation(const QString& title, bool 
     relationships.push_back(r);
     relationsModel.appendRow(item);
 
+    emit signalsProxy.relationCreated((void *) r);
+
     return *r;
 
 }
@@ -140,6 +146,7 @@ template<typename T>
 void RelationsManager<T>::link(Relationship<T>& relation, const T& ref1, const T& ref2, const QString& label){
     relation.associate(ref1, ref2, label);
     emit signalsProxy.invalidate();
+    emit signalsProxy.objectsLinked((void *) &relation, (void *) &ref1, (void *) &ref2, label);
 }
 
 template<typename T>
@@ -151,12 +158,15 @@ template<typename T>
 void RelationsManager<T>::unlink(Relationship<T> &relation, const T& ref1, const T& ref2){
     relation.dissociate(ref1, ref2);
     emit signalsProxy.invalidate();
+    emit signalsProxy.objectsUnlinked((void *) &relation, (void *) &ref1, (void *) &ref2);
 }
 
 template<typename T>
 void RelationsManager<T>::deleteRelation(const Relationship<T> & rel){
     relationships.removeOne(const_cast<Relationship<T>*>(&rel));
     QString name = rel.getName();
+
+    emit signalsProxy.relationDeleted((void *) &rel);
     delete &rel;
 
     emit signalsProxy.invalidate();

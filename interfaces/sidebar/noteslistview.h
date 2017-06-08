@@ -10,7 +10,6 @@
 class NotesListView : public QListView
 {
     NotesProxy* filter;
-    const NotesManager& manager;
 
     Q_OBJECT
 public:

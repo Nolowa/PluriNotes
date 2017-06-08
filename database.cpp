@@ -4,8 +4,11 @@
 #include "notes/sound.h"
 #include "notes/video.h"
 #include "notes/task.h"
+#include "relations/relationship.h"
+#include "relations/bidirectionalrelationship.h"
+#include "relations/association.h"
 
-Database::Database(NotesManager& nm, const QString& filename) : notesManager(nm), filename(filename){
+Database::Database(NotesManager& nm, RelationsManager<NoteHolder>& rm, const QString& filename) : notesManager(nm), relationsManager(rm), filename(filename){
     db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName(filename);
     open = db.open();
@@ -17,10 +20,13 @@ Database::Database(NotesManager& nm, const QString& filename) : notesManager(nm)
 
     types << "Article" << "Image" << "Task" << "Sound" << "Video";
 
-   QObject::connect(&nm, SIGNAL(noteCreated(NoteHolder)), this, SLOT(insertVersion(NoteHolder)));
-   QObject::connect(&nm, SIGNAL(noteUpdated(NoteHolder)), this, SLOT(insertVersion(NoteHolder)));
-   QObject::connect(&nm, SIGNAL(noteStatusChanged(NoteHolder, NoteState)), this, SLOT(updateStatus(NoteHolder)));
-
+   connect(&nm, SIGNAL(noteCreated(NoteHolder)), this, SLOT(insertVersion(NoteHolder)));
+   connect(&nm, SIGNAL(noteUpdated(NoteHolder)), this, SLOT(insertVersion(NoteHolder)));
+   connect(&nm, SIGNAL(noteStatusChanged(NoteHolder, NoteState)), this, SLOT(updateStatus(NoteHolder)));
+   connect(rm.getProxy(), SIGNAL(relationCreated(void * const)), this, SLOT(insertRelation(void * const)));
+   connect(rm.getProxy(), SIGNAL(relationDeleted(void * const)), this, SLOT(deleteRelation(void * const)));
+   connect(rm.getProxy(), SIGNAL(objectsLinked(void * const, void * const, void * const, QString)), this, SLOT(insertAssociation(void * const, void * const, void * const, QString)));
+   connect(rm.getProxy(), SIGNAL(objectsUnlinked(void * const, void * const, void * const)), this, SLOT(deleteAssociation(void * const, void * const, void * const)));
 }
 
 bool Database::createTables(){
@@ -31,7 +37,9 @@ bool Database::createTables(){
         && query.exec("CREATE TABLE IF NOT EXISTS Image (Id INTEGER NOT NULL,Description TEXT ,File TEXT , PRIMARY KEY (Id),FOREIGN KEY(Id) REFERENCES Note(Id)ON DELETE CASCADE);")
         && query.exec("CREATE TABLE IF NOT EXISTS Task (Id INTEGER NOT NULL,ActionToBeDone TEXT ,Status VARCHAR(20) ,Priority INT(1) , Expired TEXT , PRIMARY KEY (Id), FOREIGN KEY(Id) REFERENCES Note(Id)ON DELETE CASCADE);")
         && query.exec("CREATE TABLE IF NOT EXISTS Sound (Id INTEGER NOT NULL,Description TEXT ,File TEXT , PRIMARY KEY (Id),FOREIGN KEY(Id) REFERENCES Note(Id)ON DELETE CASCADE);")
-        && query.exec("CREATE TABLE IF NOT EXISTS Video (Id INTEGER NOT NULL,Description TEXT ,File TEXT , PRIMARY KEY (Id),FOREIGN KEY(Id) REFERENCES Note(Id)ON DELETE CASCADE);");
+        && query.exec("CREATE TABLE IF NOT EXISTS Video (Id INTEGER NOT NULL,Description TEXT ,File TEXT , PRIMARY KEY (Id),FOREIGN KEY(Id) REFERENCES Note(Id)ON DELETE CASCADE);")
+        && query.exec("CREATE TABLE IF NOT EXISTS Relationship(Name VARCHAR(255), Bidirectionnal BOOLEAN, PRIMARY KEY(Name));")
+        && query.exec("CREATE TABLE IF NOT EXISTS Association(Relation VARCHAR(255) NOT NULL, NoteFrom VARCHAR NOT NULL, NoteTo VARCHAR NOT NULL, Label VARCHAR, PRIMARY KEY(Relation, NoteFrom, NoteTo), FOREIGN KEY(Relation) REFERENCES Relationship(Name) ON DELETE CASCADE);");
 
         return result;
 }
@@ -142,11 +150,30 @@ const Note& Database::loadContent(int version_id, const QString& note_type) cons
 void Database::loadAll(){
     ignoreManagerSignal = true;
 
+    // Notes
     QSqlQuery q("SELECT Id, HolderId, Max(Edited), Created, State, Genre FROM Note GROUP BY HolderId ORDER BY Created DESC");
     while(q.next()){
         const Note& content = loadContent(q.value("Id").toInt(), q.value("Genre").toString());
         notesManager.import(q.value("HolderId").toString(), q.value("Created").toDateTime(), q.value("State").toInt(), content);
     }
+
+    // Relations
+    q = QSqlQuery("SELECT Name, Bidirectionnal FROM Relationship ORDER BY Name");
+    while(q.next()){
+        relationsManager.createRelation(q.value("Name").toString(), q.value("Bidirectionnal").toBool());
+    }
+
+    // Associations
+    q = QSqlQuery("SELECT Relation, NoteFrom, NoteTo, Label FROM Association");
+    while(q.next()){
+        Relationship<NoteHolder>& rel = relationsManager.getRelation(q.value("Relation").toString());
+        const NoteHolder& n1 = notesManager.find(QUuid(q.value("NoteFrom").toString()));
+        const NoteHolder& n2 = notesManager.find(QUuid(q.value("NoteTo").toString()));
+
+        relationsManager.link(rel, n1, n2, q.value("Label").toString());
+
+    }
+
     ignoreManagerSignal = false;
 }
 
@@ -179,6 +206,62 @@ void Database::emptyTrash(){
     QSqlQuery q;
     if(!q.exec("DELETE FROM Note WHERE State = 2")) throw new AppException("Erreur lors du vidage de la corbeille");
 }
+
+void Database::insertRelation(void * const r){
+    if(!ignoreManagerSignal){
+        const Relationship<NoteHolder>& rel = *(static_cast<Relationship<NoteHolder>* const>(r));
+        const BidirectionalRelationship<NoteHolder>* v = dynamic_cast<const BidirectionalRelationship<NoteHolder>*>(&rel);
+        bool bi = v;
+        QSqlQuery q;
+        q.prepare("INSERT INTO Relationship (Name, Bidirectionnal) VALUES(:Name, :Bidirectionnal)");
+        q.bindValue(":Name", rel.getName());
+        q.bindValue(":Bidirectionnal", bi);
+
+        if(!q.exec()) throw new AppException("Erreur lors de l'ajout de relation");
+    }
+}
+
+void Database::deleteRelation(void * const r){
+    const Relationship<NoteHolder>& rel = *(static_cast<Relationship<NoteHolder>* const>(r));
+    QSqlQuery q;
+    q.prepare("DELETE FROM Relationship WHERE Name = :Name");
+    q.bindValue(":Name", rel.getName());
+
+    if(!q.exec()) throw new AppException("Erreur lors de la supression de relation");
+}
+
+void Database::insertAssociation(void * const rel, void * const from, void * const to, QString label){
+    if(!ignoreManagerSignal){
+        const Relationship<NoteHolder>* relation = (const Relationship<NoteHolder> *) rel;
+        const NoteHolder* note_from = (const NoteHolder*) from;
+        const NoteHolder* note_to = (const NoteHolder*) to;
+
+        QSqlQuery q;
+        q.prepare("INSERT INTO Association (Relation, NoteFrom, NoteTo, Label) VALUES(:Relation, :From, :To, :Label)");
+        q.bindValue(":Relation", relation->getName());
+        q.bindValue(":From", note_from->getId().toString());
+        q.bindValue(":To", note_to->getId().toString());
+        q.bindValue(":Label", label);
+
+        if(!q.exec()) throw new AppException("Erreur lors de l'ajout de l'association");
+    }
+}
+
+void Database::deleteAssociation(void * const rel, void * const from, void * const to){
+
+    const Relationship<NoteHolder>* relation = (const Relationship<NoteHolder> *) rel;
+    const NoteHolder* note_from = (const NoteHolder*) from;
+    const NoteHolder* note_to = (const NoteHolder*) to;
+
+    QSqlQuery q;
+    q.prepare("DELETE FROM Association WHERE Relation = :Relation AND NoteFrom = :From AND NoteTo = :To");
+    q.bindValue(":Relation", relation->getName());
+    q.bindValue(":From", note_from->getId().toString());
+    q.bindValue(":To", note_to->getId().toString());
+
+    if(!q.exec()) throw new AppException("Erreur lors de la supression de l'association");
+}
+
 
 Database::~Database(){
     if(open) db.close();

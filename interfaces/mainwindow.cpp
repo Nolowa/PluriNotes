@@ -2,7 +2,7 @@
 #include "notes/noteholder.h"
 
 
-MainWindow::MainWindow(NotesManager& nm, RelationsManager<NoteHolder>& rm, MementoCaretaker& mement, Database& db, QWidget *parent) : QMainWindow(parent), notesManager(nm), database(db), relationsManager(rm), memento(&mement), relationsProxy(new NotesRelationsManagerSlotsProxy(rm))
+MainWindow::MainWindow(NotesManager& nm, RelationsManager<NoteHolder>& rm, MementoCaretaker& mement, Database& db, QWidget *parent) : QMainWindow(parent), notesManager(nm), database(db), relationsManager(rm), relationsProxy(new NotesRelationsManagerSlotsProxy(rm)), memento(&mement)
 {
     mf = new Mainframe(nm);
 

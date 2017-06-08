@@ -9,9 +9,9 @@ TaskInterface::TaskInterface(const Task& t,QWidget *parent): NoteInterface(paren
     priorityCombo= new QComboBox(this);
 
     // priority
-    priorityCombo->addItem("Forte");
-    priorityCombo->addItem("Normale");
-    priorityCombo->addItem("Faible");
+    priorityCombo->addItem("Prioritaire");
+    priorityCombo->addItem("Pas de priorité");
+    priorityCombo->addItem("Peu important");
 
     priorityCombo->setItemIcon(0, QIcon(":/icons/priority-high"));
     priorityCombo->setItemIcon(1, QIcon(":/icons/priority-medium"));

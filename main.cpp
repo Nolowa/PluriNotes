@@ -13,10 +13,6 @@
 #include <QModelIndex>
 #include <QMessageBox>
 
-
-//include de test
-
-
 int main(int argc, char *argv[]){
 
 
@@ -25,14 +21,10 @@ int main(int argc, char *argv[]){
     try{
 
             NotesManager& m=NotesManager::getInstance();
-            RelationsManager<NoteHolder>* rm = new RelationsManager<NoteHolder>; // Penser à faire le DP singleton -> Non.
+            RelationsManager<NoteHolder>* rm = new RelationsManager<NoteHolder>;
             MementoCaretaker* mainMemento= new MementoCaretaker; // Penser à faire le DP singleton
 
-            rm->createRelation("UneRelationUnidirectionelle");
-            rm->createRelation("UneDeuxiemeRelation");
-            rm->createRelation("UneRelationBidirectionelle", true);
-
-            Database* db = new Database(m, "database.db");
+            Database* db = new Database(m, *rm, "database.db");
             db->loadAll();
 
             MainWindow window(m, *rm, *mainMemento, *db);

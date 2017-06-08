@@ -57,7 +57,7 @@ public:
     static NotesManager& getInstance();
     static void freeInstance();
 
-    const Note* find(const QUuid& identifier) const;
+    const NoteHolder& find(const QUuid& identifier) const;
     NotesModelHolder & getModelHolder() const { return *modelHolder; }
     NoteHolder& import(QString identifier, QDateTime created, int state, const Note& body);
 

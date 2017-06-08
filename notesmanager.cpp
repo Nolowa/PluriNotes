@@ -88,6 +88,22 @@ const NoteHolder& NotesManager::createSound(){
     return createNote("Sound");
 }
 
+const NoteHolder& NotesManager::find(const QUuid& identifier) const{
+    NotesManager::Iterator& it = getIterator();
+
+    while(!it.isDone()){
+        it.next();
+        const NoteHolder& n = it.current();
+        if(n.getId() == identifier){
+            delete &it;
+            return n;
+        }
+    }
+
+    delete &it;
+    throw new AppException("Note inexistante");
+}
+
 void NotesManager::updateNote(const NoteHolder& holder, const Note& newBody){
     const_cast<NoteHolder&>(holder).update(newBody);
     modelHolder->updateItem(holder);
@@ -109,17 +125,7 @@ NotesManager::Iterator& NotesManager::getIterator() const{
     return *it;
 }
 
-/*void NotesManager::NotesModelHolder::generateModel(NotesManager &nm){
-    Iterator<const Note>& notes = nm.getIterator();
-    while(!notes.isDone()){
-        notes.next();
-        const Note& n = notes.current();
 
-        // Ajout de la note au modèle
-        generateItem(n);
-
-    }
-}*/
 
 QStandardItem* NotesManager::NotesModelHolder::generateItem(const NoteHolder& note){
     QString qstr = QString(":/icons/") + note.getLastVersion().getType().toLower();
