@@ -25,8 +25,8 @@ int main(int argc, char *argv[]){
     try{
 
             NotesManager& m=NotesManager::getInstance();
-            RelationsManager<NoteHolder>* rm = new RelationsManager<NoteHolder>; // Penser à faire le DP singleton -> Non.
-            MementoCaretaker* mainMemento= new MementoCaretaker; // Penser à faire le DP singleton
+            RelationsManager<NoteHolder>* rm = new RelationsManager<NoteHolder>;
+            MementoCaretaker& mainMemento=MementoCaretaker::getInstance();;
 
             rm->createRelation("UneRelationUnidirectionelle");
             rm->createRelation("UneDeuxiemeRelation");
@@ -35,7 +35,7 @@ int main(int argc, char *argv[]){
             Database* db = new Database(m, "database.db");
             db->loadAll();
 
-            MainWindow window(m, *rm, *mainMemento, *db);
+            MainWindow window(m, *rm, mainMemento, *db);
 
             window.show();
 

@@ -4,6 +4,25 @@
 // MementoCaretaker
 //
 
+
+//Singleton
+
+MementoCaretaker* MementoCaretaker::instance=0;
+MementoCaretaker& MementoCaretaker::getInstance(){
+    if(!instance)
+        instance=new MementoCaretaker();
+    return *instance;
+}
+
+void MementoCaretaker::freeInstance(){
+    if(instance){
+        delete instance;
+    }
+     instance=nullptr;
+}
+
+//end Singleton
+
 void MementoCaretaker::undo() {
     if(m_vecMemento.size()!=0){
         Memento* mem=m_vecMemento.back();
