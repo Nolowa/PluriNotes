@@ -16,14 +16,14 @@ class ArticleInterface;
 
 class Article : public Note{
     QString text; /**< Texte qui correspond au coeur de l'article  */
-    static const QString type;
+    static const QString type; /**< Attribut static qui correspond au type de Note */
 public:
 
     void setText(const QString& texte); /**< Méthode modifiant l'attribut text */
     const QString& getText() const; /**< Accesseur de l'attribut Text */
     NoteInterface* getUI() const; /**< Méthode virtuelle renvoyant l'interface de Article */
 
-    const QString& getType() const;
+    const QString& getType() const; /**< Méthode permettant d'obtenir le type de Note */
 };
 
 #endif // ARTICLE_H
