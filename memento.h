@@ -6,7 +6,7 @@
 #include <vector>
 #include <QString>
 
-
+/*! Classe Memento, classe mère abstraite de tous les memento de l'application*/
 class Memento{
 public:
     Memento(){}
@@ -23,7 +23,7 @@ public:
 
 
 
-
+/*! Classe MementoRelation, enregistre les éléments nécessaires à la reconstruction d'une relation*/
 class MementoRelation: public Memento{
     QString nameLabel;
     QString nameRelation;
@@ -47,7 +47,7 @@ public:
 };
 
 
-
+/*! Classe MementoNoteState, enregistre les éléments à la recréation d'une Note*/
 class MementoNoteState: public Memento{
     const NoteHolder& note;
     NoteState oldState;
@@ -75,16 +75,16 @@ public:
 
 
 
-
+/*! Classe MementoCaretaker, classe managère qui gère le controle Z/Y (undo/redo)*/
 class MementoCaretaker: public QObject{
    Q_OBJECT
-   std::vector<Memento*> m_vecMemento; // pour le controle Z: annuler
-   std::vector<Memento*> m_vecMementoInverse; // pour le controle Y: rétablir
-   bool stopPropagation;
-   void save(Memento* memento);
-   static MementoCaretaker* instance;
-   MementoCaretaker& operator=(const MementoCaretaker&);
-   MementoCaretaker(const MementoCaretaker&);
+   std::vector<Memento*> m_vecMemento;  /**< Table pour le controle Z: annuler  */
+   std::vector<Memento*> m_vecMementoInverse;  /**< Table  pour le controle Y: rétablir  */
+   bool stopPropagation;   /**< Attribut permettant l'arrêt d'une boucle sans fin entre les signaux interface/memento  */
+   void save(Memento* memento); /**< Méthode permettant de créer une mémento */
+   static MementoCaretaker* instance;  /**< Design pattern singleton */
+   MementoCaretaker& operator=(const MementoCaretaker&); /**< Empêche la création d'un MementoCaretaker par affection */
+   MementoCaretaker(const MementoCaretaker&); /**< Empêche la création d'un MementoCaretaker par recopie */
    ~MementoCaretaker() {
        for (unsigned int i=0; i < m_vecMemento.size(); i++)
            delete m_vecMemento[i];
@@ -114,10 +114,10 @@ public slots:
 
 
 signals:
-    void changeNoteState(const NoteHolder& n, NoteState nstate);
+    void changeNoteState(const NoteHolder& n, NoteState nstate); /**< Signal permettant de mettre à jour les interfaces pour les ListNotesView */
 
-    void DeleteRelation(const QString& nameRelation,const NoteHolder& note,const NoteHolder& note1);
-    void CreateRelation(const QString& nameRelation,const NoteHolder& note,const NoteHolder& note1,const QString& nameLabel);
+    void DeleteRelation(const QString& nameRelation,const NoteHolder& note,const NoteHolder& note1); /**< Signal permettant de mettre à jour les interfaces pour la supression d'une relation */
+    void CreateRelation(const QString& nameRelation,const NoteHolder& note,const NoteHolder& note1,const QString& nameLabel); /**< Signal permettant de mettre à jour les interfaces pour la création d'une relation */
 
 };
 

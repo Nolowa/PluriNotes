@@ -14,7 +14,7 @@ class Note {
     //NoteHolder * const holder; /**< identifiant unique qui caractérise chaque objet Note, unique pour chaque objet Note  */
     QString title; /**< titre de la Note  */
     QDateTime edited = QDateTime::currentDateTime(); /**< date de dernière mise à jour de la Note  */
-    static const QString type;
+    static const QString type; /**< Attribut static qui correspond au type de Note */
 
 public:
     //NoteHolder& getHolder() const; /**< Accesseur de l'attribut identifier */
@@ -35,7 +35,7 @@ public:
 
     void load(const Note& n);
 
-    virtual const QString& getType() const;
+    virtual const QString& getType() const; /**< Méthode permettant d'obtenir le type de Note */
 };
 
 #endif // NOTE_H
