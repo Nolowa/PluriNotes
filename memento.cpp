@@ -29,9 +29,13 @@ void MementoCaretaker::undo() {
         stopPropagation = true;
         m_vecMemento.pop_back();
         m_vecMementoInverse.push_back(mem);
-        if (typeid(*mem)==typeid(MementoNoteState)){emit changeNoteState(mem->getNote(), mem->getOldState());}
+        if (typeid(*mem)==typeid(MementoNoteState)){
+            MementoNoteState* MementoNoteStatemem =dynamic_cast<MementoNoteState*> (mem);
+            emit changeNoteState(MementoNoteStatemem->getNote(), MementoNoteStatemem->getOldState());}
         else
-            if (typeid(*mem)==typeid(MementoRelation)){emit DeleteRelation(mem->getNameRelation(),mem->getNote(),mem->getNote1());}
+            if (typeid(*mem)==typeid(MementoRelation)){
+                MementoRelation* MementoRelationmem =dynamic_cast<MementoRelation*> (mem);
+                emit DeleteRelation(MementoRelationmem->getNameRelation(),MementoRelationmem->getNote(),MementoRelationmem->getNote1());}
             else throw("Error de TypeMemento");
 
     }
@@ -53,9 +57,13 @@ void MementoCaretaker::redo(){
         m_vecMementoInverse.pop_back();
         m_vecMemento.push_back(mem);
         stopPropagation = true;
-        if (typeid(*mem)==typeid(MementoNoteState)){emit changeNoteState(mem->getNote(), mem->getNewState());}
+        if (typeid(*mem)==typeid(MementoNoteState)){
+            MementoNoteState* MementoNoteStatemem =dynamic_cast<MementoNoteState*> (mem);
+            emit changeNoteState(MementoNoteStatemem->getNote(), MementoNoteStatemem->getNewState());}
         else
-            if (typeid(*mem)==typeid(MementoRelation)){emit CreateRelation(mem->getNameRelation(),mem->getNote(),mem->getNote1(),mem->getNameLabel());}
+            if (typeid(*mem)==typeid(MementoRelation)){
+                MementoRelation* MementoRelationmem =dynamic_cast<MementoRelation*> (mem);
+                emit CreateRelation(MementoRelationmem->getNameRelation(),MementoRelationmem->getNote(),MementoRelationmem->getNote1(),MementoRelationmem->getNameLabel());}
             else throw("Error de TypeMemento");
     }
     else{
@@ -65,3 +73,4 @@ void MementoCaretaker::redo(){
     //QMessageBox::information(this,QString("great!"),QString("great"));
 
 }
+

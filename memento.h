@@ -11,14 +11,6 @@ class Memento{
 public:
     Memento(){}
     virtual ~Memento() {}
-    virtual const NoteHolder& getNote() const=0;
-    virtual const QString& getNameRelation()const=0;
-    virtual const QString& getNameLabel() const=0;
-    virtual const NoteHolder& getNote1() const=0;
-
-    virtual const NoteState& getOldState()const=0;
-    virtual const NoteState& getNewState()const=0;
-
 };
 
 
@@ -30,9 +22,7 @@ class MementoRelation: public Memento{
     const NoteHolder& note;
     const NoteHolder& note1;
 
-    //a supprimer
-    NoteState oldState;
-    NoteState newState;
+
 public:
     MementoRelation(const QString& nameR,const NoteHolder& n, const NoteHolder& n1,const QString& nameL):nameLabel(nameL),nameRelation(nameR),note(n),note1(n1){}
     const QString& getNameRelation()const {return nameRelation;}
@@ -40,9 +30,7 @@ public:
     const NoteHolder& getNote1() const{return note1;}
     const NoteHolder& getNote() const {return note;}
 
-    //a supprimer
-    const NoteState& getOldState()const {return oldState;}
-    const NoteState& getNewState()const {return newState;}
+
 
 };
 
@@ -53,23 +41,13 @@ class MementoNoteState: public Memento{
     NoteState oldState;
     NoteState newState;
 
-    //a supprimer
-    QString nameLabel;
-    QString nameRelation;
-    NoteHolder note1;
+
 
 public:
     MementoNoteState(const NoteHolder& n,NoteState oldS, NoteState newS): note(n),oldState(oldS),newState(newS){}
     const NoteHolder& getNote()const {return note;}
     const NoteState& getOldState()const {return oldState;}
     const NoteState& getNewState()const {return newState;}
-
-
-    //a supprimer
-    const QString& getNameRelation()const {return nameRelation;}
-    const QString& getNameLabel() const {return nameLabel;}
-    const NoteHolder& getNote1() const{return note1;}
-
 
 };
 
@@ -115,7 +93,6 @@ public slots:
 
 signals:
     void changeNoteState(const NoteHolder& n, NoteState nstate); /**< Signal permettant de mettre à jour les interfaces pour les ListNotesView */
-
     void DeleteRelation(const QString& nameRelation,const NoteHolder& note,const NoteHolder& note1); /**< Signal permettant de mettre à jour les interfaces pour la supression d'une relation */
     void CreateRelation(const QString& nameRelation,const NoteHolder& note,const NoteHolder& note1,const QString& nameLabel); /**< Signal permettant de mettre à jour les interfaces pour la création d'une relation */
 
