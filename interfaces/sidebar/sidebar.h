@@ -24,16 +24,18 @@ class Sidebar : public QWidget
 
     QVBoxLayout* layout;
 
-    QTabWidget* tabs;
+    QTabWidget* activeTabs;
+    QTabWidget* inactiveTabs;
 
     NotesListView* stdListview;
-    NotesListView* binListview;
     NotesListView* tskListview;
+
+    NotesListView* binListview;
+    NotesListView* acvListview;
 
 
     QHBoxLayout* btnsLayout;
     QPushButton** buttons;
-    QLabel* binTitle;
 
     QPushButton* deleteBtn;
     QPushButton* restoreBtn;

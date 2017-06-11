@@ -8,6 +8,7 @@ Sidebar::Sidebar(NotesManager& nm, QWidget *parent) : QWidget(parent), nm(nm)
     QObject::connect(stdListview, SIGNAL(noteSelected(const NoteHolder*)), this, SLOT(selectActiveNote(const NoteHolder*)));
     QObject::connect(tskListview, SIGNAL(noteSelected(const NoteHolder*)), this, SLOT(selectActiveNote(const NoteHolder*)));
     QObject::connect(binListview, SIGNAL(noteSelected(const NoteHolder*)), this, SLOT(selectDeletedNote(const NoteHolder*)));
+    QObject::connect(acvListview, SIGNAL(noteSelected(const NoteHolder*)), this, SLOT(selectDeletedNote(const NoteHolder*)));
     QObject::connect(deleteBtn, SIGNAL(released()), this, SLOT(deleteNote()));
     QObject::connect(restoreBtn, SIGNAL(released()), this, SLOT(restoreNote()));
 }
@@ -16,18 +17,23 @@ void Sidebar::initUI(){
 
     layout = new QVBoxLayout(this);
 
-    tabs = new QTabWidget();
+    activeTabs = new QTabWidget();
+    inactiveTabs = new QTabWidget();
 
     stdListview = new NotesListView(new NoteStateFilter(nm, ACTIVE), this);
     binListview = new NotesListView(new NoteStateFilter(nm, DELETED), this);
+    acvListview = new NotesListView(new NoteStateFilter(nm, ARCHIVED), this);
     tskListview = new NotesListView(new TaskFilter(nm));
 
-    tabs->addTab(stdListview, "Toutes");
-    tabs->addTab(tskListview, "Tâches");
+    activeTabs->addTab(stdListview, "Toutes");
+    activeTabs->addTab(tskListview, "Tâches");
+
+    inactiveTabs->addTab(binListview, "Corbeille");
+    inactiveTabs->addTab(acvListview, "Archivés");
 
     stdListview->useBigIcons();
 
-    binListview->setMaximumHeight(100);
+    inactiveTabs->setMaximumHeight(120);
 
     deleteBtn = new QPushButton(QIcon(":/icons/corbeille"), "Supprimer");
     restoreBtn = new QPushButton(QIcon(":/icons/restore"), "Restaurer");
@@ -62,12 +68,9 @@ void Sidebar::initUI(){
     QFrame* btnsFrame = new QFrame;
     btnsFrame->setLayout(btnsLayout);
 
-    binTitle = new QLabel("Corbeille");
-
     layout->addWidget(btnsFrame);
-    layout->addWidget(tabs);
-    layout->addWidget(binTitle);
-    layout->addWidget(binListview);
+    layout->addWidget(activeTabs);
+    layout->addWidget(inactiveTabs);
     layout->addWidget(deleteBtn);
     layout->addWidget(restoreBtn);
 
@@ -78,10 +81,6 @@ void Sidebar::initUI(){
     pal.setColor(QPalette::Background, QColor(41, 128, 185));
     setAutoFillBackground(true);
     setPalette(pal);
-
-    pal = binTitle->palette();
-    pal.setColor(binTitle->foregroundRole(), Qt::white);
-    binTitle->setPalette(pal);
 
     setMaximumWidth(300);
 

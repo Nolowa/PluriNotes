@@ -29,7 +29,7 @@ MainWindow::MainWindow(NotesManager& nm, RelationsManager<NoteHolder>& rm, Memen
 
     connect(mf->getSidebar(), SIGNAL(noteSelected(const NoteHolder*)), relationsView, SLOT(setSelectedNote(const NoteHolder*)));
     connect(mf->getSidebar(), SIGNAL(noteSelected(const NoteHolder*)), versionsView, SLOT(setCurrentNote(const NoteHolder*)));
-    connect(mf->getSidebar(), SIGNAL(noteStatusChangeRequested(const NoteHolder&, NoteState)), &nm, SLOT(noteStatusChangeRequested(const NoteHolder&, NoteState)));
+    connect(mf->getSidebar(), SIGNAL(noteStatusChangeRequested(const NoteHolder&, NoteState)), this, SLOT(noteStatusChangeRequested(const NoteHolder&, NoteState)));
     connect(mf->getNoteView(), SIGNAL(noteSaved(const NoteHolder&, const Note&)), &nm, SLOT(updateNote(const NoteHolder&, const Note&)));
     connect(mf->getNoteView(), SIGNAL(noteSaved(const NoteHolder&, const Note&)), this, SLOT(updateReferences(const NoteHolder&, const Note&)));
 
@@ -44,7 +44,7 @@ MainWindow::MainWindow(NotesManager& nm, RelationsManager<NoteHolder>& rm, Memen
     /*******************************************mémento*******************************************/
     //Memento ListView
     connect(&nm, SIGNAL(noteStatusChanged(const NoteHolder&, NoteState)), memento, SLOT(saveMementoState(const NoteHolder&,NoteState)));
-    connect(memento,SIGNAL(changeNoteState(const NoteHolder&, NoteState)) ,&nm,SLOT(noteStatusChangeRequested(const NoteHolder&, NoteState)));
+    connect(memento,SIGNAL(changeNoteState(const NoteHolder&, NoteState)) , this ,SLOT(noteStatusChangeRequested(const NoteHolder&, NoteState)));
     connect(&nm, SIGNAL(noteStatusChanged(NoteHolder, NoteState)), relationsView, SLOT(noteStatusChanged(NoteHolder)));
     connect(&nm, SIGNAL(noteStatusChanged(NoteHolder, NoteState)), versionsView, SLOT(noteStatusChanged(NoteHolder)));
     connect(&nm, SIGNAL(noteStatusChanged(NoteHolder, NoteState)), mf->getNoteView(), SLOT(noteStatusChanged(NoteHolder)));
@@ -120,10 +120,19 @@ void MainWindow::initUI(){
      emptyTrashDialog->addButton("Ne pas vider", QMessageBox::RejectRole);
      emptyTrashDialog->addButton("Vider la corbeille", QMessageBox::DestructiveRole);
 
+     deleteReferencedDialog = new QMessageBox(this);
+     deleteReferencedDialog->setIcon(QMessageBox::Warning);
+     deleteReferencedDialog->setText("Cette note ne peut être supprimée car elle est référencée");
+     deleteReferencedDialog->setInformativeText("Vous pouvez à la place archiver cette note.");
+     deleteReferencedDialog->setModal(true);
+     deleteReferencedDialog->setWindowModality(Qt::WindowModal);
+     deleteReferencedDialog->addButton("Annuler", QMessageBox::RejectRole);
+     deleteReferencedDialog->addButton("Archiver", QMessageBox::DestructiveRole);
 
      QObject::connect(actionUndo, SIGNAL(triggered()), memento, SLOT(undo()));
      QObject::connect(actionRedo, SIGNAL(triggered()), memento, SLOT(redo()));
      QObject::connect(emptyTrashDialog, SIGNAL(accepted()), &database, SLOT(emptyTrash()));
+     QObject::connect(deleteReferencedDialog, SIGNAL(accepted()), this, SLOT(archiveNote()));
      QObject::connect(autreAction, SIGNAL(triggered()),helpingMenu,SLOT(show()));
 
 }
@@ -155,16 +164,12 @@ void MainWindow::updateReferences(const NoteHolder& note, const Note& content){
 
     int pos = 0;
 
-    qDebug() << "update references " << text;
     while ((pos = referencesRegexp.indexIn(text, pos)) != -1) {
         QString res = referencesRegexp.cap(1);
-        qDebug() << "r: " << referencesRegexp.cap(1);
 
         const NoteHolder* n2 = notesManager.find(QUuid(res));
         if(n2){
-            qDebug() << " = " << n2->getLastVersion().getTitle();
             if(!relationsManager.areLinked(rel, note, *n2)){
-                qDebug() << "L";
                 relationsManager.link(rel, note, *n2, "");
             }
         }
@@ -172,4 +177,27 @@ void MainWindow::updateReferences(const NoteHolder& note, const Note& content){
         pos += referencesRegexp.matchedLength();
     }
 
+}
+
+void MainWindow::noteStatusChangeRequested(const NoteHolder& note, NoteState state){
+    if(state == DELETED){
+        // Tentative de supression de la note, on doit vérifier si c'est possible.
+        // (Vérification des références)
+
+        Relationship<NoteHolder>& rel = relationsManager.getRelation(REFERENCE);
+        if(rel.getParents(note)->size()){
+            pendingNote = &note;
+            deleteReferencedDialog->exec();
+            return;
+        }
+    }
+
+    notesManager.noteStatusChangeRequested(note, state);
+}
+
+void MainWindow::archiveNote(){
+    if(pendingNote){
+        notesManager.noteStatusChangeRequested(*pendingNote, ARCHIVED);
+        pendingNote = nullptr;
+    }
 }

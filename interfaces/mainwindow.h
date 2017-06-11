@@ -46,7 +46,10 @@ class MainWindow : public QMainWindow
     QAction* actionRelation;
 
     QMessageBox* emptyTrashDialog;
+    QMessageBox* deleteReferencedDialog;
     QMessageBox* helpingMenu;
+
+    const NoteHolder* pendingNote = nullptr;
 
     QRegExp referencesRegexp = QRegExp("[\\\\]ref(\\{[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}\\})");
 
@@ -66,6 +69,8 @@ signals:
 
 public slots:
     void updateReferences(const NoteHolder&, const Note&);
+    void noteStatusChangeRequested(const NoteHolder&, NoteState);
+    void archiveNote();
 
 };
 

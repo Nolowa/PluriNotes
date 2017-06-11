@@ -95,7 +95,7 @@ bool RelatedDockView::eventFilter(QObject *object, QEvent *event){
                     if(code == 0){
                         Relationship<NoteHolder>& rel = assoc->getRelation();
                         const NoteHolder& e1 = assoc->getRelatedFrom();
-                        const NoteHolder& e2 = assoc->getRelatedFrom();
+                        const NoteHolder& e2 = assoc->getRelatedTo();
                         relationsManager.unlink(rel, e1, e2);
                         refresh();
 
@@ -104,7 +104,7 @@ bool RelatedDockView::eventFilter(QObject *object, QEvent *event){
 
                 }else{
                     QMessageBox::warning(this, "Supression impossible",
-                                                   "Les liaisons de type Référence ne peuvent être gérés manuellement.",
+                                                   "Pour supprimer une référence, retirez simplement la mention \ref du texte de la note.",
                                                    QMessageBox::Ok,
                                                    QMessageBox::Ok);
                 }
