@@ -1,10 +1,17 @@
 #include "mainwindow.h"
 #include "notes/noteholder.h"
+#include "relations/relationship.h"
+#include "relations/association.h"
+#include <QVector>
 
 
 MainWindow::MainWindow(NotesManager& nm, RelationsManager<NoteHolder>& rm, MementoCaretaker& mement, Database& db, QWidget *parent) : QMainWindow(parent), notesManager(nm), database(db), relationsManager(rm), relationsProxy(new NotesRelationsManagerSlotsProxy(rm)), memento(&mement)
 {
     mf = new Mainframe(nm);
+
+    // Création de la relation spéciale "Référence" si elle n'existe pas
+    if(!rm.getRelationsName().contains(REFERENCE))
+        rm.createRelation(REFERENCE, false);
 
     setCentralWidget(mf);
 
@@ -22,7 +29,9 @@ MainWindow::MainWindow(NotesManager& nm, RelationsManager<NoteHolder>& rm, Memen
 
     connect(mf->getSidebar(), SIGNAL(noteSelected(const NoteHolder*)), relationsView, SLOT(setSelectedNote(const NoteHolder*)));
     connect(mf->getSidebar(), SIGNAL(noteSelected(const NoteHolder*)), versionsView, SLOT(setCurrentNote(const NoteHolder*)));
-
+    connect(mf->getSidebar(), SIGNAL(noteStatusChangeRequested(const NoteHolder&, NoteState)), &nm, SLOT(noteStatusChangeRequested(const NoteHolder&, NoteState)));
+    connect(mf->getNoteView(), SIGNAL(noteSaved(const NoteHolder&, const Note&)), &nm, SLOT(updateNote(const NoteHolder&, const Note&)));
+    connect(mf->getNoteView(), SIGNAL(noteSaved(const NoteHolder&, const Note&)), this, SLOT(updateReferences(const NoteHolder&, const Note&)));
 
     addDockWidget(Qt::RightDockWidgetArea, relationsDock);
     addDockWidget(Qt::RightDockWidgetArea, versionsDock);
@@ -135,3 +144,32 @@ void MainWindow::closeEvent(QCloseEvent *event){
     }
 }
 
+void MainWindow::updateReferences(const NoteHolder& note, const Note& content){
+    const QString& text = content.getEveryText();
+    Relationship<NoteHolder>& rel = relationsManager.getRelation(REFERENCE);
+
+    QVector<const Association<NoteHolder>*>* children = rel.getChildren(note);
+    for(QVector<const Association<NoteHolder>*>::iterator it = children->begin(); it != children->end(); it++){
+        relationsManager.unlink(rel, note, (*it)->getRelatedTo());
+    }
+
+    int pos = 0;
+
+    qDebug() << "update references " << text;
+    while ((pos = referencesRegexp.indexIn(text, pos)) != -1) {
+        QString res = referencesRegexp.cap(1);
+        qDebug() << "r: " << referencesRegexp.cap(1);
+
+        const NoteHolder* n2 = notesManager.find(QUuid(res));
+        if(n2){
+            qDebug() << " = " << n2->getLastVersion().getTitle();
+            if(!relationsManager.areLinked(rel, note, *n2)){
+                qDebug() << "L";
+                relationsManager.link(rel, note, *n2, "");
+            }
+        }
+
+        pos += referencesRegexp.matchedLength();
+    }
+
+}

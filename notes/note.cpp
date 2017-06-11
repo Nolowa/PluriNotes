@@ -30,5 +30,9 @@ const QString& Note::getType() const{
     return type;
 }
 
+const QString Note::getEveryText() const{
+    return title;
+}
+
 /*
 Note::Note(NoteHolder holder, QDateTime c):holder(holder),created(c),edited(QDateTime::currentDateTime()),state(active){}*/

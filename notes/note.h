@@ -36,6 +36,8 @@ public:
     void load(const Note& n);
 
     virtual const QString& getType() const; /**< Méthode permettant d'obtenir le type de Note */
+
+    virtual const QString getEveryText() const;
 };
 
 #endif // NOTE_H

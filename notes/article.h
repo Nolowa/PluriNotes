@@ -24,6 +24,8 @@ public:
     NoteInterface* getUI() const; /**< Méthode virtuelle renvoyant l'interface de Article */
 
     const QString& getType() const; /**< Méthode permettant d'obtenir le type de Note */
+
+    const QString getEveryText() const;
 };
 
 #endif // ARTICLE_H

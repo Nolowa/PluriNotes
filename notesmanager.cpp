@@ -28,7 +28,7 @@ const NoteHolder& NotesManager::Iterator::current() const{
     }
 
     //return dynamic_cast<Note&>(*(manager.notesModel->item(idx)));
-    return manager.notes[idx];
+    return *manager.notes[idx];
 }
 
 bool NotesManager::Iterator::isDone() const{
@@ -46,7 +46,7 @@ void NotesManager::Iterator::next(){
 }
 
 void NotesManager::registerNewNote(NoteHolder& note){
-    notes.push_back(note);
+    notes.push_back(&note);
     modelHolder->generateItem(note);
     emit noteCreated(note);
 }
@@ -88,7 +88,7 @@ const NoteHolder& NotesManager::createSound(){
     return createNote("Sound");
 }
 
-const NoteHolder& NotesManager::find(const QUuid& identifier) const{
+const NoteHolder* NotesManager::find(const QUuid& identifier) const{
     NotesManager::Iterator& it = getIterator();
 
     while(!it.isDone()){
@@ -96,12 +96,12 @@ const NoteHolder& NotesManager::find(const QUuid& identifier) const{
         const NoteHolder& n = it.current();
         if(n.getId() == identifier){
             delete &it;
-            return n;
+            return &n;
         }
     }
 
     delete &it;
-    throw new AppException("Note inexistante");
+    return nullptr;
 }
 
 void NotesManager::updateNote(const NoteHolder& holder, const Note& newBody){

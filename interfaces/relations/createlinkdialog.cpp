@@ -1,4 +1,5 @@
 #include "createlinkdialog.h"
+#include "interfaces/mainwindow.h"
 #include <QDebug>
 
 CreateLinkDialog::CreateLinkDialog(RelationsManager<NoteHolder>& relationsManager, ManageRelationsDialog& manageDialog, QWidget *parent) : QDialog(parent, Qt::Sheet), relationsManager(relationsManager), manageDialog(manageDialog)
@@ -52,20 +53,28 @@ void CreateLinkDialog::setCurrentNote(const NoteHolder &n){
 void CreateLinkDialog::accept(){
 
         Relationship<NoteHolder>& rel = relationsManager.getRelation(relationCombo->currentText());
-        int idx = relatedCombo->currentIndex();
-        QModelIndex qidx = relatedCombo->model()->index(idx, 0);
-        const NoteHolder& nh = notesManager.getModelHolder().findByIndex(qidx);
 
-        if(relationsManager.areLinked(rel, *currentNote, nh)){
+        if(rel.getName() == REFERENCE){
             QMessageBox::warning(this, "Liaison impossible",
-                                           "Les notes sélectionnés sont déjà liés par cette relation.",
+                                           "Les liaisons de type Référence ne peuvent être crées manuellement.",
                                            QMessageBox::Ok,
                                            QMessageBox::Ok);
         }else{
-            relationsManager.link(rel, *currentNote, nh, labelField->text());
-            QDialog::accept();
+            int idx = relatedCombo->currentIndex();
+            QModelIndex qidx = relatedCombo->model()->index(idx, 0);
+            const NoteHolder& nh = notesManager.getModelHolder().findByIndex(qidx);
 
-            emit linkCreated(rel.getName(), *currentNote, nh, labelField->text());
+            if(relationsManager.areLinked(rel, *currentNote, nh)){
+                QMessageBox::warning(this, "Liaison impossible",
+                                               "Les notes sélectionnés sont déjà liés par cette relation.",
+                                               QMessageBox::Ok,
+                                               QMessageBox::Ok);
+            }else{
+                relationsManager.link(rel, *currentNote, nh, labelField->text());
+                QDialog::accept();
+
+                emit linkCreated(rel.getName(), *currentNote, nh, labelField->text());
+            }
         }
 
 }

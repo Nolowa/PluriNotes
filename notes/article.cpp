@@ -22,3 +22,7 @@ NoteInterface* Article::getUI() const{
 const QString& Article::getType() const{
     return type;
 }
+
+const QString Article::getEveryText() const{
+    return Note::getEveryText() + " " + text;
+}

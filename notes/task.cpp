@@ -28,6 +28,10 @@ unsigned int Task::getStatusInt() const{
     return status;
 }
 
+const QString Task::getEveryText() const{
+    return Note::getEveryText() + " " + actionToBeDone;
+}
+
 
 // setters
 

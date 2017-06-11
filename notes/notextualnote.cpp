@@ -21,4 +21,9 @@ void NoTextualNote::setFilename(const QString& n){
     setEdited();
 }
 
+const QString NoTextualNote::getEveryText() const{
+    return Note::getEveryText() + " " + description;
+}
+
+
 NoTextualNote::~NoTextualNote(){}

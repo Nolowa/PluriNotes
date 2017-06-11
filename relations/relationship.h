@@ -32,13 +32,14 @@ private:
     virtual void associate(const T& ref1, const T& ref2, const QString& label);
     virtual void dissociate(const T& ref1, const T& ref2);
     bool areAssociated(const T& ref1, const T& ref2) const;
-    virtual QVector<const Association<T>*>* getChildren(const T& ref) const;
-    virtual QVector<const Association<T>*>* getParents(const T& ref) const;
 
 public:
     const QString& getName() const { return title; }
     const QString& getDescription() const { return description; }
     int countAssociations() const;
+
+    virtual QVector<const Association<T>*>* getChildren(const T& ref) const;
+    virtual QVector<const Association<T>*>* getParents(const T& ref) const;
 
     virtual ~Relationship();
 };

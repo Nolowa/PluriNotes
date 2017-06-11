@@ -1,4 +1,5 @@
 #include "relateddockview.h"
+#include "interfaces/mainwindow.h"
 #include <QDebug>
 
 RelatedDockView::RelatedDockView(RelationsManager<NoteHolder>& relationsManager, MementoCaretaker &mement, QWidget *parent) : QWidget(parent), relationsManager(relationsManager), memento(mement)
@@ -88,16 +89,24 @@ bool RelatedDockView::eventFilter(QObject *object, QEvent *event){
             const Association<NoteHolder>* assoc = (parents ? parentsIndexMap.value(idx) : childrenIndexMap.value(idx));
             if(assoc){
 
-                deleteConfirm->setInformativeText("Relation entre " + assoc->getRelatedFrom() + " et " + assoc->getRelatedTo() + " de type " + assoc->getRelation().getName());
-                int code = deleteConfirm->exec();
-                if(code == 0){
-                    Relationship<NoteHolder>& rel = assoc->getRelation();
-                    const NoteHolder& e1 = assoc->getRelatedFrom();
-                    const NoteHolder& e2 = assoc->getRelatedFrom();
-                    relationsManager.unlink(rel, e1, e2);
-                    refresh();
+                if(assoc->getRelation().getName() != REFERENCE){
+                    deleteConfirm->setInformativeText("Relation entre " + assoc->getRelatedFrom() + " et " + assoc->getRelatedTo() + " de type " + assoc->getRelation().getName());
+                    int code = deleteConfirm->exec();
+                    if(code == 0){
+                        Relationship<NoteHolder>& rel = assoc->getRelation();
+                        const NoteHolder& e1 = assoc->getRelatedFrom();
+                        const NoteHolder& e2 = assoc->getRelatedFrom();
+                        relationsManager.unlink(rel, e1, e2);
+                        refresh();
 
-                    emit linkDestroyed(rel.getName(), e1, e2,rel.getDescription());
+                        emit linkDestroyed(rel.getName(), e1, e2,rel.getDescription());
+                    }
+
+                }else{
+                    QMessageBox::warning(this, "Supression impossible",
+                                                   "Les liaisons de type Référence ne peuvent être gérés manuellement.",
+                                                   QMessageBox::Ok,
+                                                   QMessageBox::Ok);
                 }
             }
 

@@ -17,6 +17,7 @@ public:
     void setDescription(const QString& d); /**< Méthode modifiant l'attribut description */
     const QString& getFilename() const;
     virtual void setFilename(const QString& f);
+    virtual const QString getEveryText() const;
     virtual ~NoTextualNote(); /**< Desctructeur virtuel, la classe est à spécialiser */
 };
 

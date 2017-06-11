@@ -3,6 +3,7 @@
 #include "notes/noteholder.h"
 #include <QLabel>
 #include <QMessageBox>
+#include "interfaces/mainwindow.h"
 
 ManageRelationsDialog::ManageRelationsDialog(RelationsManager<NoteHolder>& relationsManager, QWidget *parent) : QDialog(parent), manager(relationsManager)
 {
@@ -10,6 +11,7 @@ ManageRelationsDialog::ManageRelationsDialog(RelationsManager<NoteHolder>& relat
 
     connect(add_btn, SIGNAL(released()), this, SLOT(addRelation()));
     connect(del_btn, SIGNAL(released()), this, SLOT(requestDeleteRelation()));
+    connect(listview->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(selectionChanged(QItemSelection,QItemSelection)));
 }
 
 void ManageRelationsDialog::initUI(){
@@ -100,4 +102,14 @@ void ManageRelationsDialog::requestDeleteRelation(){
 void ManageRelationsDialog::deleteRelation(){
     manager.deleteRelation(*rel_to_delete);
     rel_to_delete = nullptr;
+}
+
+void ManageRelationsDialog::selectionChanged(QItemSelection cur,QItemSelection prev){
+    Q_UNUSED(prev);
+
+    if(!cur.size() || cur.indexes().first().data().toString() == REFERENCE){
+        del_btn->setDisabled(true);
+    }else{
+        del_btn->setDisabled(false);
+    }
 }

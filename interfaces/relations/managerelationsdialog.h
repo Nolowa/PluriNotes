@@ -46,6 +46,7 @@ public slots:
     void addRelation();
     void requestDeleteRelation();
     void deleteRelation();
+    void selectionChanged(QItemSelection,QItemSelection);
 };
 
 #endif // MANAGERELATIONSDIALOG_H

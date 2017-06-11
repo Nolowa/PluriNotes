@@ -33,6 +33,7 @@ public:
 
 
     const QString& getType() const; /**< Méthode renvoyant le type de Note (dérivée) */
+    virtual const QString getEveryText() const;
 };
 
 #endif // TASK_H

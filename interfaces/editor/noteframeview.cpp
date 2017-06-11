@@ -80,7 +80,7 @@ void NoteFrameView::save(){
 
 void NoteFrameView::copy_id(){
     QClipboard *clipboard = QApplication::clipboard();
-    clipboard->setText(note->getId().toString());
+    clipboard->setText("\\ref" + note->getId().toString());
 
     copyDialog->exec();
 }

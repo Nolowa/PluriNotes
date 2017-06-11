@@ -167,8 +167,8 @@ void Database::loadAll(){
     q = QSqlQuery("SELECT Relation, NoteFrom, NoteTo, Label FROM Association");
     while(q.next()){
         Relationship<NoteHolder>& rel = relationsManager.getRelation(q.value("Relation").toString());
-        const NoteHolder& n1 = notesManager.find(QUuid(q.value("NoteFrom").toString()));
-        const NoteHolder& n2 = notesManager.find(QUuid(q.value("NoteTo").toString()));
+        const NoteHolder& n1 = *notesManager.find(QUuid(q.value("NoteFrom").toString()));
+        const NoteHolder& n2 = *notesManager.find(QUuid(q.value("NoteTo").toString()));
 
         relationsManager.link(rel, n1, n2, q.value("Label").toString());
 

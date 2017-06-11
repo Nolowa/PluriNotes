@@ -13,6 +13,8 @@
 #include <QModelIndex>
 #include <QMessageBox>
 
+
+
 int main(int argc, char *argv[]){
 
 
@@ -21,7 +23,9 @@ int main(int argc, char *argv[]){
     try{
 
             NotesManager& m=NotesManager::getInstance();
+
             RelationsManager<NoteHolder>* rm = new RelationsManager<NoteHolder>;
+
             MementoCaretaker& mainMemento=MementoCaretaker::getInstance();
 
             Database* db = new Database(m, *rm, "database.db");

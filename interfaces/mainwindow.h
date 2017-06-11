@@ -1,6 +1,9 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QString>
+const QString REFERENCE = "Référence";
+
 #include <QMainWindow>
 #include <QDockWidget>
 #include <QObject>
@@ -14,6 +17,8 @@
 #include "interfaces/versions/versionsdockview.h"
 #include "relations/relationsmanager.h"
 #include "memento.h"
+#include <QRegExp>
+
 
 
 class MainWindow : public QMainWindow
@@ -43,6 +48,8 @@ class MainWindow : public QMainWindow
     QMessageBox* emptyTrashDialog;
     QMessageBox* helpingMenu;
 
+    QRegExp referencesRegexp = QRegExp("[\\\\]ref(\\{[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}\\})");
+
     void initUI();
     void initMemento();
     void closeEvent(QCloseEvent *event);
@@ -56,6 +63,9 @@ public:
 signals:
     void undo();
     void redo();
+
+public slots:
+    void updateReferences(const NoteHolder&, const Note&);
 
 };
 
