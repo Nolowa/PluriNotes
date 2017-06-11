@@ -29,7 +29,7 @@ void Sidebar::initUI(){
     activeTabs->addTab(tskListview, "Tâches");
 
     inactiveTabs->addTab(binListview, "Corbeille");
-    inactiveTabs->addTab(acvListview, "Archivés");
+    inactiveTabs->addTab(acvListview, "Archive");
 
     stdListview->useBigIcons();
 
