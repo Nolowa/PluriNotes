@@ -10,10 +10,15 @@
 
 Database::Database(NotesManager& nm, RelationsManager<NoteHolder>& rm, const QString& filename) : notesManager(nm), relationsManager(rm), filename(filename){
     db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName(filename);
-    open = db.open();
 
-    if(!open) throw new AppException("Impossible de se connecter à la base de données. La sauvegarde des données ne sera pas disponible.");
+    QString folder = QStandardPaths::writableLocation( QStandardPaths::DataLocation ) + "/";
+
+    if(!QDir(folder).exists()){
+        QDir().mkpath(folder);
+    }
+    db.setDatabaseName(folder + filename);
+    open = db.open();
+    if(!open) throw new AppException("Impossible de se connecter à la base de données : " + db.lastError().text() + " " + QStandardPaths::writableLocation( QStandardPaths::DataLocation ));
 
     createTables();
     //if(!createTables()) throw new AppException("Erreur lors de l'initialisation de la base de données.");

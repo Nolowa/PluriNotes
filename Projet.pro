@@ -5,8 +5,8 @@ QT += sql
 CONFIG += c++11
 
 TARGET = Projet
+CONFIG += app_bundle
 CONFIG += console
-CONFIG -= app_bundle
 
 TEMPLATE = app
 
@@ -93,3 +93,4 @@ HEADERS +=\
 RESOURCES += \
     resources.qrc
 
+ICON = app-icon.icns

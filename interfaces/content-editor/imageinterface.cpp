@@ -45,9 +45,9 @@ ImageInterface::ImageInterface(const Image& im, QWidget *parent): NoteInterface(
     setWindowTitle("Image");
     resize(400, 400);
 
-
+    qDebug() << "nameImage : " << *nameFileImage << " = " << nameFileImage->size();
     //Si déjà présence d'une image l'afficher directement!
-    if(!(image->getImage().isNull())){
+    if(nameFileImage->size()){
         //imageLabel->setPixmap(QPixmap::fromImage(image->getImage()).scaled(QSize(213,10)));
         imageLabel->setPixmap(QPixmap(*nameFileImage));
         //layout->addWidget(imageLabel);
@@ -94,6 +94,8 @@ const Note& ImageInterface::toNote(){
     i->setDescription(descriptionEdit->toPlainText());
     i->setTitle(titleEdit->text());
     i->setFilename(*nameFileImage);
+
+    qDebug() << "newfilename : " << i->getFilename();
 
     return *(image = i);
 
