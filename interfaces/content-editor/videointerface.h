@@ -63,6 +63,8 @@ public:
     const Note& toNote();
     void setReadOnly(bool);
 
+    ~VideoInterface();
+
 public slots:
     void openVideo();
     void playVideo();

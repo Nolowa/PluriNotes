@@ -11,21 +11,18 @@ VideoInterface::VideoInterface(const Video& vid,QWidget *parent) : NoteInterface
     stopButton->setIcon(style()->standardIcon(QStyle::SP_MediaStop));
     stopButton->setIconSize(iconSize);
     stopButton->setToolTip(tr("Stop"));
-    //bStopVideo= new QPushButton(QString("Stop"));
 
     //boutonPlay
     playButton = new QToolButton;
     playButton->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
     playButton->setIconSize(iconSize);
     playButton->setToolTip(tr("Play"));
-    //playButton= new QPushButton(QString("Play"));
 
     //boutonOpenFile
     openButton= new QToolButton;
     openButton->setIcon(style()->standardIcon(QStyle::SP_DialogOpenButton));
     openButton->setIconSize(iconSize);
     openButton->setToolTip(tr("Open File"));
-    //openButton= new QPushButton(QString("Ajouter une Video"));
 
 
     //boutonPause
@@ -77,15 +74,16 @@ VideoInterface::VideoInterface(const Video& vid,QWidget *parent) : NoteInterface
 
 
     if(!((*nameFileVideo)==QString(""))){
-        videoToRegister= new QMovie(*nameFileVideo);
+        videoToRegister= new QMovie(*nameFileVideo, QByteArray(), this);
         graphicsView->setScene(scene);
         graphicsView->setFixedSize(350,185);
         player->setVideoOutput(item);
         graphicsView->scene()->addItem(item);
         player->setMedia(QUrl::fromLocalFile(*nameFileVideo));
-        player->play();
         initVideo=1;
         openButton->setEnabled(false);
+
+        player->play();
     }
 
     //slot
@@ -109,7 +107,7 @@ void VideoInterface::openVideo(){
       QMessageBox::information(this, "Fichier", "Vous avez sélectionné :\n" + *nameFileVideo);
       //chargement de l'image sur l'interface graphique
       if(!initVideo)
-        videoToRegister= new QMovie(*nameFileVideo);
+        videoToRegister= new QMovie(*nameFileVideo, QByteArray(), this);
       openButton->setEnabled(false);
       graphicsView->setScene(scene);
       graphicsView->setFixedSize(350,185);
@@ -153,4 +151,9 @@ void VideoInterface::updateButtons(){
     pauseButton->setChecked(movie->state() == QMovie::Paused);
     stopButton->setEnabled(movie->state() != QMovie::NotRunning);
     */
+}
+
+VideoInterface::~VideoInterface(){
+    if(player)
+        player->stop();
 }

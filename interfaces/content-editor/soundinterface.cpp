@@ -37,16 +37,6 @@ SoundInterface::SoundInterface(const Sound& s,QWidget *parent) : NoteInterface(p
           soundToRegister->play();
       }
 
-/*
-      player = new QMediaPlayer;
-      if(!((*nameFileSound)==QString(""))){
-        player->setMedia(QUrl::fromLocalFile("/Users/Thibault/Desktop/test.wav"));
-        player->setVolume(50);
-        player->play();
-        bAddSound->setEnabled(false);
-      }
-*/
-
       //slot
       QObject::connect(bAddSound, SIGNAL(clicked()), this, SLOT(openSound()));
       QObject::connect(bPlayMusic, SIGNAL(clicked()), this, SLOT(playMusic()));
@@ -96,3 +86,10 @@ const Note& SoundInterface::toNote(){
     return *(sound = s);
 
 }
+
+SoundInterface::~SoundInterface(){
+    if(soundToRegister){
+        soundToRegister->stop();
+    }
+}
+

@@ -40,7 +40,7 @@ class SoundInterface : public NoteInterface{
     QPushButton* bStopMusic;
     QPushButton* bPlayMusic;
     bool initSound;
-    //QMediaPlayer* player;
+
 
 public :
     SoundInterface(const Sound& s, QWidget *parent = 0);
@@ -48,6 +48,8 @@ public :
 
     const Note& toNote();
     void setReadOnly(bool);
+
+    ~SoundInterface();
 
 public slots :
     void openSound();
